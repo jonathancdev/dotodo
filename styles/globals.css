@@ -1,9 +1,9 @@
-html,
-body {
-  padding: 0;
+*,
+*::after,
+*::before {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 a {
@@ -11,6 +11,28 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+html {
+  font-size: 62.5%;
+  height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+body {
+  height: 100%;
+}
+
+#__next {
+  height: 100%;
+}
+.layout {
+  position: absolute;
+  height: 100%;
+  width: 100vw;
+  min-height: -webkit-fill-available;
+}
+.layout__main {
+  margin-top: 8rem;
+  height: calc(100% - 8rem);
+  /* overflow: scroll; */
 }

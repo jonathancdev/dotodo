@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import {
   Flex,
+  Spacer,
   Box,
   Heading,
   Text,
@@ -14,7 +15,7 @@ import {
   EditablePreview,
   useColorModeValue,
 } from "@chakra-ui/react";
-
+import { CalendarIcon } from "@chakra-ui/icons";
 export default function NoteCard({
   note,
   handleDeleteSubmit,
@@ -37,7 +38,9 @@ export default function NoteCard({
   console.log(value, notesValue);
   return (
     <Flex
-      w="90%"
+      w="99%"
+      minW="325px"
+      maxW="500px"
       alignItems="center"
       key={note.id}
       border="2px solid"
@@ -46,26 +49,36 @@ export default function NoteCard({
     >
       {/* DEFAULT CARD VIEW */}
       {!editing && (
-        <Flex direction="column">
+        <Flex direction="column" w="100%">
           {/* FIRST CARD ROW */}
-          <Flex align="center">
-            <Checkbox></Checkbox>
-            <Text>{note.text}</Text>
-            <Button variant="details" onClick={toggleDetails}>
-              details
-            </Button>
-            <Box>Month</Box>
-            <Box>Day</Box>
-            <Button variant="edit" m={2} onClick={() => setEditing(true)}>
-              edit
-            </Button>
-            <Button
-              variant="delete"
-              m={2}
-              onClick={() => handleDeleteSubmit(note.id)}
-            >
-              delete
-            </Button>
+          <Flex align="center" justify="space-between">
+            <Flex align="center">
+              <Checkbox m={4} border="1px solid"></Checkbox>
+              <Text fontSize="10px" maxW="300px">
+                {note.text}
+              </Text>
+            </Flex>
+
+            <Flex align="center">
+              <Button variant="todoDetails" onClick={toggleDetails}>
+                details
+              </Button>
+              <Flex align="center">
+                <CalendarIcon m={2} />
+                <Box m={0.5}>Feb</Box>
+                <Box m={0.5}>25</Box>
+              </Flex>
+              <Button variant="todo" m={2} onClick={() => setEditing(true)}>
+                edit
+              </Button>
+              <Button
+                variant="todo"
+                m={2}
+                onClick={() => handleDeleteSubmit(note.id)}
+              >
+                delete
+              </Button>
+            </Flex>
           </Flex>
           {/* EXPANDED ROW */}
           {shouldShowDetails && (

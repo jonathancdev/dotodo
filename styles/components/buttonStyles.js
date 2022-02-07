@@ -45,6 +45,32 @@ const buttonStyles = {
         boxShadow: "sm",
       },
     }),
+    todo: (props) => ({
+      p: "2",
+      h: "25px",
+      fontSize: "9px",
+      bg: "primary",
+      color: mode("white", "gray.800")(props),
+      _hover: {
+        bg: mode(darken("primary", 10), whiten("primary", 10))(props),
+        boxShadow: "sm",
+      },
+    }),
+    todoDetails: (props) => ({
+      p: "1",
+      mx: "0",
+      h: "25px",
+      fontSize: "10px",
+      fontWeight: "400",
+      textDecoration: "underline",
+      borderColor: mode("primary", whiten("primary", 20))(props),
+      color: mode("green", whiten("green", 20))(props),
+      _hover: {
+        color: mode(darken("primary", 10), whiten("primary", 30))(props),
+        borderColor: mode(darken("primary", 10), whiten("primary", 30))(props),
+        boxShadow: "sm",
+      },
+    }),
   },
   //default values for 'size' and 'variant'
   defaultProps: {},

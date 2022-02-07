@@ -1,30 +1,40 @@
+import { useState } from "react";
 import { useAuth } from "../context/AuthUserContext";
-import { Flex, Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading, Text, Spinner } from "@chakra-ui/react";
 import ChakraNextLinkButton from "../components/ChakraNextLinkButton";
 import TodoList from "../components/todoList";
 
 export default function Home() {
   const { authUser, loading } = useAuth();
-
+  const [spinnerShouldShow, setSpinnerShouldShow] = useState(true);
+  console.log(authUser, loading);
   return (
     <Flex as="main" width="100vw" direction="column" alignItems="center">
-      {!authUser && (
+      {!authUser && !loading && (
         <>
-          <Heading mb={6}>Welcome to DO_TODO!</Heading>
-          <Text>
-            Get started by
-            <ChakraNextLinkButton href="/signin">
-              signing in
-            </ChakraNextLinkButton>
-            or{" "}
-            <ChakraNextLinkButton href="/signup">
-              signing up
-            </ChakraNextLinkButton>
-            .
-          </Text>
+          <Flex mb={8} align="center">
+            <Heading size="md">Welcome to</Heading>
+            <Heading variant="logo" size="sm" mx={3} mt={0.5}>
+              DO_TODO
+            </Heading>
+            <Heading size="md">!</Heading>
+          </Flex>
+          <Flex>
+            <ChakraNextLinkButton
+              variant="primary"
+              href="/signin"
+              text="sign in"
+            />
+            <ChakraNextLinkButton
+              variant="primary"
+              href="/signup"
+              text="sign up"
+            />
+          </Flex>
         </>
       )}
-      {authUser && <TodoList></TodoList>}
+      {!loading && authUser && <TodoList />}
+      {authUser && loading && <Spinner />}
     </Flex>
   );
 }

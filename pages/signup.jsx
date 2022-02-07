@@ -23,7 +23,7 @@ export default function SignUp() {
     <Flex direction="column" p={12} rounded={6}>
       <form onSubmit={handleSubmit} action="">
         <Flex direction="column" alignItems="center">
-          <Heading m={5} alignSelf="start">
+          <Heading p={2.5} mb={2} alignSelf="start">
             sign up:
           </Heading>
           <Input
@@ -31,27 +31,30 @@ export default function SignUp() {
             type="email@dotodo.com"
             required
             placeholder="email"
-            mb={3}
             w={250}
+            variant="primary"
           />
           <Input
             ref={passwordRef}
             type="password"
             required
             placeholder="********"
-            mb={6}
             w={250}
+            variant="primary"
           />
-          <Button variant="submit" type="submit" mb={4} w={250}>
+          <Button variant="primaryOutline" type="submit" mb={4} w={250}>
             submit
           </Button>
-          <Text w={275} textAlign="center">
-            Already have an account?
-            <ChakraNextLinkButton href="/signin" mx={2}>
-              Sign in here
-            </ChakraNextLinkButton>
-            .
-          </Text>
+          <Flex align="center">
+            <Text textAlign="center">Already have an account?</Text>
+            <ChakraNextLinkButton
+              size="sm"
+              href="/signin"
+              mx={2}
+              text="sign in"
+              variant="primary"
+            />
+          </Flex>
         </Flex>
       </form>
     </Flex>

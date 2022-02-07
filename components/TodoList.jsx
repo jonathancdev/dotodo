@@ -1,22 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import NoteCard from "./NoteCard";
-import { useRouter } from "next/router";
 import { useAuth } from "../context/AuthUserContext";
 import useFirestore from "../firebase/useFirestore";
 import {
   Flex,
-  Box,
-  Heading,
   Text,
-  Input,
   Button,
-  FormControl,
-  Container,
-  Textarea,
-  Select,
+  Spinner,
+  useColorModeValue,
 } from "@chakra-ui/react";
+import NewTaskModal from "./NewTaskModal";
 
-export default function TodoList({ user }) {
+export default function TodoList() {
+  const borderColor = useColorModeValue("gray.400", "gray.500");
   const {
     db,
     collection,
@@ -29,48 +25,29 @@ export default function TodoList({ user }) {
   } = useFirestore();
   const { authUser, loading } = useAuth();
 
-  const router = useRouter();
-
-  useEffect(() => {
-    console.log(authUser);
-    if (!loading && !authUser) {
-      router.push("/");
-    } else if (!loading) {
-      setUserCollection(authUser.uid + "notes");
-    }
-  }, [authUser, loading]);
-  const [userCollection, setUserCollection] = useState(null);
+  //const [userCollection, setUserCollection] = useState(null);
   const [notesList, setNotesList] = useState([]);
   const [shouldModalShow, setShouldModalShow] = useState(false);
   //form refs
-  const listRef = useRef();
-  const titleRef = useRef();
-  const notesRef = useRef();
-  const monthRef = useRef();
-  const dayRef = useRef();
 
   useEffect(() => {
     if (authUser) {
-      console.log(authUser.email);
       onSnapshot(collection(db, authUser.uid + "notes"), (snapshot) => {
         const notes = [];
         snapshot.docs.forEach((doc) => {
           notes.push({ ...doc.data(), id: doc.id });
-          console.log(notes);
         });
-        setNotesList(notes);
+        if (notes.length > 0) {
+          setNotesList(notes);
+        } else {
+          setNotesList(null);
+        }
       });
     }
   }, [loading]);
-
-  const handleSaveSubmit = (e) => {
+  const handleSaveSubmit = (obj) => {
     // setLoading(true);
-    e.preventDefault();
-    const list = titleRef.current.value;
-    const title = titleRef.current.value;
-    const notes = notesRef.current.value;
-    const month = monthRef.current.value;
-    const day = dayRef.current.value;
+    const { list, title, notes, month, day } = obj;
     addDoc(collection(db, authUser.uid + "notes"), {
       list: list,
       title: title,
@@ -79,8 +56,7 @@ export default function TodoList({ user }) {
       day: day,
       completed: false,
     }).then(() => {
-      resetForm();
-      // setLoading(false);
+      console.log("need to do soemthing here");
     });
   };
   const handleDeleteSubmit = (id) => {
@@ -98,26 +74,24 @@ export default function TodoList({ user }) {
     });
     // setLoading(true);
   };
-  const resetForm = () => {
-    titleRef.current.value;
-    titleRef.current.value;
-    notesRef.current.value;
-    monthRef.current.value;
-    dayRef.current.value;
-  };
   const toggleModal = () => {
     setShouldModalShow(!shouldModalShow);
   };
+  console.log(notesList);
   return (
     <Flex
+      border="1px solid"
+      borderColor={borderColor}
+      p={10}
+      borderRadius="3px"
       as="main"
-      width="100vw"
+      width="90vw"
       direction="column"
       align="center"
       pos="relative"
     >
       <Flex width="100%" direction="column" align="center">
-        {notesList.length > 0 ? (
+        {/* {notesList.length > 0 ? (
           notesList.map((note) => {
             return (
               <NoteCard
@@ -129,43 +103,30 @@ export default function TodoList({ user }) {
           })
         ) : (
           <Text m={2}>create your first note!</Text>
-        )}
+        )} */}
+        {notesList &&
+          notesList.length > 0 &&
+          notesList.map((note) => {
+            return (
+              <NoteCard
+                key={note.id}
+                note={note}
+                handleDeleteSubmit={handleDeleteSubmit}
+                handleUpdateSubmit={handleUpdateSubmit}
+              ></NoteCard>
+            );
+          })}
+        {notesList && notesList.length < 1 && <Spinner />}
+        {!notesList && <p>nothing here yet</p>}
       </Flex>
-
-      <Button m={10} onClick={toggleModal}>
+      <Button m={10} variant="primaryOutline" onClick={toggleModal}>
         add
       </Button>
       {shouldModalShow && (
-        <Container
-          top="70%"
-          border="solid"
-          pos="absolute"
-          maxW="320px"
-          bg="green.100"
-          align="center"
-        >
-          <FormControl maxW="300px">
-            <Flex direction="column">
-              <Select ref={listRef} placeholder="List">
-                <option value="misc">Misc</option>
-              </Select>
-              <Input ref={titleRef} placeholder="task name"></Input>
-              <Textarea ref={notesRef} placeholder="additional notes" />
-              <Box>Deadline:</Box>
-              <Flex>
-                <Select ref={monthRef} placeholder="Month">
-                  <option value="january">January</option>
-                </Select>
-                <Select ref={dayRef} placeholder="Day">
-                  <option value="1">1</option>
-                </Select>
-              </Flex>
-              <Button variant="submit" onClick={handleSaveSubmit} margin={2}>
-                save
-              </Button>
-            </Flex>
-          </FormControl>
-        </Container>
+        <NewTaskModal
+          handleSaveSubmit={handleSaveSubmit}
+          toggleModal={toggleModal}
+        />
       )}
     </Flex>
   );

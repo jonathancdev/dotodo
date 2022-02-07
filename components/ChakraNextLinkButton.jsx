@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { Button } from "@chakra-ui/react";
 
-function ChakraNextLinkButton({ href, children, ...props }) {
+function ChakraNextLinkButton({ href, ...props }) {
+  const { text, variant } = props;
   return (
     <Link href={href} passHref>
-      <Button variant="link" color="white" m={2} as="a" {...props}>
-        {children}
+      <Button variant={variant} size="md" as="a" {...props}>
+        {text}
       </Button>
     </Link>
   );

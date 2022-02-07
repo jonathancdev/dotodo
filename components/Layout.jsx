@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Flex, useColorModeValue } from "@chakra-ui/react";
 import Header from "./Header";
 import Footer from "./Footer";
 
 export default function Layout({ children }) {
+  const bgColor = useColorModeValue("white", "gray.800");
   return (
     <Flex
       height="100vh"
@@ -11,7 +12,7 @@ export default function Layout({ children }) {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      bg="white"
+      bg={bgColor}
     >
       <Header />
       <section className="layout__main">{children}</section>

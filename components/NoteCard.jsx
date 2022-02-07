@@ -12,6 +12,7 @@ import {
   Editable,
   EditableInput,
   EditablePreview,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 export default function NoteCard({
@@ -19,6 +20,7 @@ export default function NoteCard({
   handleDeleteSubmit,
   handleUpdateSubmit,
 }) {
+  const borderColor = useColorModeValue("gray.400", "gray.500");
   const [editing, setEditing] = useState(false);
   const [shouldShowDetails, setShouldShowDetails] = useState(false);
   const [value, setValue] = useState(note.text);
@@ -35,11 +37,12 @@ export default function NoteCard({
   console.log(value, notesValue);
   return (
     <Flex
-      w="100%"
-      maxWidth="320px"
+      w="90%"
       alignItems="center"
       key={note.id}
-      border="solid"
+      border="2px solid"
+      borderColor={borderColor}
+      borderRadius="3px"
     >
       {/* DEFAULT CARD VIEW */}
       {!editing && (

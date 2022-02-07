@@ -29,7 +29,7 @@ const useFirebaseAuth = () => {
 
   const clear = () => {
     setAuthUser(null);
-    setLoading(true);
+    setLoading(false);
   };
 
   useEffect(() => {

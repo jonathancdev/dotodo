@@ -1,10 +1,22 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/AuthUserContext";
-import { Flex, Box, Spacer, Heading, Button, Link } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  Spacer,
+  Heading,
+  Button,
+  Link,
+  IconButton,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import ChakraNextLinkButton from "./ChakraNextLinkButton";
+import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 
 const Header = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const { auth, authUser, loading, signOut, clear } = useAuth();
   const router = useRouter();
   const currentPath = router.pathname;
@@ -21,22 +33,41 @@ const Header = () => {
       <Box p={2}>
         {currentPath !== "/" ? (
           <Link href="/">
-            <Heading color="brand.700">DO_TODO</Heading>
+            <Heading size="lg" variant="logo">
+              DO_TODO
+            </Heading>
           </Link>
         ) : (
-          <Heading color="brand.700">DO_TODO</Heading>
+          <Heading size="lg" variant="logo">
+            DO_TODO
+          </Heading>
         )}
       </Box>
       <Spacer />
       <Box>
         {currentPath === "/" && authUser && (
           <>
-            <ChakraNextLinkButton href="/account">
-              my account
-            </ChakraNextLinkButton>
+            <ChakraNextLinkButton
+              href="/account"
+              text="my account"
+              variant="primary"
+              size="sm"
+            />
           </>
         )}
-        {authUser && <Button onClick={handleSignOut}>sign out</Button>}
+        {authUser && (
+          <Button onClick={handleSignOut} variant="primaryOutline" size="sm">
+            sign out
+          </Button>
+        )}
+        <IconButton
+          onClick={toggleColorMode}
+          aria-label="color mode toggle"
+          icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+          variant="primary"
+          size="sm"
+          w="25px"
+        />
       </Box>
     </Flex>
   );

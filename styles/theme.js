@@ -4,7 +4,10 @@ import {
   withDefaultColorScheme,
   withDefaultVariant,
 } from "@chakra-ui/react";
-import { buttonStyles as Button } from "./components/buttonStyles";
+import {
+  buttonStyles as Button,
+  iconButtonStyles as IconButton,
+} from "./components/buttonStyles";
 import { inputStyles as Input } from "./components/inputStyles";
 import {
   textStyles as Text,
@@ -22,10 +25,10 @@ const theme = extendTheme({
     primary: "#6c8ccf",
     pink: "#FF99D5",
     blue: "#4285F4",
-    green: "#00E3BD",
-    yellow: "#F9F871",
-    red: "#EB4F6F",
-    purple: "#9A6BFE",
+    green: "#008a61",
+    yellow: "#eee8a9",
+    red: "#cd7182",
+    purple: "#876eba",
     orange: "#D86800",
   },
   components: {
@@ -34,6 +37,7 @@ const theme = extendTheme({
     Heading,
     Link,
     Input,
+    IconButton,
   },
 });
 

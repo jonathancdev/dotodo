@@ -20,9 +20,9 @@ export default function NewTaskModal({ handleSaveSubmit }) {
 
   const createTaskObj = () => {
     const obj = {
-      list: listRef.current.value,
-      title: titleRef.current.value,
-      notes: notesRef.current.value,
+      list: listRef.current.value.toLowerCase(),
+      title: titleRef.current.value.toLowerCase(),
+      notes: notesRef.current.value.toLowerCase(),
       month: monthRef.current.value,
       day: dayRef.current.value,
     };
@@ -32,6 +32,8 @@ export default function NewTaskModal({ handleSaveSubmit }) {
     const obj = createTaskObj();
     handleSaveSubmit(obj);
   };
+  //title maxLength should be 40
+  //notes should be 80?
   return (
     <Container
       top="70%"
@@ -45,12 +47,16 @@ export default function NewTaskModal({ handleSaveSubmit }) {
           <Select ref={listRef} placeholder="List">
             <option value="misc">Misc</option>
           </Select>
-          <Input ref={titleRef} placeholder="task name"></Input>
-          <Textarea ref={notesRef} placeholder="additional notes" />
+          <Input ref={titleRef} maxLength="40" placeholder="task name"></Input>
+          <Textarea
+            ref={notesRef}
+            maxLength="68"
+            placeholder="additional notes"
+          />
           <Box>Deadline:</Box>
           <Flex>
             <Select ref={monthRef} placeholder="Month">
-              <option value="january">January</option>
+              <option value="1">January</option>
             </Select>
             <Select ref={dayRef} placeholder="Day">
               <option value="1">1</option>

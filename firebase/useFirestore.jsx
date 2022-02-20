@@ -1,5 +1,5 @@
 import firebase from "./useFirebase";
-import { useState, useEffect } from "react";
+
 const {
   getFirestore,
   collection,
@@ -9,11 +9,12 @@ const {
   deleteDoc,
   doc,
   updateDoc,
+  setDoc,
 } = firebase();
 
 const useFirestore = () => {
   const db = getFirestore();
-  console.log(db);
+
   return {
     db,
     collection,
@@ -23,6 +24,7 @@ const useFirestore = () => {
     deleteDoc,
     doc,
     updateDoc,
+    setDoc,
   };
 };
 export default useFirestore;

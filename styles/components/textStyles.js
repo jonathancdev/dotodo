@@ -6,11 +6,16 @@ const textStyles = {
     color: mode("gray.800", "white")(props),
     fontSize: "12px",
     fontWeight: "500",
+    lineHeight: "1.2",
   }),
   //styles for different sizes (sm, md, lg, xl)
   sizes: {},
   //styles for dif visual variants (outline, solid)
   variants: {
+    details: {
+      fontSize: "12px",
+      fontWeight: "200",
+    },
     // primary: (props) => ({
     //   bg: "primary",
     //   color: mode("white", "gray.800")(props),

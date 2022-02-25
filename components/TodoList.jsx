@@ -83,8 +83,6 @@ export default function TodoList() {
 
   return (
     <Flex
-      border="1px solid"
-      borderColor={borderColor}
       p={10}
       borderRadius="3px"
       as="main"

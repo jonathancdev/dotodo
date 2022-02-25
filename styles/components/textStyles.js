@@ -14,7 +14,7 @@ const textStyles = {
   variants: {
     details: {
       fontSize: "12px",
-      fontWeight: "200",
+      fontWeight: "300",
     },
     // primary: (props) => ({
     //   bg: "primary",

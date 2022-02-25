@@ -14,7 +14,6 @@ import {
   headingStyles as Heading,
   linkStyles as Link,
 } from "./components/textStyles";
-
 const config = {
   initialColorMode: "light",
   useSystemColorMode: false,
@@ -38,6 +37,18 @@ const theme = extendTheme({
     Link,
     Input,
     IconButton,
+    Select: {
+      parts: ["field", "icon"],
+      baseStyle: {
+        field: {
+          color: "red.400",
+        },
+        icon: {
+          width: "2rem",
+          fontSize: "3rem",
+        },
+      },
+    },
   },
 });
 

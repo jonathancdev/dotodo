@@ -4,7 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 export default function Layout({ children }) {
-  const bgColor = useColorModeValue("white", "gray.800");
+  const bgColor = useColorModeValue("gray.100", "gray.800");
   return (
     <Flex
       height="100vh"

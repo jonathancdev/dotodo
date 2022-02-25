@@ -1,28 +1,8 @@
 import React, { useState, useRef } from "react";
+import NoteCardDefault from "./NoteCardDefault";
+import NoteCardEditing from "./NoteCardEditing";
+import { Flex, useColorModeValue } from "@chakra-ui/react";
 
-import {
-  Flex,
-  Spacer,
-  Box,
-  Text,
-  Button,
-  Checkbox,
-  Select,
-  IconButton,
-  Editable,
-  EditableInput,
-  EditablePreview,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import {
-  CalendarIcon,
-  EditIcon,
-  DeleteIcon,
-  SmallCloseIcon,
-  CheckCircleIcon,
-} from "@chakra-ui/icons";
-
-import { months, calculateDays } from "../utils/formData";
 export default function NoteCard({
   note,
   projectsList,
@@ -71,311 +51,65 @@ export default function NoteCard({
 
   return (
     <Flex
-      minH="50px"
+      minH="40px"
       w="99%"
       w="320px"
       alignItems="center"
       key={note.id}
-      border="2px solid"
+      border="none"
       borderColor={borderColor}
-      borderRadius="3px"
-      py="1"
+      borderRadius="8px"
+      py="4"
+      pr="1"
+      bg="white"
+      my="1"
+      shadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+      fontFamily="Work Sans"
+      pos="relative"
     >
       {/* DEFAULT CARD VIEW */}
       {!editing && (
-        <Flex direction="column" justify="space-between" w="100%">
-          {/* FIRST CARD ROW */}
-          <Flex direction="column">
-            <Flex align="center" justify="space-between">
-              <Flex align="center">
-                {shouldShowDetails ? (
-                  <Spacer w="18px" p="1" mx="3"></Spacer>
-                ) : (
-                  <Checkbox
-                    p="1"
-                    mx={3}
-                    height="18px"
-                    width="18px"
-                    size="lg"
-                    iconColor="gray.500"
-                    borderColor="gray.300"
-                    isChecked={completed}
-                    onChange={() => setCompleted(!completed)}
-                  ></Checkbox>
-                )}
-                <Text
-                  p="1"
-                  fontSize="13px"
-                  fontWeight="300"
-                  whiteSpace="nowrap"
-                  overflow="hidden"
-                  color="gray.700"
-                >
-                  {title.toLowerCase()}
-                </Text>
-              </Flex>
-              {!shouldShowDetails && (
-                <Button variant="todoDetails" onClick={toggleDetails}>
-                  <Box
-                    h="4px"
-                    w="4px"
-                    bg="primary"
-                    borderRadius="100%"
-                    m="0.5"
-                  ></Box>
-                  <Box
-                    h="4px"
-                    w="4px"
-                    bg="primary"
-                    borderRadius="100%"
-                    m="0.5"
-                  ></Box>
-                  <Box
-                    h="4px"
-                    w="4px"
-                    bg="primary"
-                    borderRadius="100%"
-                    m="0.5"
-                  ></Box>
-                </Button>
-              )}
-            </Flex>
-
-            <Flex w="100%" justify="space-between">
-              <Flex align="center">
-                {shouldShowDetails && (
-                  <>
-                    <Checkbox
-                      p="1"
-                      mx={3}
-                      height="18px"
-                      width="18px"
-                      size="lg"
-                      iconColor="gray.500"
-                      borderColor="gray.300"
-                      isChecked={completed}
-                      onChange={() => setCompleted(!completed)}
-                    ></Checkbox>
-                    <Text variant="details" w="200px" p="1">
-                      {note.notes}
-                    </Text>
-                  </>
-                )}
-                {shouldShowDetails && (
-                  <Flex justify="end">
-                    <IconButton
-                      size="sm"
-                      fontSize="12px"
-                      bg="purple"
-                      variant="iconTodo"
-                      aria-label="edit task"
-                      icon={<EditIcon />}
-                      onClick={() => setEditing(true)}
-                    />
-                    <IconButton
-                      size="sm"
-                      fontSize="12px"
-                      bg="red"
-                      variant="iconTodo"
-                      aria-label="delete task"
-                      icon={<DeleteIcon />}
-                      onClick={() => handleDeleteSubmit(note.id)}
-                    />
-                    <IconButton
-                      size="sm"
-                      fontSize="20px"
-                      bg="transparent"
-                      color="primary"
-                      variant="iconTodoClose"
-                      aria-label="edit task"
-                      onClick={() => setShouldShowDetails(false)}
-                      icon={<SmallCloseIcon />}
-                    />
-                  </Flex>
-                )}
-              </Flex>
-            </Flex>
-          </Flex>
-          {/* EXPANDED ROW */}
-          {shouldShowDetails && (
-            <Flex ml="33px" justify="space-between">
-              <Flex
-                bg="gray.400"
-                px="5"
-                color="white"
-                fontSize="10px"
-                fontWeight="800"
-                borderRadius="4px"
-                my="1"
-              >
-                {note.list}
-              </Flex>
-              <Flex align="center" pr="3">
-                <CalendarIcon fontSize="13px" mx={2} />
-                <Box fontSize="11px" mx={0.5}>
-                  {note.month}
-                </Box>
-                <Box fontSize="11px" mx={0.5}>
-                  {note.day}
-                </Box>
-              </Flex>
-            </Flex>
-          )}
-        </Flex>
+        <NoteCardDefault
+          setCompleted={setCompleted}
+          toggleDetails={toggleDetails}
+          shouldShowDetails={shouldShowDetails}
+          setShouldShowDetails={setShouldShowDetails}
+          setEditing={setEditing}
+          handleDeleteSubmit={handleDeleteSubmit}
+          completed={completed}
+          title={title}
+          notes={notes}
+          month={month}
+          day={day}
+          list={list}
+          id={note.id}
+        />
       )}
 
       {/* EDITING CARD VIEW */}
       {editing && (
-        <Flex direction="column" justify="space-between" w="100%">
-          {/* FIRST CARD ROW */}
-          <Flex direction="column">
-            <Flex align="center" justify="space-between">
-              <Flex align="center">
-                <Spacer w="18px" p="1" mx="3"></Spacer>
-
-                <Editable
-                  defaultValue={title}
-                  px={1}
-                  m={0}
-                  fontSize="13px"
-                  fontWeight="300"
-                  whiteSpace="nowrap"
-                  overflow="hidden"
-                  color="gray.700"
-                  onChange={(e) => setTitle(e.toLowerCase())}
-                >
-                  <EditablePreview />
-                  <EditableInput />
-                </Editable>
-              </Flex>
-            </Flex>
-
-            <Flex w="100%" justify="space-between">
-              <Flex align="center">
-                {shouldShowDetails && (
-                  <>
-                    <Checkbox
-                      p="1"
-                      mx={3}
-                      height="18px"
-                      width="18px"
-                      size="lg"
-                      iconColor="gray.500"
-                      borderColor="gray.300"
-                      isChecked={completed}
-                      onChange={() => setCompleted(!completed)}
-                    ></Checkbox>
-                    {/* <Text variant="details" w="200px" p="1">
-                      {note.notes}
-                    </Text> */}
-                    <Editable
-                      w="200px"
-                      p="1"
-                      defaultValue={notes}
-                      onChange={(e) => setNotes(e.toLowerCase())}
-                    >
-                      <EditablePreview />
-                      <EditableInput />
-                    </Editable>
-                  </>
-                )}
-
-                <Flex justify="end">
-                  <IconButton
-                    size="sm"
-                    fontSize="12px"
-                    bg="purple"
-                    variant="iconTodo"
-                    aria-label="save task"
-                    icon={<CheckCircleIcon />}
-                    onClick={handleUpdate}
-                  />
-                  <IconButton
-                    size="sm"
-                    fontSize="12px"
-                    bg="red"
-                    variant="iconTodo"
-                    aria-label="delete task"
-                    icon={<DeleteIcon />}
-                    onClick={() => handleDeleteSubmit(note.id)}
-                  />
-                  <IconButton
-                    size="sm"
-                    fontSize="20px"
-                    bg="transparent"
-                    color="primary"
-                    variant="iconTodoClose"
-                    aria-label="edit task"
-                    onClick={() => {
-                      setShouldShowDetails(false);
-                      setEditing(false);
-                    }}
-                    icon={<SmallCloseIcon />}
-                  />
-                </Flex>
-              </Flex>
-            </Flex>
-          </Flex>
-          {/* EXPANDED ROW */}
-
-          <Flex ml="33px" justify="space-between">
-            <Select
-              bg="gray.400"
-              px="5"
-              //color="white"
-              fontSize="10px"
-              fontWeight="800"
-              borderRadius="4px"
-              my="1"
-              placeholder={list ? list : "select project"}
-              onChange={(e) => setList(e.target.value.toLowerCase())}
-            >
-              {projectsList.map((project) => {
-                return <option key={project}>{project}</option>;
-              })}
-            </Select>
-            <Flex align="center" pr="3">
-              <CalendarIcon fontSize="13px" mx={2} />
-              <Select
-                bg="gray.400"
-                px="5"
-                //color="white"
-                fontSize="10px"
-                fontWeight="800"
-                borderRadius="4px"
-                my="1"
-                placeholder={month ? month : "-"}
-                onChange={(e) => setMonth(e.target.value)}
-              >
-                {months.map((month) => {
-                  return (
-                    <option key={month[0]} value={month[0]}>
-                      {month[1]}
-                    </option>
-                  );
-                })}
-              </Select>
-              <Select
-                bg="gray.400"
-                //color="white"
-                fontSize="10px"
-                fontWeight="800"
-                borderRadius="4px"
-                my="1"
-                defaultValue={day ? day : 1}
-                onChange={(e) => setDay(e.target.value)}
-              >
-                {calculateDays(1).map((day) => {
-                  return (
-                    <option key={day} value={day}>
-                      {day}
-                    </option>
-                  );
-                })}
-              </Select>
-            </Flex>
-          </Flex>
-        </Flex>
+        <NoteCardEditing
+          setCompleted={setCompleted}
+          toggleDetails={toggleDetails}
+          shouldShowDetails={shouldShowDetails}
+          setShouldShowDetails={setShouldShowDetails}
+          setEditing={setEditing}
+          handleDeleteSubmit={handleDeleteSubmit}
+          completed={completed}
+          title={title}
+          notes={notes}
+          month={month}
+          day={day}
+          list={list}
+          id={note.id}
+          projectsList={projectsList}
+          handleUpdate={handleUpdate}
+          setTitle={setTitle}
+          setNotes={setNotes}
+          setList={setList}
+          setMonth={setMonth}
+          setDay={setDay}
+        />
       )}
     </Flex>
   );

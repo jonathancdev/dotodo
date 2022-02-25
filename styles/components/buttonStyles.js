@@ -59,25 +59,25 @@ const buttonStyles = {
     }),
     iconTodo: (props) => ({
       p: "0",
-      m: "1",
+      m: "0",
       h: "20px",
       w: "20px",
-      fontSize: "10px",
-      bg: props.bg,
+      fontSize: "14px",
       color: mode("white", "gray.800")(props),
       _hover: {
-        bg: mode(darken(props.bg, 10), whiten(props.bg, 10))(props),
+        color: mode(darken(props.color, 10), whiten(props.color, 10))(props),
         boxShadow: "sm",
       },
     }),
     iconTodoClose: (props) => ({
       p: "0",
-      m: "1",
       h: "20px",
-      w: "20px",
-      fontSize: "10px",
       bg: props.bg,
       color: mode("white", "gray.800")(props),
+      _hover: {
+        color: mode(darken(props.color, 10), whiten(props.color, 10))(props),
+        boxShadow: "sm",
+      },
     }),
     todoDetails: (props) => ({
       p: "1",

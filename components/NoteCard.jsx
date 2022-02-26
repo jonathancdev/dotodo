@@ -1,8 +1,15 @@
 import React, { useState, useRef } from "react";
 import NoteCardDefault from "./NoteCardDefault";
 import NoteCardEditing from "./NoteCardEditing";
-import { Flex, useColorModeValue } from "@chakra-ui/react";
-
+import {
+  Flex,
+  Checkbox,
+  Box,
+  Button,
+  IconButton,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { EditIcon, DeleteIcon, CloseIcon, CheckIcon } from "@chakra-ui/icons";
 export default function NoteCard({
   note,
   projectsList,
@@ -51,8 +58,7 @@ export default function NoteCard({
 
   return (
     <Flex
-      minH="40px"
-      w="99%"
+      h={shouldShowDetails ? "90px" : "40px"}
       w="320px"
       alignItems="center"
       key={note.id}
@@ -60,13 +66,91 @@ export default function NoteCard({
       borderColor={borderColor}
       borderRadius="8px"
       py="4"
-      pr="1"
       bg="white"
-      my="1"
+      mb="1.5"
       shadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
       fontFamily="Work Sans"
       pos="relative"
     >
+      <Flex
+        direction="column"
+        justify="center"
+        py="4"
+        h="100%"
+        pos="absolute"
+        left="1"
+      >
+        <Checkbox
+          p="1"
+          mx={3}
+          height="18px"
+          width="18px"
+          size="lg"
+          iconColor="green"
+          borderColor={completed ? "green" : "red"}
+          isChecked={completed}
+          onChange={() => setCompleted(!completed)}
+        ></Checkbox>
+      </Flex>
+      <Flex
+        direction="column"
+        justify="space-between"
+        py="4"
+        h="100%"
+        pos="absolute"
+        right="2"
+      >
+        {!shouldShowDetails && (
+          <Button variant="todoDetails" onClick={toggleDetails} mr="-1">
+            <Box h="3px" w="3px" bg="primary" borderRadius="100%" mr="1"></Box>
+            <Box h="3px" w="3px" bg="primary" borderRadius="100%" mr="1"></Box>
+            <Box h="3px" w="3px" bg="primary" borderRadius="100%"></Box>
+          </Button>
+        )}
+        {shouldShowDetails && (
+          <>
+            <IconButton
+              size="sm"
+              fontSize="9px"
+              bg="transparent"
+              color="primary"
+              variant="iconTodo"
+              aria-label="edit task"
+              onClick={() => setShouldShowDetails(false)}
+              icon={<CloseIcon />}
+            />
+            {!editing && (
+              <IconButton
+                size="sm"
+                color="purple"
+                variant="iconTodo"
+                aria-label="edit task"
+                icon={<EditIcon />}
+                onClick={() => setEditing(true)}
+              />
+            )}
+            {editing && (
+              <IconButton
+                size="sm"
+                fontSize="12px"
+                color="purple"
+                variant="iconTodo"
+                aria-label="save task"
+                icon={<CheckIcon />}
+                onClick={handleUpdate}
+              />
+            )}
+            <IconButton
+              size="sm"
+              color="red"
+              variant="iconTodo"
+              aria-label="delete task"
+              icon={<DeleteIcon />}
+              onClick={() => handleDeleteSubmit(note.id)}
+            />
+          </>
+        )}
+      </Flex>
       {/* DEFAULT CARD VIEW */}
       {!editing && (
         <NoteCardDefault

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NoteCard from "./NoteCard";
+import Menu from "./Menu";
 import { useAuth } from "../context/AuthUserContext";
 import useFirestore from "../firebase/useFirestore";
 import { Flex, Button, useColorModeValue } from "@chakra-ui/react";
@@ -25,6 +26,8 @@ export default function TodoList() {
     "misc",
     "fix car",
     "revise documents",
+    "testing",
+    "thermonuclear",
   ]);
   const [shouldModalShow, setShouldModalShow] = useState(false);
 
@@ -83,28 +86,15 @@ export default function TodoList() {
 
   return (
     <Flex
-      p={10}
+      w="350px"
+      px={2}
       borderRadius="3px"
       as="main"
-      width="90vw"
       direction="column"
       align="center"
       pos="relative"
     >
       <Flex width="100%" direction="column" align="center">
-        {/* {notesList.length > 0 ? (
-          notesList.map((note) => {
-            return (
-              <NoteCard
-                note={note}
-                handleDeleteSubmit={handleDeleteSubmit}
-                handleUpdateSubmit={handleUpdateSubmit}
-              ></NoteCard>
-            );
-          })
-        ) : (
-          <Text m={2}>create your first note!</Text>
-        )} */}
         {notesList &&
           notesList.length > 0 &&
           notesList.map((note) => {

@@ -58,7 +58,7 @@ const buttonStyles = {
       },
     }),
     iconTodo: (props) => ({
-      p: "0",
+      p: "1",
       m: "0",
       h: "20px",
       w: "20px",
@@ -81,7 +81,6 @@ const buttonStyles = {
     }),
     todoDetails: (props) => ({
       p: "1",
-      mx: "1",
       height: "20px",
       width: "20px",
       borderColor: mode("primary", whiten("primary", 20))(props),

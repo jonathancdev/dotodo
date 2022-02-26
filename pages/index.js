@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthUserContext";
 import { Flex, Heading, Text, Spinner } from "@chakra-ui/react";
 import ChakraNextLinkButton from "../components/ChakraNextLinkButton";
 import TodoList from "../components/todoList";
+import Menu from "../components/Menu";
 
 export default function Home() {
   const { authUser, loading } = useAuth();
@@ -33,7 +34,10 @@ export default function Home() {
           </Flex>
         </>
       )}
-      {!loading && authUser && <TodoList />}
+      <Flex maxW="90vw">
+        {!loading && authUser && <Menu />}
+        {!loading && authUser && <TodoList />}
+      </Flex>
       {authUser && loading && <Spinner />}
     </Flex>
   );

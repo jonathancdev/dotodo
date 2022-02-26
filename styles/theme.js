@@ -37,18 +37,6 @@ const theme = extendTheme({
     Link,
     Input,
     IconButton,
-    Select: {
-      parts: ["field", "icon"],
-      baseStyle: {
-        field: {
-          color: "red.400",
-        },
-        icon: {
-          width: "2rem",
-          fontSize: "3rem",
-        },
-      },
-    },
   },
 });
 

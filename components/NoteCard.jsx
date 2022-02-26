@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import NoteCardDefault from "./NoteCardDefault";
 import NoteCardEditing from "./NoteCardEditing";
+import useOutsideClickHandler from "../hooks/useOutsideClickHandler";
 import {
   Flex,
   Checkbox,
@@ -31,7 +32,17 @@ export default function NoteCard({
   const [month, setMonth] = useState(note.month);
   const [list, setList] = useState(note.list);
   const [completed, setCompleted] = useState(note.completed);
-
+  //outside click hook
+  const noteRef = useRef();
+  const handleOutsideClick = () => {
+    setShouldShowDetails(false);
+    setEditing(false);
+  };
+  useOutsideClickHandler(noteRef, () => {
+    if (shouldShowDetails) {
+      handleOutsideClick();
+    }
+  });
   //event listeners
   const handleUpdate = () => {
     //pass obj w/ state values up to parent
@@ -58,6 +69,7 @@ export default function NoteCard({
 
   return (
     <Flex
+      ref={noteRef}
       h={shouldShowDetails ? "90px" : "40px"}
       w="320px"
       alignItems="center"
@@ -67,8 +79,9 @@ export default function NoteCard({
       borderRadius="8px"
       py="4"
       bg="white"
+      opacity={completed ? "0.5" : "1"}
       mb="1.5"
-      shadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+      shadow={completed ? "none" : "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"}
       fontFamily="Work Sans"
       pos="relative"
     >

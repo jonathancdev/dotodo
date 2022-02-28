@@ -38,7 +38,7 @@ export default function SignUp() {
       },
       tasks: [{}],
     }).then(() => {
-      console.log("need to do soemthing here");
+      console.log("USER CREATED");
     });
   };
   return (

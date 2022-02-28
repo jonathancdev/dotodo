@@ -107,7 +107,7 @@ export default function NoteCardEditing({
                 onChange={(e) => setList(e.target.value.toLowerCase())}
               >
                 {projectsList.map((project) => {
-                  return <option key={project}>{project}</option>;
+                  return <option key={project.id}>{project.name}</option>;
                 })}
               </Select>
 

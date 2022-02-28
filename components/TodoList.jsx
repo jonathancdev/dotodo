@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import NoteCard from "./NoteCard";
-import Menu from "./Menu";
 import { useAuth } from "../context/AuthUserContext";
 import useFirestore from "../firebase/useFirestore";
 import { Flex, Button, useColorModeValue } from "@chakra-ui/react";
-import NewTaskModal from "./NewTaskModal";
 
-export default function TodoList() {
+export default function TodoList({
+  notesList,
+  projectsList,
+  toggleModal,
+  currentProject,
+}) {
   const borderColor = useColorModeValue("gray.400", "gray.500");
   const {
     db,
@@ -20,49 +23,17 @@ export default function TodoList() {
   } = useFirestore();
   const { authUser, loading } = useAuth();
 
-  //const [userCollection, setUserCollection] = useState(null);
-  const [notesList, setNotesList] = useState([]);
-  const [projectsList, setProjectsList] = useState([
-    "misc",
-    "fix car",
-    "revise documents",
-    "testing",
-    "thermonuclear",
-  ]);
-  const [shouldModalShow, setShouldModalShow] = useState(false);
-
+  //filter noteslist based on currentProject
+  const [filteredNotes, setFilteredNotes] = useState([]);
   useEffect(() => {
-    if (authUser) {
-      onSnapshot(
-        collection(db, "users", "USER_" + authUser.uid, "tasks"),
-        (snapshot) => {
-          const notes = [];
-          snapshot.docs.forEach((doc) => {
-            notes.push({ ...doc.data(), id: doc.id });
-          });
-          if (notes.length > 0) {
-            setNotesList(notes);
-          } else {
-            setNotesList(null);
-          }
-        }
-      );
+    if (currentProject === "all") {
+      setFilteredNotes(notesList);
+    } else {
+      const filtered = notesList.filter((note) => note.list === currentProject);
+      setFilteredNotes(filtered);
     }
-  }, [loading]);
-  const handleSaveSubmit = (obj) => {
-    // setLoading(true);
-    const { list, title, notes, month, day } = obj;
-    addDoc(collection(db, "users", "USER_" + authUser.uid, "tasks"), {
-      list: list,
-      title: title,
-      notes: notes,
-      month: parseInt(month, 10),
-      day: parseInt(day, 10),
-      completed: false,
-    }).then(() => {
-      console.log("need to do soemthing here");
-    });
-  };
+  }, [currentProject, notesList]);
+
   const handleDeleteSubmit = (id) => {
     console.log(id);
     const docRef = doc(db, "users", "USER_" + authUser.uid, "tasks", id);
@@ -80,13 +51,10 @@ export default function TodoList() {
     });
     // setLoading(true);
   };
-  const toggleModal = () => {
-    setShouldModalShow(!shouldModalShow);
-  };
-
+  console.log(filteredNotes);
   return (
     <Flex
-      w="350px"
+      w="330px"
       px={2}
       borderRadius="3px"
       as="main"
@@ -96,8 +64,8 @@ export default function TodoList() {
     >
       <Flex width="100%" direction="column" align="center">
         {notesList &&
-          notesList.length > 0 &&
-          notesList.map((note) => {
+          filteredNotes.length > 0 &&
+          filteredNotes.map((note) => {
             return (
               <NoteCard
                 projectsList={projectsList}
@@ -115,12 +83,6 @@ export default function TodoList() {
       <Button m={10} variant="primaryOutline" onClick={toggleModal}>
         add
       </Button>
-      {shouldModalShow && (
-        <NewTaskModal
-          handleSaveSubmit={handleSaveSubmit}
-          toggleModal={toggleModal}
-        />
-      )}
     </Flex>
   );
 }

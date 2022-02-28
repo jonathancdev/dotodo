@@ -34,7 +34,7 @@ const calculateDays = (month) => {
   for (let i = 1; i <= days; i++) {
     array.push(i);
   }
-  console.log(days);
+
   return array;
 };
 

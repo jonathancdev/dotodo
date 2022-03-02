@@ -6,6 +6,7 @@ import {
   Heading,
   IconButton,
   Input,
+  Box,
   Button,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -18,6 +19,7 @@ export default function Menu({
   projectsList,
   toggleModal,
   deleteProject,
+  currentProject,
   updateCurrentProject,
 }) {
   const {
@@ -58,12 +60,13 @@ export default function Menu({
   return (
     <Flex
       h="100%"
-      w="300px"
+      w="250px"
       bg="white"
       borderRadius="8px"
       shadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
       direction="column"
       py="5"
+      flexShrink="0"
     >
       <Flex ref={inputRef} align="center" justify="space-between">
         {!shouldShowAdd ? (
@@ -103,22 +106,27 @@ export default function Menu({
           justify="space-between"
           pos="relative"
           onClick={() => updateCurrentProject("all")}
+          _hover={{ bg: "gray.100" }}
+          cursor="pointer"
+          bg={currentProject === "all" ? "gray.300" : "white"}
+          px="2"
         >
-          <Button
-            fontSize="20px"
+          <Box
+            fontSize="16px"
             fontWeight="600"
             letterSpacing=".5px"
-            mx="0"
+            mx="4"
             my="1"
             borderRadius="0"
-            bg="white"
+            bg="inherit"
             color="gray.600"
             key="defaultproject"
             justifyContent="flex-start"
             w="100%"
+            _hover={{ bg: "transparent" }}
           >
             all tasks
-          </Button>
+          </Box>
         </Flex>
         {projectsList && (
           <>
@@ -129,6 +137,7 @@ export default function Menu({
                   project={project}
                   toggleModal={toggleModal}
                   deleteProject={deleteProject}
+                  currentProject={currentProject}
                   updateCurrentProject={updateCurrentProject}
                   notesList={notesList}
                 />

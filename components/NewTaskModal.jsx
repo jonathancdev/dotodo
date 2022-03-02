@@ -15,6 +15,7 @@ import {
 export default function NewTaskModal({
   handleSaveSubmit,
   toggleModal,
+  toggleBlur,
   projectsList,
   currentProject,
 }) {
@@ -26,6 +27,7 @@ export default function NewTaskModal({
   const modalRef = useRef();
   const handleOutsideClick = () => {
     toggleModal();
+    toggleBlur();
   };
   useOutsideClickHandler(modalRef, () => {
     handleOutsideClick();
@@ -64,6 +66,7 @@ export default function NewTaskModal({
       justify="center"
       align="center"
       bg="transparent"
+      zIndex="4"
     >
       <FormControl
         ref={modalRef}
@@ -89,15 +92,22 @@ export default function NewTaskModal({
               );
             })}
           </Select>
-          <Input ref={titleRef} maxLength="40" placeholder="task name"></Input>
+          <Input
+            variant="modal"
+            ref={titleRef}
+            maxLength="40"
+            placeholder="task name"
+          ></Input>
           <Textarea
+            m="1"
             ref={notesRef}
             maxLength="68"
             placeholder="additional notes"
           />
-          <Box>Deadline:</Box>
+          <Box m="1">Due:</Box>
           <Flex>
             <Select
+              m="1"
               ref={dayRef}
               defaultValue={currentDay}
               onChange={(e) => {
@@ -113,6 +123,7 @@ export default function NewTaskModal({
               })}
             </Select>
             <Select
+              m="1"
               ref={monthRef}
               defaultValue={currentMonth}
               onChange={(e) => setMonth(e.target.value)}

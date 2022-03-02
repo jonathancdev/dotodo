@@ -1,3 +1,4 @@
+import { React, useState } from "react";
 import Head from "next/head";
 import "../styles/globals.css";
 import { AuthUserProvider } from "../context/AuthUserContext";
@@ -15,6 +16,10 @@ import "@fontsource/work-sans/700.css";
 import "@fontsource/work-sans/800.css";
 
 function MyApp({ Component, pageProps }) {
+  const [shouldBackgroundBlur, setShouldBackgroundBlur] = useState(false);
+  const toggleBlur = () => {
+    setShouldBackgroundBlur(!shouldBackgroundBlur);
+  };
   return (
     <ChakraProvider theme={theme}>
       <AuthUserProvider>
@@ -23,8 +28,8 @@ function MyApp({ Component, pageProps }) {
           <meta name="description" content="description" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Layout>
-          <Component {...pageProps} />
+        <Layout shouldBackgroundBlur={shouldBackgroundBlur}>
+          <Component {...pageProps} toggleBlur={toggleBlur} />
         </Layout>
       </AuthUserProvider>
     </ChakraProvider>

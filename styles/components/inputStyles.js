@@ -16,6 +16,12 @@ const inputStyles = {
         },
       },
     }),
+    modal: (props) => ({
+      field: {
+        m: "1",
+        bg: mode("white", "gray.500")(props),
+      },
+    }),
   },
   defaultProps: {},
 };

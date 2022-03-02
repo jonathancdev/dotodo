@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import NoteCard from "./NoteCard";
 import { useAuth } from "../context/AuthUserContext";
 import useFirestore from "../firebase/useFirestore";
-import { Flex, Button, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Button, useColorModeValue, IconButton } from "@chakra-ui/react";
 
+import { AddIcon } from "@chakra-ui/icons";
 export default function TodoList({
   notesList,
   projectsList,
   toggleModal,
+  toggleBlur,
   currentProject,
 }) {
   const borderColor = useColorModeValue("gray.400", "gray.500");
@@ -54,7 +56,8 @@ export default function TodoList({
   console.log(filteredNotes);
   return (
     <Flex
-      w="330px"
+      w="360px"
+      h="100%;"
       px={2}
       borderRadius="3px"
       as="main"
@@ -62,27 +65,55 @@ export default function TodoList({
       align="center"
       pos="relative"
     >
-      <Flex width="100%" direction="column" align="center">
-        {notesList &&
-          filteredNotes.length > 0 &&
-          filteredNotes.map((note) => {
-            return (
-              <NoteCard
-                projectsList={projectsList}
-                key={note.id}
-                note={note}
-                handleDeleteSubmit={handleDeleteSubmit}
-                handleUpdateSubmit={handleUpdateSubmit}
-              ></NoteCard>
-            );
-          })}
-        {/* {notesList && notesList.length < 1 && <Spinner />} */}
-        {/* {loading && <Spinner />}
+      <IconButton
+        pos="absolute"
+        right="12"
+        bottom="10"
+        fontSize="18px"
+        borderRadius="100%"
+        borderColor="primary"
+        borderWidth="2px"
+        w="40px"
+        h="40px"
+        mr="4"
+        bg="white"
+        color="primary"
+        icon={<AddIcon />}
+        onClick={() => {
+          toggleModal();
+          toggleBlur();
+        }}
+        zIndex="3"
+      />
+      <Flex
+        width="100%"
+        h="100%"
+        direction="column"
+        align="center"
+        pos="relative"
+        overflow="scroll"
+        ml="2"
+        mr="10"
+      >
+        <Flex width="100%" direction="column" align="center">
+          {notesList &&
+            filteredNotes.length > 0 &&
+            filteredNotes.map((note) => {
+              return (
+                <NoteCard
+                  projectsList={projectsList}
+                  key={note.id}
+                  note={note}
+                  handleDeleteSubmit={handleDeleteSubmit}
+                  handleUpdateSubmit={handleUpdateSubmit}
+                ></NoteCard>
+              );
+            })}
+          {/* {notesList && notesList.length < 1 && <Spinner />} */}
+          {/* {loading && <Spinner />}
         {notesList.length === 0 && <p>nothing here yet</p>} */}
+        </Flex>
       </Flex>
-      <Button m={10} variant="primaryOutline" onClick={toggleModal}>
-        add
-      </Button>
     </Flex>
   );
 }

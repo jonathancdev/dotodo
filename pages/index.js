@@ -4,11 +4,11 @@ import useFirestore from "../firebase/useFirestore";
 
 import { Flex, Heading, Text, Spinner } from "@chakra-ui/react";
 import ChakraNextLinkButton from "../components/ChakraNextLinkButton";
-import TodoList from "../components/todoList";
+import TodoList from "../components/TodoList";
 import Menu from "../components/Menu";
 import NewTaskModal from "../components/NewTaskModal";
 
-export default function Home() {
+export default function Home({ toggleBlur }) {
   const {
     db,
     collection,
@@ -92,19 +92,13 @@ export default function Home() {
   const toggleModal = () => {
     setShouldModalShow(!shouldModalShow);
   };
+
   const updateCurrentProject = (project) => {
     setCurrentProject(project);
   };
   console.log(currentProject);
   return (
-    <Flex
-      as="main"
-      w="100vw"
-      h="75vh"
-      direction="column"
-      border="0.5px solid"
-      p="5"
-    >
+    <Flex as="main" w="100%" h="75vh" direction="column" py="5" pos="relative">
       {!authUser && !loading && (
         <>
           <Flex mb={8}>
@@ -128,19 +122,27 @@ export default function Home() {
           </Flex>
         </>
       )}
-      <Flex height="100%" maxW="90vw">
+      <Flex
+        height="100%"
+        w="100%"
+        bg="gray.300"
+        borderRadius="8px"
+        justify="center"
+      >
         {!loading && authUser && (
           <Menu
             notesList={notesList}
             projectsList={projectsList}
             toggleModal={toggleModal}
             deleteProject={deleteProject}
+            currentProject={currentProject}
             updateCurrentProject={updateCurrentProject}
           />
         )}
         {!loading && authUser && (
           <TodoList
             toggleModal={toggleModal}
+            toggleBlur={toggleBlur}
             notesList={notesList}
             projectsList={projectsList}
             currentProject={currentProject}
@@ -151,6 +153,7 @@ export default function Home() {
         <NewTaskModal
           handleSaveSubmit={handleSaveSubmit}
           toggleModal={toggleModal}
+          toggleBlur={toggleBlur}
           projectsList={projectsList}
           currentProject={currentProject}
         />

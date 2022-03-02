@@ -6,12 +6,14 @@ import {
   Input,
   Button,
   useColorModeValue,
+  Box,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 export default function MenuButton({
   project,
   toggleModal,
   deleteProject,
+  currentProject,
   updateCurrentProject,
   notesList,
 }) {
@@ -27,31 +29,50 @@ export default function MenuButton({
   return (
     <>
       <Flex
+        as="button"
         align="center"
         //justify="space-between"
         pos="relative"
         onMouseEnter={() => setShouldShowAdd(true)}
         onMouseLeave={() => setShouldShowAdd(false)}
         onClick={() => updateCurrentProject(project.name)}
+        _hover={{ bg: "gray.100" }}
+        bg={currentProject === project.name ? "gray.300" : "white"}
       >
         <Flex align="center">
-          <Button
-            fontSize="20px"
+          <Box
+            fontSize="16px"
             fontWeight="600"
             letterSpacing=".5px"
             mx="0"
             my="1"
             borderRadius="0"
-            bg="white"
+            bg="inherit"
             color="gray.600"
             key={project.id}
             justifyContent="flex-start"
             w="100%"
             pos="relative"
+            _hover={{ bg: "transparent" }}
+            px="6"
           >
             {project.name}
-          </Button>
-          <Flex>{quantity}</Flex>
+          </Box>
+          <Flex
+            fontSize="12px"
+            color="primary"
+            fontWeight="800"
+            w="20px"
+            h="20px"
+            bg="transparent"
+            borderRadius="100%"
+            justify="center"
+            align="center"
+            m="0"
+            p="4"
+          >
+            {quantity}
+          </Flex>
         </Flex>
         {shouldShowAdd && (
           <Flex bg="transparent" pos="absolute" right="3">
@@ -63,13 +84,16 @@ export default function MenuButton({
               mr="4"
               icon={<AddIcon />}
               onClick={toggleModal}
+              bg="gray.300"
             />
             <IconButton
-              fontSize="10px"
+              fontSize="14px"
               borderRadius="100%"
               w="25px"
               h="25px"
               mr="4"
+              bg="gray.300"
+              color="red"
               icon={<DeleteIcon />}
               onClick={() => deleteProject(project.id)}
             />

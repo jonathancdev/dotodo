@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import Backdrop from "./Backdrop";
 
 export default function Layout({ children, shouldBackgroundBlur }) {
-  const bgColor = useColorModeValue("gray.100", "gray.800");
+  const bgColor = useColorModeValue("white", "gray.800");
   return (
     <Flex
       height="100vh"

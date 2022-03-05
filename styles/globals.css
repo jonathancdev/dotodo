@@ -32,7 +32,12 @@ body {
   overflow: hidden;
 }
 .layout__main {
-  margin-top: 2rem;
   height: calc(100% - 8rem);
+  width: 100vw;
+
   /* overflow: scroll; */
+}
+select,
+option {
+  background-color: inherit;
 }

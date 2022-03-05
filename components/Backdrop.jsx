@@ -10,7 +10,7 @@ export default function Backdrop() {
       h="100rem"
       w="100rem"
       zIndex="4"
-      opacity=".5"
+      opacity=".7"
     ></Flex>
   );
 }

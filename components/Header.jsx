@@ -29,8 +29,8 @@ const Header = () => {
   };
 
   return (
-    <Flex p={8} as="header" height={40} width="100vw" alignItems="center">
-      <Box p={2}>
+    <Flex px={8} mb="3" as="header" height="7rem" width="100vw" align="center">
+      <Box mt="8" p={2}>
         {currentPath !== "/" ? (
           <Link href="/">
             <Heading size="lg" variant="logo">
@@ -44,7 +44,7 @@ const Header = () => {
         )}
       </Box>
       <Spacer />
-      <Box>
+      <Box mt="8">
         {currentPath === "/" && authUser && (
           <>
             <ChakraNextLinkButton
@@ -55,7 +55,7 @@ const Header = () => {
             />
           </>
         )}
-        {authUser && (
+        {authUser && currentPath !== "/account" && (
           <Button onClick={handleSignOut} variant="primaryOutline" size="sm">
             sign out
           </Button>

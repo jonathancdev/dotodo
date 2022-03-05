@@ -59,7 +59,7 @@ export default function NoteCardDefault({
           <Text
             fontSize="12px"
             fontWeight="500"
-            color="gray.600"
+            color="inherit"
             letterSpacing=".5px"
           >
             {title.toLowerCase()}
@@ -73,7 +73,7 @@ export default function NoteCardDefault({
               <Text
                 fontSize="12px"
                 fontWeight="300"
-                color="gray.600"
+                color="inherit"
                 letterSpacing=".5px"
               >
                 {notes.toLowerCase()}
@@ -83,11 +83,12 @@ export default function NoteCardDefault({
 
             <Flex align="center" justify="space-between">
               <Flex
-                color="gray.500"
-                fontSize="10px"
+                color="inherit"
+                fontSize="10.5px"
                 fontWeight="600"
                 align="center"
                 w="auto"
+                pl="1px"
               >
                 {list}
               </Flex>

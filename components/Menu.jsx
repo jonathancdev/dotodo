@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   useColorModeValue,
+  Text,
 } from "@chakra-ui/react";
 import { AddIcon, CheckIcon } from "@chakra-ui/icons";
 import { useAuth } from "../context/AuthUserContext";
@@ -18,6 +19,7 @@ export default function Menu({
   notesList,
   projectsList,
   toggleModal,
+  toggleBlur,
   deleteProject,
   currentProject,
   updateCurrentProject,
@@ -36,34 +38,47 @@ export default function Menu({
   // const [projectsList, setProjectsList] = useState(null);
   const [shouldShowAdd, setShouldShowAdd] = useState(false);
   const [project, setProject] = useState();
+  //error
+  const [error, setError] = useState(false);
 
   //outside click
   const inputRef = useRef();
   const handleOutsideClick = () => {
     setShouldShowAdd(false);
+    setError(false);
   };
   useOutsideClickHandler(inputRef, () => {
     handleOutsideClick();
   });
 
   const handleSaveProject = () => {
-    if (project) {
+    if (project && !projectsList.some((p) => p.name === project)) {
       setShouldShowAdd(false);
       addDoc(collection(db, "users", "USER_" + authUser.uid, "projects"), {
         name: project,
       }).then(() => {
         console.log("PROJECT SAVED");
       });
+      updateCurrentProject(project);
+    } else {
+      setError(true);
     }
   };
-
+  const handleAddClick = () => {};
+  const bgColor = useColorModeValue("white", "gray.800");
+  const btnBgColor = useColorModeValue("white", "gray.800");
+  const btnActiveBgColor = useColorModeValue("gray.300", "gray.900");
+  const hoverColor = useColorModeValue("gray.100", "gray.900");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const addListBtnBg = useColorModeValue("gray.200", "gray.700");
+  const addListBtnColor = useColorModeValue("gray.800", "gray.400");
   return (
     <Flex
       h="100%"
       w="250px"
-      bg="white"
+      bg={bgColor}
       borderRadius="8px"
-      shadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+      shadow="md"
       direction="column"
       py="5"
       flexShrink="0"
@@ -74,23 +89,37 @@ export default function Menu({
             fontWeight="700"
             color="primary"
             letterSpacing="0.25px"
-            px="3"
+            px="6"
           >
             MY LISTS
           </Heading>
         ) : (
           <Input
+            maxLength="30"
+            fontSize="15px"
+            fontWeight="600"
+            opacity="0.6"
+            p="3"
             ml="3"
             height="30px"
             w="80%"
+            placeholder={error ? "list name required" : ""}
+            borderColor={error ? "red" : "inherit"}
             onChange={(e) => setProject(e.target.value)}
           />
         )}
         <IconButton
-          fontSize="15px"
+          fontSize="14px"
           borderRadius="100%"
           w="35px"
           h="35px"
+          shadow="sm"
+          bg={useColorModeValue("gray.200", "gray.700")}
+          _hover={{
+            bg: useColorModeValue("gray.300", "gray.600"),
+            color: useColorModeValue("gray.700", "gray.200"),
+          }}
+          color={useColorModeValue("gray.600", "gray.300")}
           icon={!shouldShowAdd ? <AddIcon /> : <CheckIcon />}
           onClick={
             shouldShowAdd
@@ -106,9 +135,9 @@ export default function Menu({
           justify="space-between"
           pos="relative"
           onClick={() => updateCurrentProject("all")}
-          _hover={{ bg: "gray.100" }}
+          _hover={{ bg: hoverColor }}
           cursor="pointer"
-          bg={currentProject === "all" ? "gray.300" : "white"}
+          bg={currentProject === "all" ? btnActiveBgColor : btnBgColor}
           px="2"
         >
           <Box
@@ -119,7 +148,7 @@ export default function Menu({
             my="1"
             borderRadius="0"
             bg="inherit"
-            color="gray.600"
+            color={textColor}
             key="defaultproject"
             justifyContent="flex-start"
             w="100%"
@@ -136,6 +165,7 @@ export default function Menu({
                   key={project.id}
                   project={project}
                   toggleModal={toggleModal}
+                  toggleBlur={toggleBlur}
                   deleteProject={deleteProject}
                   currentProject={currentProject}
                   updateCurrentProject={updateCurrentProject}

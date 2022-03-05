@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthUserContext";
 import useFirestore from "../firebase/useFirestore";
 
-import { Flex, Heading, Text, Spinner } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Text,
+  Spinner,
+  Box,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import ChakraNextLinkButton from "../components/ChakraNextLinkButton";
 import TodoList from "../components/TodoList";
 import Menu from "../components/Menu";
@@ -19,6 +26,9 @@ export default function Home({ toggleBlur }) {
     doc,
     updateDoc,
   } = useFirestore();
+
+  //chakra color mode
+  const bgColor = useColorModeValue("gray.200", "gray.900");
 
   const { authUser, loading } = useAuth();
   const [spinnerShouldShow, setSpinnerShouldShow] = useState(true);
@@ -98,7 +108,7 @@ export default function Home({ toggleBlur }) {
   };
   console.log(currentProject);
   return (
-    <Flex as="main" w="100%" h="75vh" direction="column" py="5" pos="relative">
+    <Box as="main" w="100%" h="78vh" direction="column" pos="relative">
       {!authUser && !loading && (
         <>
           <Flex mb={8}>
@@ -122,18 +132,13 @@ export default function Home({ toggleBlur }) {
           </Flex>
         </>
       )}
-      <Flex
-        height="100%"
-        w="100%"
-        bg="gray.300"
-        borderRadius="8px"
-        justify="center"
-      >
+      <Flex height="100%" w="100%" bg={bgColor} pl="4" py="4" flexShrink="0">
         {!loading && authUser && (
           <Menu
             notesList={notesList}
             projectsList={projectsList}
             toggleModal={toggleModal}
+            toggleBlur={toggleBlur}
             deleteProject={deleteProject}
             currentProject={currentProject}
             updateCurrentProject={updateCurrentProject}
@@ -159,6 +164,6 @@ export default function Home({ toggleBlur }) {
         />
       )}
       {authUser && loading && <Spinner />}
-    </Flex>
+    </Box>
   );
 }

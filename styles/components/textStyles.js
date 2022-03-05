@@ -30,7 +30,7 @@ const textStyles = {
 };
 const headingStyles = {
   baseStyle: (props) => ({
-    color: mode("gray.800", "white")(props),
+    color: mode("gray.700", "white")(props),
     fontWeight: "400",
   }),
   sizes: {

@@ -44,8 +44,6 @@ export default function NewTaskModal({
   const notesRef = useRef();
   const monthRef = useRef();
   const dayRef = useRef();
-  //error
-  const [error, setError] = useState(false);
 
   const createTaskObj = () => {
     const obj = {
@@ -58,14 +56,10 @@ export default function NewTaskModal({
     return obj;
   };
   const handleClick = () => {
-    if (titleRef.current.value.length < 1) {
-      setError(true);
-    } else {
-      const obj = createTaskObj();
-      handleSaveSubmit(obj);
-      toggleModal();
-      toggleBlur();
-    }
+    const obj = createTaskObj();
+    handleSaveSubmit(obj);
+    toggleModal();
+    toggleBlur();
   };
   const textColor = useColorModeValue("gray.600", "gray.300");
 
@@ -87,7 +81,7 @@ export default function NewTaskModal({
       <FormControl
         ref={modalRef}
         maxW="250px"
-        h="auto"
+        h="300px"
         borderRadius="8px"
         bg={bgColor}
         shadow="md"
@@ -106,8 +100,6 @@ export default function NewTaskModal({
           </FormLabel>
 
           <Select
-            fontSize="12px"
-            fontWeight="600"
             border="none"
             bg={selectColor}
             ref={listRef}
@@ -128,26 +120,15 @@ export default function NewTaskModal({
             Task name
           </FormLabel>
           <Input
-            fontSize="12px"
-            fontWeight="600"
             bg={selectColor}
             variant="modal"
             ref={titleRef}
             maxLength="40"
-            border={error ? "1px solid" : "none"}
-            placeholder={error ? "title required" : ""}
-            borderColor="red"
-            onChange={() => {
-              if (error) {
-                setError(false);
-              }
-            }}
           ></Input>
           <FormLabel htmlFor="notes" m="1" fontWeight="600" fontSize="11px">
             Notes
           </FormLabel>
           <Textarea
-            fontSize="12px"
             border="none"
             bg={selectColor}
             m="1"
@@ -156,50 +137,57 @@ export default function NewTaskModal({
             maxH="30px"
           />
 
-          <FormLabel htmlFor="due date" m="1" fontWeight="600" fontSize="11px">
-            Due date
-          </FormLabel>
-          <Flex>
-            <Select
-              border="none"
-              w="60px"
-              bg={selectColor}
+          <Flex align="center" w="100%" justify="space-between">
+            <FormLabel
+              htmlFor="due date"
               m="1"
-              ref={dayRef}
-              defaultValue={currentDay}
-              onChange={(e) => {
-                setDay(e.target.value);
-              }}
+              fontWeight="600"
+              fontSize="11px"
             >
-              {calculateDays(month).map((day) => {
-                return (
-                  <option key={day} value={day}>
-                    {day}
-                  </option>
-                );
-              })}
-            </Select>
-            <Select
-              border="none"
-              w="60px"
-              bg={selectColor}
-              m="1"
-              ref={monthRef}
-              defaultValue={currentMonth}
-              onChange={(e) => setMonth(e.target.value)}
-            >
-              {months.map((item) => {
-                return (
-                  <option
-                    selected={item[0] === month ? true : false}
-                    key={item[0]}
-                    value={item[0]}
-                  >
-                    {item[1].substring(0, 3)}
-                  </option>
-                );
-              })}
-            </Select>
+              Due date
+            </FormLabel>
+            <Flex>
+              <Select
+                border="none"
+                w="60px"
+                bg={selectColor}
+                m="1"
+                ref={dayRef}
+                defaultValue={currentDay}
+                onChange={(e) => {
+                  setDay(e.target.value);
+                }}
+              >
+                {calculateDays(month).map((day) => {
+                  return (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  );
+                })}
+              </Select>
+              <Select
+                border="none"
+                w="60px"
+                bg={selectColor}
+                m="1"
+                ref={monthRef}
+                defaultValue={currentMonth}
+                onChange={(e) => setMonth(e.target.value)}
+              >
+                {months.map((item) => {
+                  return (
+                    <option
+                      selected={item[0] === month ? true : false}
+                      key={item[0]}
+                      value={item[0]}
+                    >
+                      {item[1].substring(0, 3)}
+                    </option>
+                  );
+                })}
+              </Select>
+            </Flex>
           </Flex>
           <Flex w="100%" justify="center">
             <Button

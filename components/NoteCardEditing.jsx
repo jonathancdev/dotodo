@@ -44,7 +44,7 @@ export default function NoteCardEditing({
           fontSize="12px"
           fontWeight="500"
           letterSpacing=".5px"
-          color="gray.600"
+          color="inherit"
           onChange={(e) => setTitle(e.toLowerCase())}
           startWithEditView="true"
           mt="0.25"
@@ -61,7 +61,7 @@ export default function NoteCardEditing({
               fontSize="12px"
               fontWeight="300"
               w="250px"
-              color="gray.600"
+              color="inherit"
               letterSpacing="0.5px"
               defaultValue={notes}
               onChange={(e) => setNotes(e.toLowerCase())}

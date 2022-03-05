@@ -12,6 +12,7 @@ import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 export default function MenuButton({
   project,
   toggleModal,
+  toggleBlur,
   deleteProject,
   currentProject,
   updateCurrentProject,
@@ -26,6 +27,13 @@ export default function MenuButton({
     }
   }, [notesList]);
 
+  const bgColor = useColorModeValue("white", "gray.800");
+  const activeBgColor = useColorModeValue("gray.300", "gray.900");
+  const hoverColor = useColorModeValue("gray.100", "gray.900");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const addBtnBg = useColorModeValue("gray.200", "gray.700");
+  const addBtnColor = useColorModeValue("gray.800", "gray.400");
+
   return (
     <>
       <Flex
@@ -36,8 +44,8 @@ export default function MenuButton({
         onMouseEnter={() => setShouldShowAdd(true)}
         onMouseLeave={() => setShouldShowAdd(false)}
         onClick={() => updateCurrentProject(project.name)}
-        _hover={{ bg: "gray.100" }}
-        bg={currentProject === project.name ? "gray.300" : "white"}
+        _hover={{ bg: hoverColor }}
+        bg={currentProject === project.name ? activeBgColor : bgColor}
       >
         <Flex align="center">
           <Box
@@ -48,7 +56,7 @@ export default function MenuButton({
             my="1"
             borderRadius="0"
             bg="inherit"
-            color="gray.600"
+            color={textColor}
             key={project.id}
             justifyContent="flex-start"
             w="100%"
@@ -58,44 +66,68 @@ export default function MenuButton({
           >
             {project.name}
           </Box>
-          <Flex
-            fontSize="12px"
-            color="primary"
-            fontWeight="800"
-            w="20px"
-            h="20px"
-            bg="transparent"
-            borderRadius="100%"
-            justify="center"
-            align="center"
-            m="0"
-            p="4"
-          >
-            {quantity}
-          </Flex>
+          {quantity > 0 && (
+            <Flex
+              fontSize="11px"
+              color="primary"
+              fontWeight="800"
+              w="20px"
+              h="20px"
+              bg="transparent"
+              borderRadius="100%"
+              justify="center"
+              align="center"
+              m="0"
+              p="4"
+            >
+              {quantity}
+            </Flex>
+          )}
         </Flex>
         {shouldShowAdd && (
-          <Flex bg="transparent" pos="absolute" right="3">
+          <Flex bg="transparent" pos="absolute" right="0">
             <IconButton
               fontSize="10px"
               borderRadius="100%"
               w="25px"
               h="25px"
-              mr="4"
+              m="0"
+              bg={useColorModeValue("gray.200", "gray.700")}
+              _hover={{
+                bg: useColorModeValue("gray.300", "gray.600"),
+                color: useColorModeValue("gray.700", "gray.200"),
+              }}
+              color={useColorModeValue("gray.600", "gray.300")}
               icon={<AddIcon />}
-              onClick={toggleModal}
-              bg="gray.300"
+              onClick={() => {
+                toggleModal();
+                toggleBlur();
+              }}
+              bg={addBtnBg}
+              color={addBtnColor}
             />
             <IconButton
-              fontSize="14px"
+              fontSize="12px"
               borderRadius="100%"
               w="25px"
               h="25px"
-              mr="4"
-              bg="gray.300"
+              ml="1"
+              mr="1"
+              opacity="0.7"
+              bg={useColorModeValue("gray.200", "gray.700")}
+              _hover={{
+                bg: useColorModeValue("gray.300", "gray.600"),
+                color: useColorModeValue("red.800", "gray.200"),
+                opacity: 1,
+              }}
+              color={useColorModeValue("gray.600", "gray.300")}
               color="red"
               icon={<DeleteIcon />}
-              onClick={() => deleteProject(project.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                updateCurrentProject("all");
+                deleteProject(project.id);
+              }}
             />
           </Flex>
         )}

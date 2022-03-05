@@ -18,6 +18,7 @@ import {
   signOut,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  deleteUser,
 } from "firebase/auth";
 
 //original
@@ -53,6 +54,7 @@ const firebase = () => {
     signOut,
     signInWithEmailAndPassword,
     onAuthStateChanged,
+    deleteUser,
     //store
     getFirestore,
     collection,

@@ -6,6 +6,9 @@ const buttonStyles = {
     color: "black",
     fontWeight: "700",
     mx: "2",
+    _active: {
+      transform: "scale(0.95)",
+    },
   },
   //styles for different sizes (sm, md, lg, xl)
   sizes: {
@@ -23,7 +26,7 @@ const buttonStyles = {
       color: mode("white", "gray.800")(props),
       _hover: {
         bg: mode(darken("primary", 10), whiten("primary", 10))(props),
-        boxShadow: "sm",
+        shadow: "sm",
       },
     }),
     primaryIcon: (props) => ({
@@ -31,7 +34,7 @@ const buttonStyles = {
       color: mode("white", "gray.800")(props),
       _hover: {
         bg: mode(darken("primary", 10), whiten("primary", 10))(props),
-        boxShadow: "sm",
+        shadow: "sm",
       },
     }),
     primaryOutline: (props) => ({
@@ -42,7 +45,7 @@ const buttonStyles = {
       _hover: {
         color: mode(darken("primary", 10), whiten("primary", 30))(props),
         borderColor: mode(darken("primary", 10), whiten("primary", 30))(props),
-        boxShadow: "sm",
+        shadow: "sm",
       },
     }),
     todo: (props) => ({
@@ -54,7 +57,7 @@ const buttonStyles = {
       color: mode("white", "gray.800")(props),
       _hover: {
         bg: mode(darken(props.bg, 10), whiten(props.bg, 10))(props),
-        boxShadow: "sm",
+        shadow: "sm",
       },
     }),
     iconTodo: (props) => ({
@@ -66,7 +69,7 @@ const buttonStyles = {
       color: mode("white", "gray.800")(props),
       _hover: {
         color: mode(darken(props.color, 10), whiten(props.color, 10))(props),
-        boxShadow: "sm",
+        shadow: "sm",
       },
     }),
     iconTodoClose: (props) => ({
@@ -76,7 +79,7 @@ const buttonStyles = {
       color: mode("white", "gray.800")(props),
       _hover: {
         color: mode(darken(props.color, 10), whiten(props.color, 10))(props),
-        boxShadow: "sm",
+        shadow: "sm",
       },
     }),
     todoDetails: (props) => ({
@@ -97,11 +100,11 @@ const buttonStyles = {
 
 const iconButtonStyles = {
   //style obj for base/default style
-  baseStyle: {
-    color: "black",
+  baseStyle: (props) => ({
+    color: mode("gray.800", "gray.300")(props),
     fontWeight: "700",
     m: "1",
-  },
+  }),
   //styles for different sizes (sm, md, lg, xl)
   // sizes: {
   //   sm: { h: "25px", w: "25px", fontSize: "12px" },
@@ -113,7 +116,7 @@ const iconButtonStyles = {
       color: mode("white", "gray.800")(props),
       _hover: {
         bg: mode(darken("primary", 10), whiten("primary", 10))(props),
-        boxShadow: "sm",
+        shadow: "sm",
       },
     }),
 
@@ -125,7 +128,7 @@ const iconButtonStyles = {
       _hover: {
         color: mode(darken("primary", 10), whiten("primary", 30))(props),
         borderColor: mode(darken("primary", 10), whiten("primary", 30))(props),
-        boxShadow: "sm",
+        shadow: "sm",
       },
     }),
     todo: (props) => ({
@@ -135,7 +138,7 @@ const iconButtonStyles = {
       color: mode("white", "gray.800")(props),
       _hover: {
         bg: mode(darken(props.bg, 10), whiten(props.bg, 10))(props),
-        boxShadow: "sm",
+        shadow: "sm",
       },
     }),
   },

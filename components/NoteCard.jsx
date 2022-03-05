@@ -19,6 +19,8 @@ export default function NoteCard({
 }) {
   //chakra color mode
   const borderColor = useColorModeValue("gray.400", "gray.500");
+  const bgColor = useColorModeValue("white", "gray.800");
+  const textColor = useColorModeValue("gray.600", "gray.300");
 
   //card view state
   const [editing, setEditing] = useState(false);
@@ -71,19 +73,20 @@ export default function NoteCard({
     <Flex
       ref={noteRef}
       h={shouldShowDetails ? "90px" : "40px"}
-      w="320px"
+      w="330px"
       alignItems="center"
       key={note.id}
       border="none"
       borderColor={borderColor}
       borderRadius="8px"
       py="4"
-      bg="white"
-      opacity={completed ? "0.5" : "1"}
+      bg={bgColor}
+      opacity={completed ? "0.6" : "1"}
       mb="1.5"
-      shadow={completed ? "none" : "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"}
+      boxShadow={completed ? "md" : "lg"}
       fontFamily="Work Sans"
       pos="relative"
+      color={textColor}
     >
       <Flex
         direction="column"
@@ -100,7 +103,7 @@ export default function NoteCard({
           width="18px"
           size="lg"
           iconColor="green"
-          borderColor={completed ? "green" : "red"}
+          borderColor={completed ? "green" : "primary"}
           isChecked={completed}
           onChange={() => setCompleted(!completed)}
         ></Checkbox>
@@ -115,27 +118,43 @@ export default function NoteCard({
       >
         {!shouldShowDetails && (
           <Button variant="todoDetails" onClick={toggleDetails} mr="-1">
-            <Box h="3px" w="3px" bg="primary" borderRadius="100%" mr="1"></Box>
-            <Box h="3px" w="3px" bg="primary" borderRadius="100%" mr="1"></Box>
-            <Box h="3px" w="3px" bg="primary" borderRadius="100%"></Box>
+            <Box
+              h="4px"
+              w="4px"
+              bg="primary"
+              borderRadius="100%"
+              mr="3px"
+            ></Box>
+            <Box
+              h="4px"
+              w="4px"
+              bg="primary"
+              borderRadius="100%"
+              mr="3px"
+            ></Box>
+            <Box h="4px" w="4px" bg="primary" borderRadius="100%"></Box>
           </Button>
         )}
         {shouldShowDetails && (
           <>
             <IconButton
               size="sm"
-              fontSize="9px"
+              fontSize="10px"
               bg="transparent"
-              color="primary"
+              color="gray.600"
               variant="iconTodo"
               aria-label="edit task"
-              onClick={() => setShouldShowDetails(false)}
+              onClick={() => {
+                setShouldShowDetails(false);
+                setEditing(false);
+              }}
               icon={<CloseIcon />}
             />
             {!editing && (
               <IconButton
                 size="sm"
-                color="purple"
+                fontSize="15px"
+                color="primary"
                 variant="iconTodo"
                 aria-label="edit task"
                 icon={<EditIcon />}
@@ -146,7 +165,10 @@ export default function NoteCard({
               <IconButton
                 size="sm"
                 fontSize="12px"
-                color="purple"
+                color="green"
+                _hover={{
+                  color: "green",
+                }}
                 variant="iconTodo"
                 aria-label="save task"
                 icon={<CheckIcon />}

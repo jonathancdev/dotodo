@@ -6,6 +6,7 @@ const {
   signOut,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  deleteUser,
 } = firebase();
 const formatAuthUser = (user) => ({
   uid: user.uid,
@@ -46,6 +47,7 @@ const useFirebaseAuth = () => {
     createUserWithEmailAndPassword,
     signOut,
     signInWithEmailAndPassword,
+    deleteUser,
     clear,
   };
 };

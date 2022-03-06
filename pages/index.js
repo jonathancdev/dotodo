@@ -106,6 +106,7 @@ export default function Home({ toggleBlur }) {
   const updateCurrentProject = (project) => {
     setCurrentProject(project);
   };
+
   console.log(currentProject);
   return (
     <Box as="main" w="100%" h="78vh" direction="column" pos="relative">
@@ -163,6 +164,7 @@ export default function Home({ toggleBlur }) {
           currentProject={currentProject}
         />
       )}
+
       {authUser && loading && <Spinner />}
     </Box>
   );

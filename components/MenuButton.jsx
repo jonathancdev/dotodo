@@ -9,15 +9,19 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import useConfirmationDialog from "../hooks/useConfirmationDialog";
 export default function MenuButton({
   project,
   toggleModal,
   toggleBlur,
+
   deleteProject,
   currentProject,
   updateCurrentProject,
   notesList,
 }) {
+  const { getConfirmation } = useConfirmationDialog();
+
   const [shouldShowAdd, setShouldShowAdd] = useState(false);
   const [quantity, setQuantity] = useState(null);
   useEffect(() => {
@@ -26,6 +30,20 @@ export default function MenuButton({
       setQuantity(filtered.length);
     }
   }, [notesList]);
+
+  const handleDeleteList = async () => {
+    //toggleBlur();
+    const confirmed = await getConfirmation({
+      title: "Are you sure?",
+      message: "This will delete the list " + project + ".",
+    });
+    if (confirmed) alert("confirmed");
+    // if ("confirm returns true") {
+    //   e.stopPropagation();
+    //   updateCurrentProject("all");
+    //   deleteProject(project.id);
+    // }
+  };
 
   const bgColor = useColorModeValue("white", "gray.800");
   const activeBgColor = useColorModeValue("gray.300", "gray.900");
@@ -124,9 +142,7 @@ export default function MenuButton({
               color="red"
               icon={<DeleteIcon />}
               onClick={(e) => {
-                e.stopPropagation();
-                updateCurrentProject("all");
-                deleteProject(project.id);
+                handleDeleteList();
               }}
             />
           </Flex>

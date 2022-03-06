@@ -5,6 +5,7 @@ import { AuthUserProvider } from "../context/AuthUserContext";
 import Layout from "../components/Layout";
 import theme from "../styles/theme";
 import { ChakraProvider } from "@chakra-ui/react";
+import ConfirmationDialogProvider from "../components/ConfirmationDialogProvider";
 import "../styles/globals.css";
 import "@fontsource/work-sans/100.css";
 import "@fontsource/work-sans/200.css";
@@ -28,9 +29,12 @@ function MyApp({ Component, pageProps }) {
           <meta name="description" content="description" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Layout shouldBackgroundBlur={shouldBackgroundBlur}>
-          <Component {...pageProps} toggleBlur={toggleBlur} />
-        </Layout>
+
+        <ConfirmationDialogProvider>
+          <Layout shouldBackgroundBlur={shouldBackgroundBlur}>
+            <Component {...pageProps} toggleBlur={toggleBlur} />
+          </Layout>
+        </ConfirmationDialogProvider>
       </AuthUserProvider>
     </ChakraProvider>
   );

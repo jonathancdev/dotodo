@@ -20,6 +20,7 @@ export default function Menu({
   projectsList,
   toggleModal,
   toggleBlur,
+
   deleteProject,
   currentProject,
   updateCurrentProject,
@@ -72,6 +73,7 @@ export default function Menu({
   const textColor = useColorModeValue("gray.600", "gray.300");
   const addListBtnBg = useColorModeValue("gray.200", "gray.700");
   const addListBtnColor = useColorModeValue("gray.800", "gray.400");
+  console.log(projectsList);
   return (
     <Flex
       h="100%"
@@ -159,20 +161,22 @@ export default function Menu({
         </Flex>
         {projectsList && (
           <>
-            {projectsList.map((project) => {
-              return (
-                <MenuButton
-                  key={project.id}
-                  project={project}
-                  toggleModal={toggleModal}
-                  toggleBlur={toggleBlur}
-                  deleteProject={deleteProject}
-                  currentProject={currentProject}
-                  updateCurrentProject={updateCurrentProject}
-                  notesList={notesList}
-                />
-              );
-            })}
+            {projectsList
+              .sort((a, b) => (a.name > b.name && 1) || -1)
+              .map((project) => {
+                return (
+                  <MenuButton
+                    key={project.id}
+                    project={project}
+                    toggleModal={toggleModal}
+                    toggleBlur={toggleBlur}
+                    deleteProject={deleteProject}
+                    currentProject={currentProject}
+                    updateCurrentProject={updateCurrentProject}
+                    notesList={notesList}
+                  />
+                );
+              })}
           </>
         )}
       </Flex>

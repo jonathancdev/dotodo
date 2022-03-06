@@ -51,16 +51,22 @@ export default function Menu({
   useOutsideClickHandler(inputRef, () => {
     handleOutsideClick();
   });
+  const deleteTask = (id) => {
+    const docRef = doc(db, "users", "USER_" + authUser.uid, "tasks", id);
+    deleteDoc(docRef).then(() => {});
+  };
 
   const handleSaveProject = () => {
-    if (project && !projectsList.some((p) => p.name === project)) {
-      setShouldShowAdd(false);
-      addDoc(collection(db, "users", "USER_" + authUser.uid, "projects"), {
-        name: project,
-      }).then(() => {
-        console.log("PROJECT SAVED");
-      });
-      updateCurrentProject(project);
+    if (project) {
+      if (!projectsList || !projectsList.some((p) => p.name === project)) {
+        setShouldShowAdd(false);
+        addDoc(collection(db, "users", "USER_" + authUser.uid, "projects"), {
+          name: project,
+        }).then(() => {
+          console.log("PROJECT SAVED");
+        });
+        updateCurrentProject(project);
+      }
     } else {
       setError(true);
     }
@@ -174,6 +180,7 @@ export default function Menu({
                     currentProject={currentProject}
                     updateCurrentProject={updateCurrentProject}
                     notesList={notesList}
+                    deleteTask={deleteTask}
                   />
                 );
               })}

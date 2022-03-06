@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useConfirmationDialog } from "./ConfirmationDialog";
 import {
   Flex,
   Heading,
@@ -9,19 +10,17 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import useConfirmationDialog from "../hooks/useConfirmationDialog";
 export default function MenuButton({
   project,
   toggleModal,
   toggleBlur,
-
+  deleteTask,
   deleteProject,
   currentProject,
   updateCurrentProject,
   notesList,
 }) {
   const { getConfirmation } = useConfirmationDialog();
-
   const [shouldShowAdd, setShouldShowAdd] = useState(false);
   const [quantity, setQuantity] = useState(null);
   useEffect(() => {
@@ -30,19 +29,25 @@ export default function MenuButton({
       setQuantity(filtered.length);
     }
   }, [notesList]);
-
-  const handleDeleteList = async () => {
-    //toggleBlur();
+  const deleteTasksInList = () => {
+    const filtered = notesList.filter((note) => note.list === project.name);
+    console.log(filtered);
+    filtered.forEach((task) => {
+      deleteTask(task.id);
+    });
+  };
+  const handleDeleteList = async (e) => {
     const confirmed = await getConfirmation({
       title: "Are you sure?",
-      message: "This will delete the list " + project + ".",
+      message: "This will delete the list " + project.name + " and its tasks.",
     });
-    if (confirmed) alert("confirmed");
-    // if ("confirm returns true") {
-    //   e.stopPropagation();
-    //   updateCurrentProject("all");
-    //   deleteProject(project.id);
-    // }
+    if (confirmed) {
+      e.stopPropagation();
+      updateCurrentProject("all");
+      deleteProject(project.id);
+      //testing
+      deleteTasksInList();
+    }
   };
 
   const bgColor = useColorModeValue("white", "gray.800");
@@ -121,8 +126,6 @@ export default function MenuButton({
                 toggleModal();
                 toggleBlur();
               }}
-              bg={addBtnBg}
-              color={addBtnColor}
             />
             <IconButton
               fontSize="12px"
@@ -138,11 +141,10 @@ export default function MenuButton({
                 color: useColorModeValue("red.800", "gray.200"),
                 opacity: 1,
               }}
-              color={useColorModeValue("gray.600", "gray.300")}
               color="red"
               icon={<DeleteIcon />}
               onClick={(e) => {
-                handleDeleteList();
+                handleDeleteList(e);
               }}
             />
           </Flex>

@@ -5,7 +5,18 @@ import *,
   padding: 0;
   box-sizing: border-box;
 }
-
+div::-webkit-scrollbar,
+section::-webkit-scrollbar,
+article::-webkit-scrollbar,
+main::-webkit-scrollbar {
+  display: none;
+}
+div,
+section,
+article,
+main {
+  scrollbar-width: none;
+}
 a {
   color: inherit;
   text-decoration: none;

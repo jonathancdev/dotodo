@@ -44,17 +44,16 @@ export default function TodoList({
       setFilteredNotes(notesList);
     } else {
       const filtered = notesList.filter((note) => note.list === currentProject);
-      setFilteredNotes(filtered);
+      const sortedByMonth = filtered.sort(
+        (a, b) => a.timestamp > b.timestamp && 1
+      );
+      setFilteredNotes(sortedByMonth);
     }
   }, [currentProject, notesList]);
 
   const handleDeleteSubmit = (id) => {
-    console.log(id);
     const docRef = doc(db, "users", "USER_" + authUser.uid, "tasks", id);
-    deleteDoc(docRef).then(() => {
-      // setLoading(false);
-    });
-    // setLoading(true);
+    deleteDoc(docRef).then(() => {});
   };
 
   const handleUpdateSubmit = (updatedValue, id) => {
@@ -66,6 +65,8 @@ export default function TodoList({
     // setLoading(true);
   };
   console.log(currentProject);
+  console.log(notesList);
+  console.log(filteredNotes);
   return (
     <Flex
       minW="350px"
@@ -81,17 +82,17 @@ export default function TodoList({
         pos="absolute"
         right="12"
         bottom="8"
-        fontSize="18px"
+        fontSize="24px"
         borderRadius="100%"
         w="45px"
         h="45px"
         shadow="md"
-        bg={useColorModeValue("gray.200", "gray.700")}
+        bg={useColorModeValue("gray.400", "gray.600")}
         _hover={{
-          bg: useColorModeValue("gray.300", "gray.600"),
-          color: useColorModeValue("gray.700", "gray.200"),
+          bg: useColorModeValue("gray.500", "gray.500"),
+          color: useColorModeValue("gray.200", "gray.300"),
         }}
-        color={useColorModeValue("gray.600", "gray.300")}
+        color={useColorModeValue("gray.100", "gray.400")}
         icon={<AddIcon />}
         onClick={() => {
           toggleModal();
@@ -122,7 +123,7 @@ export default function TodoList({
               );
             })}
           <>
-            {notesList && filteredNotes.length < 1 && (
+            {(!filteredNotes || filteredNotes.length < 1) && (
               <Flex
                 h="40px"
                 w="330px"

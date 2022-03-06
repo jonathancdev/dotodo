@@ -29,6 +29,7 @@ const theme = extendTheme({
     red: "#cd7182",
     purple: "#876eba",
     orange: "#D86800",
+    black70: "#000000b2",
   },
   components: {
     Button,

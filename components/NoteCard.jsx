@@ -114,7 +114,7 @@ export default function NoteCard({
         py="4"
         h="100%"
         pos="absolute"
-        right="2"
+        right="4"
       >
         {!shouldShowDetails && (
           <Button variant="todoDetails" onClick={toggleDetails} mr="-1">

@@ -5,7 +5,7 @@ import { AuthUserProvider } from "../context/AuthUserContext";
 import Layout from "../components/Layout";
 import theme from "../styles/theme";
 import { ChakraProvider } from "@chakra-ui/react";
-import ConfirmationDialogProvider from "../components/ConfirmationDialogProvider";
+import { ConfirmationDialogProvider } from "../components/ConfirmationDialog";
 import "../styles/globals.css";
 import "@fontsource/work-sans/100.css";
 import "@fontsource/work-sans/200.css";

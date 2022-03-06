@@ -26,6 +26,7 @@ export default function NewTaskModal({
   const date = new Date();
   const currentMonth = date.getMonth() + 1;
   const currentDay = date.getDate();
+  const timestamp = date.getTime();
   //outside click handler
   const modalRef = useRef();
   const handleOutsideClick = () => {
@@ -54,6 +55,7 @@ export default function NewTaskModal({
       notes: notesRef.current.value.toLowerCase(),
       month: monthRef.current.value,
       day: dayRef.current.value,
+      timestamp: timestamp,
     };
     return obj;
   };

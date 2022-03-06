@@ -10,6 +10,7 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
+import { useConfirmationDialog } from "../components/ConfirmationDialog";
 
 import { DeleteIcon } from "@chakra-ui/icons";
 export default function account() {
@@ -17,22 +18,30 @@ export default function account() {
   const { auth, authUser, loading, signOut, clear, deleteUser } = useAuth();
   const currentPath = router.pathname;
   const deleteIcon = <DeleteIcon pos="absolute" left="6" fontSize="12px" />;
+  const { getConfirmation } = useConfirmationDialog();
+
   const handleSignOut = () => {
     signOut(auth).then(() => {
       clear();
       router.push("/");
     });
   };
-  const handleDeleteUser = () => {
-    deleteUser(auth.currentUser)
-      .then(() => {
-        console.log("Successfully deleted user");
-        clear();
-        router.push("/");
-      })
-      .catch((error) => {
-        console.log("Error deleting user:", error);
-      });
+  const handleDeleteUser = async () => {
+    const confirmed = await getConfirmation({
+      title: "Are you sure?",
+      message: "This will permanently delete your account.",
+    });
+    if (confirmed) {
+      deleteUser(auth.currentUser)
+        .then(() => {
+          console.log("Successfully deleted user");
+          clear();
+          router.push("/");
+        })
+        .catch((error) => {
+          console.log("Error deleting user:", error);
+        });
+    }
   };
   return (
     <Flex as="section" m="10" py="10" h="90%" direction="column">

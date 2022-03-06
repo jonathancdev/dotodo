@@ -49,7 +49,7 @@ export default function Home({ toggleBlur }) {
           if (projects.length > 0) {
             setProjectsList(projects);
           } else {
-            setProjectsList(null);
+            setProjectsList([]);
           }
         }
       );
@@ -68,7 +68,7 @@ export default function Home({ toggleBlur }) {
           if (notes.length > 0) {
             setNotesList(notes);
           } else {
-            setNotesList(null);
+            setNotesList([]);
           }
         }
       );
@@ -77,7 +77,7 @@ export default function Home({ toggleBlur }) {
 
   const handleSaveSubmit = (obj) => {
     // setLoading(true);
-    const { list, title, notes, month, day } = obj;
+    const { list, title, notes, month, day, timestamp } = obj;
     addDoc(collection(db, "users", "USER_" + authUser.uid, "tasks"), {
       list: list,
       title: title,
@@ -85,6 +85,7 @@ export default function Home({ toggleBlur }) {
       month: parseInt(month, 10),
       day: parseInt(day, 10),
       completed: false,
+      timestamp: timestamp,
     }).then(() => {
       console.log("NEW TASK ADDED");
     });
@@ -133,7 +134,15 @@ export default function Home({ toggleBlur }) {
           </Flex>
         </>
       )}
-      <Flex height="100%" w="100%" bg={bgColor} pl="4" py="4" flexShrink="0">
+      <Flex
+        maxH="600px"
+        height="100%"
+        w="100%"
+        bg={bgColor}
+        pl="4"
+        py="4"
+        flexShrink="0"
+      >
         {!loading && authUser && (
           <Menu
             notesList={notesList}

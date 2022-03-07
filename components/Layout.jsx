@@ -13,7 +13,10 @@ export default function Layout({ children, shouldBackgroundBlur }) {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      bg={bgColor}
+      bg={{
+        base: "transparent",
+        md: bgColor,
+      }}
       pos="relative"
     >
       {shouldBackgroundBlur && <Backdrop />}

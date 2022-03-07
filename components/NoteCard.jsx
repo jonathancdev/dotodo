@@ -73,7 +73,11 @@ export default function NoteCard({
     <Flex
       ref={noteRef}
       h={shouldShowDetails ? "90px" : "40px"}
-      w="330px"
+      minW="320px"
+      w={{
+        base: "90vw",
+        md: "330px",
+      }}
       alignItems="center"
       key={note.id}
       border="none"

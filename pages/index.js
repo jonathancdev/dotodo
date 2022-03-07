@@ -110,7 +110,14 @@ export default function Home({ toggleBlur }) {
 
   console.log(currentProject);
   return (
-    <Box as="main" w="100%" h="78vh" direction="column" pos="relative">
+    <Box
+      border="1px solid"
+      as="main"
+      w="100%"
+      h="100vh"
+      direction="column"
+      pos="relative"
+    >
       {!authUser && !loading && (
         <>
           <Flex mb={8}>
@@ -134,8 +141,17 @@ export default function Home({ toggleBlur }) {
           </Flex>
         </>
       )}
+
       <Flex
-        maxH="600px"
+        direction={{
+          base: "column",
+          md: "row",
+        }}
+        align={{
+          base: "center",
+          md: "start",
+        }}
+        pos="rel"
         height="100%"
         w="100%"
         bg={bgColor}
@@ -164,6 +180,7 @@ export default function Home({ toggleBlur }) {
           />
         )}
       </Flex>
+
       {shouldModalShow && (
         <NewTaskModal
           handleSaveSubmit={handleSaveSubmit}

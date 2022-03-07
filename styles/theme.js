@@ -4,6 +4,7 @@ import {
   withDefaultColorScheme,
   withDefaultVariant,
 } from "@chakra-ui/react";
+import { createBreakpoints } from "@chakra-ui/theme-tools";
 import {
   buttonStyles as Button,
   iconButtonStyles as IconButton,
@@ -18,8 +19,16 @@ const config = {
   initialColorMode: "light",
   useSystemColorMode: false,
 };
-
+const breakpoints = createBreakpoints({
+  xs: "300px",
+  sm: "375px",
+  md: "600px",
+  lg: "800px",
+  xl: "1200px",
+  "2xl": "1536px",
+});
 const theme = extendTheme({
+  breakpoints,
   colors: {
     primary: "#6c8ccf",
     pink: "#FF99D5",

@@ -40,14 +40,12 @@ export default function TodoList({
   //filter noteslist based on currentProject
   const [filteredNotes, setFilteredNotes] = useState([]);
   useEffect(() => {
+    const sorted = notesList.sort((a, b) => a.timestamp < b.timestamp && 1);
     if (currentProject === "all") {
-      setFilteredNotes(notesList);
+      setFilteredNotes(sorted);
     } else {
-      const filtered = notesList.filter((note) => note.list === currentProject);
-      const sortedByMonth = filtered.sort(
-        (a, b) => a.timestamp > b.timestamp && 1
-      );
-      setFilteredNotes(sortedByMonth);
+      const filtered = sorted.filter((note) => note.list === currentProject);
+      setFilteredNotes(filtered);
     }
   }, [currentProject, notesList]);
 
@@ -69,19 +67,29 @@ export default function TodoList({
   console.log(filteredNotes);
   return (
     <Flex
-      minW="350px"
-      w="350px"
-      h="100%;"
+      minW="320px"
+      w={{
+        base: "90vw",
+        md: "330px",
+      }}
+      h="75%"
       borderRadius="3px"
       as="main"
       direction="column"
       align="center"
-      pos="relative"
+      pos={{
+        base: "static",
+        md: "relative",
+      }}
+      mr="3"
     >
       <IconButton
         pos="absolute"
         right="12"
-        bottom="8"
+        bottom={{
+          base: "18%",
+          md: "8",
+        }}
         fontSize="24px"
         borderRadius="100%"
         w="45px"
@@ -102,7 +110,10 @@ export default function TodoList({
       />
       <Flex
         width="100%"
-        h="100%"
+        h={{
+          base: "85%",
+          md: "100%",
+        }}
         direction="column"
         align="center"
         pos="relative"
@@ -126,7 +137,10 @@ export default function TodoList({
             {(!filteredNotes || filteredNotes.length < 1) && (
               <Flex
                 h="40px"
-                w="330px"
+                w={{
+                  base: "90vw",
+                  md: "330px",
+                }}
                 p="8"
                 justify="center"
                 alignItems="center"

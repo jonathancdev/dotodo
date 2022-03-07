@@ -10,6 +10,7 @@ import {
   Button,
   useColorModeValue,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { AddIcon, CheckIcon } from "@chakra-ui/icons";
 import { useAuth } from "../context/AuthUserContext";
@@ -71,7 +72,6 @@ export default function Menu({
       setError(true);
     }
   };
-  const handleAddClick = () => {};
   const bgColor = useColorModeValue("white", "gray.800");
   const btnBgColor = useColorModeValue("white", "gray.800");
   const btnActiveBgColor = useColorModeValue("gray.300", "gray.900");
@@ -79,17 +79,31 @@ export default function Menu({
   const textColor = useColorModeValue("gray.600", "gray.300");
   const addListBtnBg = useColorModeValue("gray.200", "gray.700");
   const addListBtnColor = useColorModeValue("gray.800", "gray.400");
+
+  const { isOpen, onToggle } = useDisclosure();
   console.log(projectsList);
   return (
     <Flex
-      h="100%"
-      w="250px"
+      minW={{
+        base: "320px",
+        md: "250px",
+      }}
+      w={{
+        base: "90vw",
+        md: "250px",
+      }}
+      h={{
+        base: "25%",
+        md: "100%",
+      }}
       bg={bgColor}
       borderRadius="8px"
       shadow="md"
       direction="column"
       py="5"
       flexShrink="0"
+      mb="5"
+      mr="3"
     >
       <Flex ref={inputRef} align="center" justify="space-between">
         {!shouldShowAdd ? (
@@ -137,7 +151,16 @@ export default function Menu({
         />
       </Flex>
 
-      <Flex w="100%" direction="column" my="3">
+      <Flex
+        w="100%"
+        direction="column"
+        my="3"
+        maxH={{
+          base: "90px",
+          md: "100%",
+        }}
+        overflow="scroll"
+      >
         <Flex
           align="center"
           justify="space-between"
@@ -147,23 +170,44 @@ export default function Menu({
           cursor="pointer"
           bg={currentProject === "all" ? btnActiveBgColor : btnBgColor}
           px="2"
+          height="100%"
         >
-          <Box
-            fontSize="16px"
-            fontWeight="600"
-            letterSpacing=".5px"
-            mx="4"
-            my="1"
-            borderRadius="0"
-            bg="inherit"
-            color={textColor}
-            key="defaultproject"
-            justifyContent="flex-start"
-            w="100%"
-            _hover={{ bg: "transparent" }}
-          >
-            all tasks
-          </Box>
+          <Flex align="center">
+            <Box
+              fontSize="16px"
+              fontWeight="600"
+              letterSpacing=".5px"
+              mx="4"
+              my="1"
+              borderRadius="0"
+              bg="inherit"
+              color={textColor}
+              key="defaultproject"
+              justifyContent="flex-start"
+              w="100%"
+              _hover={{ bg: "transparent" }}
+            >
+              all tasks
+            </Box>
+            {notesList.length > 0 && (
+              <Flex
+                fontSize="12px"
+                color="primary"
+                fontWeight="800"
+                w="20px"
+                h="100%"
+                bg="transparent"
+                borderRadius="100%"
+                justify="center"
+                align="center"
+                m="0"
+                mt="2.5px"
+                px="4"
+              >
+                {notesList.length}
+              </Flex>
+            )}
+          </Flex>
         </Flex>
         {projectsList && (
           <>

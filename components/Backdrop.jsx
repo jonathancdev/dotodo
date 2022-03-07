@@ -7,8 +7,8 @@ export default function Backdrop() {
       className="backdrop"
       bg="black"
       pos="absolute"
-      h="100rem"
-      w="100rem"
+      h="100vh"
+      w="100vw"
       zIndex="4"
       opacity=".7"
     ></Flex>

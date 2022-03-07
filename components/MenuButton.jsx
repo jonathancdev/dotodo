@@ -45,7 +45,7 @@ export default function MenuButton({
       e.stopPropagation();
       updateCurrentProject("all");
       deleteProject(project.id);
-      //testing
+
       deleteTasksInList();
     }
   };
@@ -71,7 +71,7 @@ export default function MenuButton({
         bg={currentProject === project.name ? activeBgColor : bgColor}
       >
         <Flex align="center">
-          <Box
+          <Flex
             fontSize="16px"
             fontWeight="600"
             letterSpacing=".5px"
@@ -81,27 +81,29 @@ export default function MenuButton({
             bg="inherit"
             color={textColor}
             key={project.id}
-            justifyContent="flex-start"
+            align="center"
             w="100%"
+            h="100%"
             pos="relative"
             _hover={{ bg: "transparent" }}
             px="6"
           >
             {project.name}
-          </Box>
-          {quantity > 0 && (
+          </Flex>
+          {quantity > 0 && shouldShowAdd && (
             <Flex
-              fontSize="11px"
+              fontSize="12px"
               color="primary"
               fontWeight="800"
               w="20px"
-              h="20px"
+              h="100%"
               bg="transparent"
               borderRadius="100%"
               justify="center"
               align="center"
               m="0"
-              p="4"
+              mt="2.5px"
+              px="4"
             >
               {quantity}
             </Flex>

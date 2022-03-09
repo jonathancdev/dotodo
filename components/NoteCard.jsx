@@ -75,7 +75,7 @@ export default function NoteCard({
       h={shouldShowDetails ? "90px" : "40px"}
       minW="320px"
       w={{
-        base: "90vw",
+        base: "95vw",
         md: "330px",
       }}
       alignItems="center"

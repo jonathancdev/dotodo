@@ -111,9 +111,9 @@ export default function Home({ toggleBlur }) {
   console.log(currentProject);
   return (
     <Box
-      border="1px solid"
       as="main"
       w="100%"
+      minH="100vh"
       h="100vh"
       direction="column"
       pos="relative"
@@ -151,13 +151,16 @@ export default function Home({ toggleBlur }) {
           base: "center",
           md: "start",
         }}
-        pos="rel"
+        minH="0"
+        //height must be 100 on md
         height="100%"
+        maxH="88vh"
         w="100%"
         bg={bgColor}
         pl="4"
         py="4"
-        flexShrink="0"
+        //
+        overflow="hidden"
       >
         {!loading && authUser && (
           <Menu

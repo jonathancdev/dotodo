@@ -76,7 +76,7 @@ export default function NewTaskModal({
 
   return (
     <Flex
-      top="0"
+      top={{ base: "15%", md: "0" }}
       pos="absolute"
       w="100vw"
       h="100vh"

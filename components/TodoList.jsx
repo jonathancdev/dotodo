@@ -69,10 +69,11 @@ export default function TodoList({
     <Flex
       minW="320px"
       w={{
-        base: "90vw",
+        base: "95vw",
         md: "330px",
       }}
-      h="75%"
+      h={{ base: "100%", md: "100%" }}
+      // h="100%"
       borderRadius="3px"
       as="main"
       direction="column"
@@ -81,13 +82,18 @@ export default function TodoList({
         base: "static",
         md: "relative",
       }}
-      mr="3"
+      mr="4"
+      //make space for last task if overflown
+      pb={{
+        base: "10",
+        md: "0",
+      }}
     >
       <IconButton
         pos="absolute"
-        right="12"
+        right="8%"
         bottom={{
-          base: "18%",
+          base: "15%",
           md: "8",
         }}
         fontSize="24px"
@@ -111,7 +117,7 @@ export default function TodoList({
       <Flex
         width="100%"
         h={{
-          base: "85%",
+          base: "auto",
           md: "100%",
         }}
         direction="column"
@@ -138,7 +144,7 @@ export default function TodoList({
               <Flex
                 h="40px"
                 w={{
-                  base: "90vw",
+                  base: "95vw",
                   md: "330px",
                 }}
                 p="8"

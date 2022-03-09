@@ -38,12 +38,12 @@ const Header = () => {
   return (
     <Flex
       bg={{
-        base: "transparent",
+        base: "gray.200",
         md: "inherit",
       }}
       pos="relative"
       px={8}
-      mb="3"
+      mb="1"
       as="header"
       h={{
         base: "4rem",
@@ -52,15 +52,33 @@ const Header = () => {
       width="100vw"
     >
       <Flex w="100%" align="center" maxW="580px">
-        <Box mt="8" p={2}>
+        <Box
+          mt={{
+            base: "4",
+            md: "8",
+          }}
+          p={2}
+        >
           {currentPath !== "/" ? (
             <Link href="/">
-              <Heading size="lg" variant="logo">
+              <Heading
+                fontSize={{
+                  base: "13px",
+                  md: "20px",
+                }}
+                variant="logo"
+              >
                 DO_TODO
               </Heading>
             </Link>
           ) : (
-            <Heading size="lg" variant="logo">
+            <Heading
+              fontSize={{
+                base: "13px",
+                md: "20px",
+              }}
+              variant="logo"
+            >
               DO_TODO
             </Heading>
           )}
@@ -72,7 +90,10 @@ const Header = () => {
             md: "none",
           }}
           align="center"
-          mt="8"
+          mt={{
+            base: "4",
+            md: "8",
+          }}
         >
           {currentPath !== "/account" && (
             <IconButton
@@ -134,7 +155,7 @@ const Header = () => {
               w="50vw"
               px="3"
               py="3px"
-              bg="inherit"
+              bg="gray.200"
               display={{
                 base: "flex",
                 md: "none",

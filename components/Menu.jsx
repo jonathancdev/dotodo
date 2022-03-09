@@ -7,6 +7,7 @@ import {
   IconButton,
   Input,
   Box,
+  Select,
   Button,
   useColorModeValue,
   Text,
@@ -89,11 +90,12 @@ export default function Menu({
         md: "250px",
       }}
       w={{
-        base: "90vw",
+        base: "95vw",
         md: "250px",
       }}
+      //minH="120px"
       h={{
-        base: "25%",
+        base: "auto",
         md: "100%",
       }}
       bg={bgColor}
@@ -101,9 +103,8 @@ export default function Menu({
       shadow="md"
       direction="column"
       py="5"
-      flexShrink="0"
       mb="5"
-      mr="3"
+      mr="4"
     >
       <Flex ref={inputRef} align="center" justify="space-between">
         {!shouldShowAdd ? (
@@ -156,11 +157,30 @@ export default function Menu({
         direction="column"
         my="3"
         maxH={{
-          base: "90px",
+          base: "40px",
           md: "100%",
         }}
         overflow="scroll"
       >
+        <Flex px="6" w="90%" display={{ base: "flex", md: "none" }}>
+          <Select
+            fontSize="15px"
+            fontWeight="500"
+            color="gray.600"
+            letterSpacing="1px"
+            h="4rem"
+            borderRadius="8px"
+            onChange={(e) => updateCurrentProject(e.target.value)}
+          >
+            <option key={"all"} value="all">
+              all tasks
+            </option>
+            {projectsList &&
+              projectsList.map((project) => {
+                return <option key={project.id}>{project.name}</option>;
+              })}
+          </Select>
+        </Flex>
         <Flex
           align="center"
           justify="space-between"
@@ -171,6 +191,7 @@ export default function Menu({
           bg={currentProject === "all" ? btnActiveBgColor : btnBgColor}
           px="2"
           height="100%"
+          display={{ base: "none", md: "flex" }}
         >
           <Flex align="center">
             <Box
@@ -210,7 +231,7 @@ export default function Menu({
           </Flex>
         </Flex>
         {projectsList && (
-          <>
+          <Flex direction="column" display={{ base: "none", md: "flex" }}>
             {projectsList
               .sort((a, b) => (a.name > b.name && 1) || -1)
               .map((project) => {
@@ -228,7 +249,7 @@ export default function Menu({
                   />
                 );
               })}
-          </>
+          </Flex>
         )}
       </Flex>
     </Flex>

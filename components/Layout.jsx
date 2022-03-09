@@ -14,7 +14,7 @@ export default function Layout({ children, shouldBackgroundBlur }) {
       alignItems="center"
       justifyContent="center"
       bg={{
-        base: "transparent",
+        base: "gray.200",
         md: bgColor,
       }}
       pos="relative"

@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/AuthUserContext";
 import {
   Flex,
   Box,
-  Spacer,
   Heading,
   Button,
   Link,
@@ -12,7 +11,6 @@ import {
   useColorMode,
   useColorModeValue,
   Drawer,
-  DrawerOverlay,
   DrawerContent,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -37,27 +35,32 @@ const Header = () => {
 
   return (
     <Flex
-      bg={{
-        base: "gray.200",
-        md: "inherit",
-      }}
+      bg={useColorModeValue("gray.200", "gray.900")}
       pos="relative"
-      px={8}
       mb="1"
       as="header"
       h={{
         base: "4rem",
         md: "7rem",
       }}
-      width="100vw"
+      w={{
+        base: "99%",
+        md: "100%",
+      }}
+      minW="320px"
+      maxW={{
+        base: "none",
+        md: "610px",
+      }}
+      px="6"
+      justify="center"
     >
-      <Flex w="100%" align="center" maxW="580px">
+      <Flex w="100%" align="center" minW="320px" justify="space-between">
         <Box
           mt={{
             base: "4",
             md: "8",
           }}
-          p={2}
         >
           {currentPath !== "/" ? (
             <Link href="/">
@@ -83,7 +86,6 @@ const Header = () => {
             </Heading>
           )}
         </Box>
-        <Spacer />
         <Flex
           display={{
             base: "block",
@@ -95,11 +97,13 @@ const Header = () => {
             md: "8",
           }}
         >
-          {currentPath !== "/account" && (
+          {authUser && currentPath !== "/account" && (
             <IconButton
               variant="primaryOutline"
               size="sm"
               w="25px"
+              mr="0"
+              my="0"
               onClick={onOpen}
               icon={<HamburgerIcon />}
             ></IconButton>
@@ -151,11 +155,12 @@ const Header = () => {
               justify="center"
               align="end"
               right="0"
+              top="-1"
               h="55px"
-              w="50vw"
+              w="auto"
               px="3"
-              py="3px"
-              bg="gray.200"
+              py="4px"
+              bg={useColorModeValue("gray.200", "gray.900")}
               display={{
                 base: "flex",
                 md: "none",
@@ -171,6 +176,7 @@ const Header = () => {
                     fontSize="10px"
                     w="60px"
                     onClick={onClose}
+                    m="0"
                   />
                 </>
               )}

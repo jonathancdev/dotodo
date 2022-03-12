@@ -39,12 +39,15 @@ export default function NoteCard({
   const handleOutsideClick = () => {
     setShouldShowDetails(false);
     setEditing(false);
+    handleUpdate();
   };
   useOutsideClickHandler(noteRef, () => {
     if (shouldShowDetails) {
       handleOutsideClick();
     }
   });
+  //ref for checkbox focus onclick so that onblur will fire in safari >:-|
+  const checkboxRef = useRef();
   //event listeners
   const handleUpdate = () => {
     //pass obj w/ state values up to parent
@@ -73,7 +76,7 @@ export default function NoteCard({
     <Flex
       ref={noteRef}
       h={shouldShowDetails ? "90px" : "40px"}
-      minW="320px"
+      minW="330px"
       w={{
         base: "95vw",
         md: "330px",
@@ -91,6 +94,7 @@ export default function NoteCard({
       fontFamily="Work Sans"
       pos="relative"
       color={textColor}
+      onClick={toggleDetails}
     >
       <Flex
         direction="column"
@@ -101,6 +105,7 @@ export default function NoteCard({
         left="1"
       >
         <Checkbox
+          ref={checkboxRef}
           p="1"
           mx={3}
           height="18px"
@@ -109,7 +114,11 @@ export default function NoteCard({
           iconColor="green"
           borderColor={completed ? "green" : "primary"}
           isChecked={completed}
-          onChange={() => setCompleted(!completed)}
+          onChange={() => {
+            setCompleted(!completed);
+            checkboxRef.current.focus();
+          }}
+          onBlur={handleUpdate}
         ></Checkbox>
       </Flex>
       <Flex
@@ -121,7 +130,12 @@ export default function NoteCard({
         right="4"
       >
         {!shouldShowDetails && (
-          <Button variant="todoDetails" onClick={toggleDetails} mr="-1">
+          <Button
+            variant="todoDetails"
+            onClick={toggleDetails}
+            mr="-1"
+            cursor="default"
+          >
             <Box
               h="4px"
               w="4px"
@@ -148,6 +162,7 @@ export default function NoteCard({
               color="gray.600"
               variant="iconTodo"
               aria-label="edit task"
+              cursor="default"
               onClick={() => {
                 setShouldShowDetails(false);
                 setEditing(false);
@@ -162,7 +177,10 @@ export default function NoteCard({
                 variant="iconTodo"
                 aria-label="edit task"
                 icon={<EditIcon />}
-                onClick={() => setEditing(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setEditing(true);
+                }}
               />
             )}
             {editing && (
@@ -176,7 +194,10 @@ export default function NoteCard({
                 variant="iconTodo"
                 aria-label="save task"
                 icon={<CheckIcon />}
-                onClick={handleUpdate}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleUpdate();
+                }}
               />
             )}
             <IconButton
@@ -185,7 +206,10 @@ export default function NoteCard({
               variant="iconTodo"
               aria-label="delete task"
               icon={<DeleteIcon />}
-              onClick={() => handleDeleteSubmit(note.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteSubmit(note.id);
+              }}
             />
           </>
         )}

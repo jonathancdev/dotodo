@@ -7,6 +7,7 @@ const {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   deleteUser,
+  signInAnonymously,
 } = firebase();
 const formatAuthUser = (user) => ({
   uid: user.uid,
@@ -49,6 +50,7 @@ const useFirebaseAuth = () => {
     signInWithEmailAndPassword,
     deleteUser,
     clear,
+    signInAnonymously,
   };
 };
 export default useFirebaseAuth;

@@ -5,9 +5,9 @@ import useFirestore from "../firebase/useFirestore";
 import {
   Flex,
   Heading,
-  Text,
   Spinner,
   Box,
+  Button,
   useColorModeValue,
 } from "@chakra-ui/react";
 import ChakraNextLinkButton from "../components/ChakraNextLinkButton";
@@ -15,7 +15,7 @@ import TodoList from "../components/TodoList";
 import Menu from "../components/Menu";
 import NewTaskModal from "../components/NewTaskModal";
 
-export default function Home({ toggleBlur }) {
+export default function Home() {
   const {
     db,
     collection,
@@ -30,10 +30,14 @@ export default function Home({ toggleBlur }) {
   //chakra color mode
   const bgColor = useColorModeValue("gray.200", "gray.900");
 
-  const { authUser, loading } = useAuth();
+  const { auth, authUser, loading, signInAnonymously } = useAuth();
   const [spinnerShouldShow, setSpinnerShouldShow] = useState(true);
   const [projectsList, setProjectsList] = useState(null);
-  const [currentProject, setCurrentProject] = useState("all");
+  // const [currentProject, setCurrentProject] = useState({
+  //   name: "all",
+  //   id: "alltasksid",
+  // });
+  const [currentProject, setCurrentProject] = useState({});
   const [notesList, setNotesList] = useState([]);
   const [shouldModalShow, setShouldModalShow] = useState(false);
 
@@ -74,7 +78,12 @@ export default function Home({ toggleBlur }) {
       );
     }
   }, [loading]);
-
+  useEffect(() => {
+    console.log(currentProject);
+    if (Object.keys(currentProject).length == 0) {
+      setCurrentProject({ name: "all", id: "alltasksid" });
+    }
+  }, [currentProject]);
   const handleSaveSubmit = (obj) => {
     // setLoading(true);
     const { list, title, notes, month, day, timestamp } = obj;
@@ -105,10 +114,28 @@ export default function Home({ toggleBlur }) {
   };
 
   const updateCurrentProject = (project) => {
-    setCurrentProject(project);
+    const obj = projectsList.find((p) => p.name === project);
+    if (project === "all") {
+      setCurrentProject({ name: "all", id: "alltasksid" });
+    } else if (obj) {
+      setCurrentProject(obj);
+    } else {
+      setCurrentProject({ name: project, id: "tempid" });
+    }
   };
 
-  console.log(currentProject);
+  const startTrialSession = () => {
+    signInAnonymously(auth)
+      .then(() => {
+        // Signed in..
+      })
+      .catch((error) => {
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // ...
+      });
+  };
+
   return (
     <Box
       as="main"
@@ -119,27 +146,52 @@ export default function Home({ toggleBlur }) {
       pos="relative"
     >
       {!authUser && !loading && (
-        <>
-          <Flex mb={8}>
-            <Heading size="md">Welcome to</Heading>
-            <Heading variant="logo" size="sm" mx={3} mt={0.5}>
+        <Flex p="20" direction="column" maxW="600px">
+          <Flex justify="center" mb={8}>
+            <Heading size="sm">Welcome to</Heading>
+            <Heading variant="logo" size="sm" mx="2" mt={0.5}>
               DO_TODO
             </Heading>
-            <Heading size="md">!</Heading>
+            <Heading size="sm">!</Heading>
           </Flex>
-          <Flex>
+          <Flex align="center" justify="center">
             <ChakraNextLinkButton
               variant="primary"
               href="/signin"
               text="sign in"
+              w="80px"
             />
             <ChakraNextLinkButton
               variant="primary"
               href="/signup"
               text="sign up"
+              w="80px"
             />
           </Flex>
-        </>
+          <Flex w="100%" justify="center">
+            <Button
+              opacity="0.7"
+              bg="inherit"
+              mt="4"
+              fontSize="12px"
+              fontWeight="600"
+              letterSpacing="1px"
+              color="primary"
+              as="button"
+              w="37%"
+              borderBottom="solid"
+              borderWidth="1px"
+              height="24px"
+              borderRadius="0"
+              onClick={startTrialSession}
+              _hover={{
+                opacity: "1",
+              }}
+            >
+              try it anonymously
+            </Button>
+          </Flex>
+        </Flex>
       )}
 
       <Flex
@@ -167,7 +219,6 @@ export default function Home({ toggleBlur }) {
             notesList={notesList}
             projectsList={projectsList}
             toggleModal={toggleModal}
-            toggleBlur={toggleBlur}
             deleteProject={deleteProject}
             currentProject={currentProject}
             updateCurrentProject={updateCurrentProject}
@@ -176,7 +227,6 @@ export default function Home({ toggleBlur }) {
         {!loading && authUser && (
           <TodoList
             toggleModal={toggleModal}
-            toggleBlur={toggleBlur}
             notesList={notesList}
             projectsList={projectsList}
             currentProject={currentProject}
@@ -188,7 +238,6 @@ export default function Home({ toggleBlur }) {
         <NewTaskModal
           handleSaveSubmit={handleSaveSubmit}
           toggleModal={toggleModal}
-          toggleBlur={toggleBlur}
           projectsList={projectsList}
           currentProject={currentProject}
         />

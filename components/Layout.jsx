@@ -1,26 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { Flex, useColorModeValue } from "@chakra-ui/react";
 import Header from "./Header";
 import Footer from "./Footer";
-import Backdrop from "./Backdrop";
 
-export default function Layout({ children, shouldBackgroundBlur }) {
+export default function Layout({ children }) {
   const bgColor = useColorModeValue("white", "gray.800");
   return (
     <Flex
       height="100vh"
       className="layout"
       flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      bg={{
-        base: "gray.200",
-        md: bgColor,
+      align={{
+        base: "center",
+        md: "start",
       }}
+      justifyContent="center"
+      bg={useColorModeValue("gray.200", "gray.900")}
       pos="relative"
     >
-      {shouldBackgroundBlur && <Backdrop />}
-
       <Header />
       <section className="layout__main">{children}</section>
       <Footer />

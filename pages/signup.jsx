@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useAuth } from "../context/AuthUserContext";
 import useFirestore from "../firebase/useFirestore";
 import { useRouter } from "next/router";
@@ -11,17 +11,25 @@ export default function SignUp() {
   const { db, collection, doc, setDoc } = useFirestore();
   const emailRef = useRef();
   const passwordRef = useRef();
+
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    createUserWithEmailAndPassword(auth, email, password).then(
-      (userCredential) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
         const user = userCredential.user;
         createUserCollection(user);
         router.push("/");
-      }
-    );
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setError(true);
+        setErrorMessage("sign up failed");
+      });
     emailRef.current.value = "";
     passwordRef.current.value = "";
   };
@@ -42,9 +50,9 @@ export default function SignUp() {
     });
   };
   return (
-    <Flex direction="column" p={12} rounded={6}>
+    <Flex align="center" direction="column" p={12} rounded={6} maxW="600px">
       <form onSubmit={handleSubmit} action="">
-        <Flex direction="column" alignItems="center">
+        <Flex maxW="350px" direction="column" alignItems="center">
           <Heading p={2.5} mb={2} alignSelf="start">
             sign up:
           </Heading>
@@ -64,6 +72,20 @@ export default function SignUp() {
             w={250}
             variant="primary"
           />
+          {error && (
+            <Flex
+              borderRadius="2px"
+              w="250px"
+              align="center"
+              color="red"
+              fontWeight="500"
+              letterSpacing="1px"
+              mb="3"
+              p="1"
+            >
+              {errorMessage}
+            </Flex>
+          )}
           <Button variant="primaryOutline" type="submit" mb={4} w={250}>
             submit
           </Button>

@@ -17,10 +17,6 @@ import "@fontsource/work-sans/700.css";
 import "@fontsource/work-sans/800.css";
 
 function MyApp({ Component, pageProps }) {
-  const [shouldBackgroundBlur, setShouldBackgroundBlur] = useState(false);
-  const toggleBlur = () => {
-    setShouldBackgroundBlur(!shouldBackgroundBlur);
-  };
   return (
     <ChakraProvider theme={theme}>
       <AuthUserProvider>
@@ -31,8 +27,8 @@ function MyApp({ Component, pageProps }) {
         </Head>
 
         <ConfirmationDialogProvider>
-          <Layout shouldBackgroundBlur={shouldBackgroundBlur}>
-            <Component {...pageProps} toggleBlur={toggleBlur} />
+          <Layout>
+            <Component {...pageProps} />
           </Layout>
         </ConfirmationDialogProvider>
       </AuthUserProvider>

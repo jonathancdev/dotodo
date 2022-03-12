@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import MenuButton from "./MenuButton";
+import { useConfirmationDialog } from "./ConfirmationDialog";
+
 import useOutsideClickHandler from "../hooks/useOutsideClickHandler";
 import {
   Flex,
@@ -8,21 +10,18 @@ import {
   Input,
   Box,
   Select,
-  Button,
   useColorModeValue,
-  Text,
-  useDisclosure,
 } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
 import { AddIcon, CheckIcon } from "@chakra-ui/icons";
 import { useAuth } from "../context/AuthUserContext";
 import useFirestore from "../firebase/useFirestore";
+import MobileProjectSelect from "./MobileProjectSelect";
 
 export default function Menu({
   notesList,
   projectsList,
   toggleModal,
-  toggleBlur,
-
   deleteProject,
   currentProject,
   updateCurrentProject,
@@ -38,19 +37,22 @@ export default function Menu({
     updateDoc,
   } = useFirestore();
   const { authUser, loading } = useAuth();
-  // const [projectsList, setProjectsList] = useState(null);
   const [shouldShowAdd, setShouldShowAdd] = useState(false);
   const [project, setProject] = useState();
   //error
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   //outside click
   const inputRef = useRef();
+  const inputContainerRef = useRef();
+
   const handleOutsideClick = () => {
     setShouldShowAdd(false);
     setError(false);
+    setErrorMessage("");
   };
-  useOutsideClickHandler(inputRef, () => {
+  useOutsideClickHandler(inputContainerRef, () => {
     handleOutsideClick();
   });
   const deleteTask = (id) => {
@@ -58,19 +60,30 @@ export default function Menu({
     deleteDoc(docRef).then(() => {});
   };
 
+  const addProjectToFirestore = (project) => {
+    addDoc(collection(db, "users", "USER_" + authUser.uid, "projects"), {
+      name: project,
+    }).then(() => {
+      console.log("PROJECT ADDED");
+    });
+  };
+
   const handleSaveProject = () => {
     if (project) {
-      if (!projectsList || !projectsList.some((p) => p.name === project)) {
-        setShouldShowAdd(false);
-        addDoc(collection(db, "users", "USER_" + authUser.uid, "projects"), {
-          name: project,
-        }).then(() => {
-          console.log("PROJECT SAVED");
-        });
-        updateCurrentProject(project);
+      if (projectsList.length < 10) {
+        if (!projectsList || !projectsList.some((p) => p.name === project)) {
+          addProjectToFirestore(project);
+          setShouldShowAdd(false);
+          updateCurrentProject(project);
+        }
+      } else {
+        setError(true);
+        setErrorMessage("limit 10 lists");
+        inputRef.current.value = "";
       }
     } else {
       setError(true);
+      setErrorMessage("list name required");
     }
   };
   const bgColor = useColorModeValue("white", "gray.800");
@@ -78,11 +91,30 @@ export default function Menu({
   const btnActiveBgColor = useColorModeValue("gray.300", "gray.900");
   const hoverColor = useColorModeValue("gray.100", "gray.900");
   const textColor = useColorModeValue("gray.600", "gray.300");
-  const addListBtnBg = useColorModeValue("gray.200", "gray.700");
-  const addListBtnColor = useColorModeValue("gray.800", "gray.400");
 
-  const { isOpen, onToggle } = useDisclosure();
-  console.log(projectsList);
+  const { getConfirmation } = useConfirmationDialog();
+
+  const deleteTasksInList = () => {
+    const filtered = notesList.filter(
+      (note) => note.list === currentProject.name
+    );
+    filtered.forEach((task) => {
+      deleteTask(task.id);
+    });
+  };
+  const handleDeleteList = async (e) => {
+    const confirmed = await getConfirmation({
+      title: "Are you sure?",
+      message:
+        "This will delete the list " + currentProject.name + " and its tasks.",
+    });
+    if (confirmed) {
+      e.stopPropagation();
+      updateCurrentProject("all");
+      deleteProject(currentProject.id);
+      deleteTasksInList();
+    }
+  };
   return (
     <Flex
       minW={{
@@ -93,7 +125,6 @@ export default function Menu({
         base: "95vw",
         md: "250px",
       }}
-      //minH="120px"
       h={{
         base: "auto",
         md: "100%",
@@ -103,12 +134,23 @@ export default function Menu({
       shadow="md"
       direction="column"
       py="5"
-      mb="5"
+      mb="3"
       mr="4"
     >
-      <Flex ref={inputRef} align="center" justify="space-between">
+      <Flex
+        ref={inputContainerRef}
+        align="center"
+        justify={{
+          base: "start",
+          md: "space-between",
+        }}
+      >
         {!shouldShowAdd ? (
           <Heading
+            fontSize={{
+              base: "14px",
+              md: "20px",
+            }}
             fontWeight="700"
             color="primary"
             letterSpacing="0.25px"
@@ -118,7 +160,8 @@ export default function Menu({
           </Heading>
         ) : (
           <Input
-            maxLength="30"
+            ref={inputRef}
+            maxLength="20"
             fontSize="15px"
             fontWeight="600"
             opacity="0.6"
@@ -126,16 +169,32 @@ export default function Menu({
             ml="3"
             height="30px"
             w="80%"
-            placeholder={error ? "list name required" : ""}
+            maxW="300px"
+            borderRadius="8px"
+            placeholder={error ? errorMessage : "new list"}
             borderColor={error ? "red" : "inherit"}
             onChange={(e) => setProject(e.target.value)}
+            autoFocus
           />
         )}
         <IconButton
-          fontSize="14px"
+          fontSize={{
+            base: "10px",
+            md: "14px",
+          }}
           borderRadius="100%"
-          w="35px"
-          h="35px"
+          w={{
+            base: "25px",
+            md: "25px",
+          }}
+          h={{
+            base: "25px",
+            md: "25px",
+          }}
+          mt={{
+            base: "-1",
+            md: "0",
+          }}
           shadow="sm"
           bg={useColorModeValue("gray.200", "gray.700")}
           _hover={{
@@ -162,24 +221,39 @@ export default function Menu({
         }}
         overflow="scroll"
       >
-        <Flex px="6" w="90%" display={{ base: "flex", md: "none" }}>
-          <Select
-            fontSize="15px"
-            fontWeight="500"
-            color="gray.600"
-            letterSpacing="1px"
-            h="4rem"
-            borderRadius="8px"
-            onChange={(e) => updateCurrentProject(e.target.value)}
-          >
-            <option key={"all"} value="all">
-              all tasks
-            </option>
-            {projectsList &&
-              projectsList.map((project) => {
-                return <option key={project.id}>{project.name}</option>;
-              })}
-          </Select>
+        <Flex
+          px="0"
+          ml="3"
+          align="center"
+          display={{ base: "flex", md: "none" }}
+        >
+          <MobileProjectSelect
+            currentProject={currentProject}
+            updateCurrentProject={updateCurrentProject}
+            projectsList={projectsList}
+          />
+
+          {currentProject.name !== "all" && (
+            <IconButton
+              fontSize="15px"
+              borderRadius="100%"
+              w="30px"
+              h="30px"
+              mx="3"
+              opacity="0.7"
+              bg="transparent"
+              _hover={{
+                bg: useColorModeValue("gray.300", "gray.600"),
+                color: useColorModeValue("red.800", "gray.200"),
+                opacity: 1,
+              }}
+              color="red"
+              icon={<DeleteIcon />}
+              onClick={(e) => {
+                handleDeleteList(e);
+              }}
+            />
+          )}
         </Flex>
         <Flex
           align="center"
@@ -240,7 +314,6 @@ export default function Menu({
                     key={project.id}
                     project={project}
                     toggleModal={toggleModal}
-                    toggleBlur={toggleBlur}
                     deleteProject={deleteProject}
                     currentProject={currentProject}
                     updateCurrentProject={updateCurrentProject}

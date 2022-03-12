@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useConfirmationDialog } from "./ConfirmationDialog";
-import {
-  Flex,
-  Heading,
-  IconButton,
-  Input,
-  Button,
-  useColorModeValue,
-  Box,
-} from "@chakra-ui/react";
+import { Flex, IconButton, useColorModeValue } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 export default function MenuButton({
   project,
   toggleModal,
-  toggleBlur,
   deleteTask,
   deleteProject,
   currentProject,
@@ -31,7 +22,6 @@ export default function MenuButton({
   }, [notesList]);
   const deleteTasksInList = () => {
     const filtered = notesList.filter((note) => note.list === project.name);
-    console.log(filtered);
     filtered.forEach((task) => {
       deleteTask(task.id);
     });
@@ -43,9 +33,8 @@ export default function MenuButton({
     });
     if (confirmed) {
       e.stopPropagation();
-      updateCurrentProject("all");
+      updateCurrentProject({ name: "all", id: "alltasksid" });
       deleteProject(project.id);
-
       deleteTasksInList();
     }
   };
@@ -54,27 +43,24 @@ export default function MenuButton({
   const activeBgColor = useColorModeValue("gray.300", "gray.900");
   const hoverColor = useColorModeValue("gray.100", "gray.900");
   const textColor = useColorModeValue("gray.600", "gray.300");
-  const addBtnBg = useColorModeValue("gray.200", "gray.700");
-  const addBtnColor = useColorModeValue("gray.800", "gray.400");
 
   return (
     <>
       <Flex
         as="button"
         align="center"
-        //justify="space-between"
         pos="relative"
         onMouseEnter={() => setShouldShowAdd(true)}
         onMouseLeave={() => setShouldShowAdd(false)}
         onClick={() => updateCurrentProject(project.name)}
         _hover={{ bg: hoverColor }}
-        bg={currentProject === project.name ? activeBgColor : bgColor}
+        bg={currentProject.name === project.name ? activeBgColor : bgColor}
       >
         <Flex align="center">
           <Flex
             fontSize="16px"
-            fontWeight="600"
-            letterSpacing=".5px"
+            fontWeight="500"
+            letterSpacing="1px"
             mx="0"
             my="1"
             borderRadius="0"
@@ -126,7 +112,6 @@ export default function MenuButton({
               icon={<AddIcon />}
               onClick={() => {
                 toggleModal();
-                toggleBlur();
               }}
             />
             <IconButton

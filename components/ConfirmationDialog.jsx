@@ -15,7 +15,7 @@ const ConfirmationDialog = ({ open, title, message, onConfirm, onDismiss }) => {
     <>
       {open && (
         <Flex
-          top="-90"
+          top="0"
           pos="absolute"
           w="100vw"
           h="100vh"
@@ -32,7 +32,7 @@ const ConfirmationDialog = ({ open, title, message, onConfirm, onDismiss }) => {
             h="150px"
             w="300px"
             borderRadius="8px"
-            bg={useColorModeValue("gray.100", "gray.900")}
+            bg={useColorModeValue("gray.300", "gray.700")}
             shadow="md"
             align="center"
             justify="center"

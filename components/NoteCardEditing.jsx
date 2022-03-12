@@ -6,19 +6,16 @@ import {
   Editable,
   EditableInput,
   EditablePreview,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { CalendarIcon, TriangleDownIcon } from "@chakra-ui/icons";
 
 export default function NoteCardEditing({
   shouldShowDetails,
-
   title,
   notes,
   month,
   day,
   list,
-
   projectsList,
   setTitle,
   setNotes,
@@ -33,7 +30,10 @@ export default function NoteCardEditing({
         justify={shouldShowDetails ? "space-between" : "center"}
         pos="absolute"
         left="14"
-        w="255px"
+        w={{
+          base: "78%",
+          md: "75%",
+        }}
         h="100%"
         py="3"
       >
@@ -48,35 +48,57 @@ export default function NoteCardEditing({
           onChange={(e) => setTitle(e.toLowerCase())}
           startWithEditView="true"
           mt="0.25"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
         >
-          <EditablePreview w="250px" />
-          <EditableInput letterSpacing=".5px" w="250px" maxLength="40" />
+          <EditablePreview
+            w={{
+              base: "100%",
+              md: "250px",
+            }}
+          />
+          <EditableInput
+            letterSpacing=".5px"
+            w={{
+              base: "100%",
+              md: "250px",
+            }}
+            maxLength="40"
+          />
         </Editable>
 
         {shouldShowDetails && (
           <>
-            {" "}
             <Editable
               mt="-4"
               fontSize="12px"
               fontWeight="300"
-              w="250px"
               color="inherit"
               letterSpacing="0.5px"
               defaultValue={notes}
               onChange={(e) => setNotes(e.toLowerCase())}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
             >
               <EditablePreview
                 mt="2"
-                w="230px"
+                w={{
+                  base: "100%",
+                  md: "250px",
+                }}
                 overflow="hidden"
                 whiteSpace="nowrap"
                 textOverflow="ellipsis"
               />
               <EditableInput
+                w={{
+                  base: "100%",
+                  md: "250px",
+                }}
                 letterSpacing="0.5px"
                 my="1"
-                w="250px"
                 maxLength="68"
               />
             </Editable>
@@ -105,6 +127,9 @@ export default function NoteCardEditing({
                 fontWeight="500"
                 defaultValue={list ? list : "select project"}
                 onChange={(e) => setList(e.target.value.toLowerCase())}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
               >
                 {projectsList.map((project) => {
                   return <option key={project.id}>{project.name}</option>;
@@ -130,6 +155,9 @@ export default function NoteCardEditing({
                   width="50px"
                   defaultValue={day ? day : 1}
                   onChange={(e) => setDay(e.target.value)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
                 >
                   {calculateDays(month).map((day) => {
                     return (
@@ -146,6 +174,9 @@ export default function NoteCardEditing({
                   width="57px"
                   defaultValue={month ? month : "select project"}
                   onChange={(e) => setMonth(e.target.value)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
                 >
                   {months.map((item) => {
                     return (

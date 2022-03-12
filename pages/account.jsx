@@ -5,10 +5,8 @@ import {
   Flex,
   Heading,
   Box,
-  Icon,
-  Input,
   Button,
-  Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useConfirmationDialog } from "../components/ConfirmationDialog";
 
@@ -44,8 +42,20 @@ export default function account() {
     }
   };
   return (
-    <Flex as="section" m="10" py="10" h="90%" direction="column">
-      <Heading fontWeight="700" letterSpacing="1px">
+    <Flex
+      as="section"
+      m="10"
+      py="10"
+      h="90%"
+      direction="column"
+      align="center"
+      maxW="600px"
+    >
+      <Heading
+        color={useColorModeValue("gray.600", "gray.200")}
+        fontWeight="700"
+        letterSpacing="1px"
+      >
         MY ACCOUNT
       </Heading>
       {!loading && authUser && (
@@ -56,7 +66,12 @@ export default function account() {
           align="center"
           direction="column"
         >
-          <Box fontWeight="400" fontSize="15px" textAlign="center">
+          <Box
+            color={useColorModeValue("gray.600", "gray.200")}
+            fontWeight="400"
+            fontSize="15px"
+            textAlign="center"
+          >
             {authUser.email}
           </Box>
           <Button

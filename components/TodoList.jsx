@@ -2,20 +2,13 @@ import React, { useState, useEffect } from "react";
 import NoteCard from "./NoteCard";
 import { useAuth } from "../context/AuthUserContext";
 import useFirestore from "../firebase/useFirestore";
-import {
-  Flex,
-  Box,
-  Button,
-  useColorModeValue,
-  IconButton,
-} from "@chakra-ui/react";
+import { Flex, useColorModeValue, IconButton } from "@chakra-ui/react";
 
 import { AddIcon } from "@chakra-ui/icons";
 export default function TodoList({
   notesList,
   projectsList,
   toggleModal,
-  toggleBlur,
   currentProject,
 }) {
   //chakra color mode
@@ -41,10 +34,12 @@ export default function TodoList({
   const [filteredNotes, setFilteredNotes] = useState([]);
   useEffect(() => {
     const sorted = notesList.sort((a, b) => a.timestamp < b.timestamp && 1);
-    if (currentProject === "all") {
+    if (currentProject.name === "all") {
       setFilteredNotes(sorted);
     } else {
-      const filtered = sorted.filter((note) => note.list === currentProject);
+      const filtered = sorted.filter(
+        (note) => note.list === currentProject.name
+      );
       setFilteredNotes(filtered);
     }
   }, [currentProject, notesList]);
@@ -55,23 +50,21 @@ export default function TodoList({
   };
 
   const handleUpdateSubmit = (updatedValue, id) => {
-    console.log(updatedValue, id);
     const docRef = doc(db, "users", "USER_" + authUser.uid, "tasks", id);
     updateDoc(docRef, updatedValue).then(() => {
       // setLoading(false);
     });
     // setLoading(true);
   };
-  console.log(currentProject);
-  console.log(notesList);
-  console.log(filteredNotes);
+
   return (
     <Flex
-      minW="320px"
+      minW="330px"
       w={{
         base: "95vw",
         md: "330px",
       }}
+      //base must be 100% to scroll
       h={{ base: "100%", md: "100%" }}
       // h="100%"
       borderRadius="3px"
@@ -85,7 +78,7 @@ export default function TodoList({
       mr="4"
       //make space for last task if overflown
       pb={{
-        base: "10",
+        base: "10%",
         md: "0",
       }}
     >
@@ -110,7 +103,6 @@ export default function TodoList({
         icon={<AddIcon />}
         onClick={() => {
           toggleModal();
-          toggleBlur();
         }}
         zIndex="3"
       />
@@ -120,6 +112,8 @@ export default function TodoList({
           base: "auto",
           md: "100%",
         }}
+        //pb to make sure last items show on mobile scroll
+        pb="20%"
         direction="column"
         align="center"
         pos="relative"

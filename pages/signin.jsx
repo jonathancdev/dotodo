@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useAuth } from "../context/AuthUserContext";
 import { useRouter } from "next/router";
 import { Flex, Heading, Input, Button, Text } from "@chakra-ui/react";
@@ -9,6 +9,10 @@ export default function SignIn() {
   const { auth, signInWithEmailAndPassword } = useAuth();
   const emailRef = useRef();
   const passwordRef = useRef();
+
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
@@ -19,15 +23,17 @@ export default function SignIn() {
       })
       .catch((err) => {
         console.log(err.message);
+        setError(true);
+        setErrorMessage("sign in failed");
       });
     emailRef.current.value = "";
     passwordRef.current.value = "";
   };
 
   return (
-    <Flex direction="column" p={12} rounded={6}>
+    <Flex align="center" direction="column" p={12} rounded={6} maxW="600px">
       <form onSubmit={handleSubmit} action="">
-        <Flex direction="column" alignItems="center">
+        <Flex maxW="350px" direction="column" alignItems="center">
           <Heading p={2.5} mb={2} alignSelf="start">
             sign in:
           </Heading>
@@ -47,6 +53,20 @@ export default function SignIn() {
             w={250}
             variant="primary"
           />
+          {error && (
+            <Flex
+              borderRadius="2px"
+              w="250px"
+              align="center"
+              color="red"
+              fontWeight="500"
+              letterSpacing="1px"
+              mb="3"
+              p="1"
+            >
+              {errorMessage}
+            </Flex>
+          )}
           <Button variant="primaryOutline" type="submit" mb={4} w={250}>
             submit
           </Button>

@@ -3,13 +3,10 @@ import { months, calculateDays } from "../utils/formData";
 import useOutsideClickHandler from "../hooks/useOutsideClickHandler";
 import {
   Flex,
-  Box,
   Input,
-  Text,
   Button,
   FormControl,
   FormLabel,
-  Container,
   Textarea,
   Select,
   useColorModeValue,
@@ -18,7 +15,6 @@ import {
 export default function NewTaskModal({
   handleSaveSubmit,
   toggleModal,
-  toggleBlur,
   projectsList,
   currentProject,
 }) {
@@ -31,7 +27,6 @@ export default function NewTaskModal({
   const modalRef = useRef();
   const handleOutsideClick = () => {
     toggleModal();
-    toggleBlur();
   };
   useOutsideClickHandler(modalRef, () => {
     handleOutsideClick();
@@ -66,17 +61,15 @@ export default function NewTaskModal({
       const obj = createTaskObj();
       handleSaveSubmit(obj);
       toggleModal();
-      toggleBlur();
     }
   };
   const textColor = useColorModeValue("gray.600", "gray.300");
-
-  const bgColor = useColorModeValue("gray.100", "gray.900");
-  const selectColor = useColorModeValue("white", "gray.700");
+  const bgColor = useColorModeValue("gray.300", "gray.700");
+  const selectColor = useColorModeValue("gray.200", "gray.600");
 
   return (
     <Flex
-      top={{ base: "15%", md: "0" }}
+      top={{ base: "5%", md: "0" }}
       pos="absolute"
       w="100vw"
       h="100vh"
@@ -113,7 +106,7 @@ export default function NewTaskModal({
             border="none"
             bg={selectColor}
             ref={listRef}
-            defaultValue={currentProject}
+            defaultValue={currentProject.name}
           >
             <option key="defaultproject" value="all">
               all

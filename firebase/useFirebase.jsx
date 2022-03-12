@@ -19,6 +19,7 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   deleteUser,
+  signInAnonymously,
 } from "firebase/auth";
 
 //original
@@ -55,6 +56,7 @@ const firebase = () => {
     signInWithEmailAndPassword,
     onAuthStateChanged,
     deleteUser,
+    signInAnonymously,
     //store
     getFirestore,
     collection,

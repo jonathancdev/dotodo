@@ -1,45 +1,14 @@
 import React from "react";
-import {
-  Flex,
-  Spacer,
-  Box,
-  Text,
-  Button,
-  Checkbox,
-  Select,
-  IconButton,
-  Editable,
-  EditableInput,
-  EditablePreview,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import {
-  CalendarIcon,
-  EditIcon,
-  DeleteIcon,
-  ViewOffIcon,
-  ChevronUpIcon,
-  ChevronDownIcon,
-  SmallCloseIcon,
-  CheckCircleIcon,
-  MinusIcon,
-  StarIcon,
-} from "@chakra-ui/icons";
+import { Flex, Box, Text } from "@chakra-ui/react";
+import { CalendarIcon } from "@chakra-ui/icons";
 import { numToMonth } from "../utils/formData";
 export default function NoteCardDefault({
-  setCompleted,
-  toggleDetails,
   shouldShowDetails,
-  setShouldShowDetails,
-  setEditing,
-  handleDeleteSubmit,
-  completed,
   title,
   notes,
   month,
   day,
   list,
-  id,
 }) {
   return (
     <>
@@ -48,8 +17,10 @@ export default function NoteCardDefault({
         justify={shouldShowDetails ? "space-between" : "center"}
         pos="absolute"
         left="14"
-        w="255px"
-        // border="0.5px solid"
+        w={{
+          base: "80%",
+          md: "80%",
+        }}
         h="100%"
         py="5"
       >

@@ -52,7 +52,7 @@ const headingStyles = {
       // borderWidth: "1px",
       // borderRadius: "25px",
 
-      letterSpacing: "4px",
+      letterSpacing: "-1px",
     },
   },
   //default values for 'size' and 'variant'

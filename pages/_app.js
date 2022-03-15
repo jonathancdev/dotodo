@@ -21,9 +21,9 @@ function MyApp({ Component, pageProps }) {
     <ChakraProvider theme={theme}>
       <AuthUserProvider>
         <Head>
-          <title>DO_TODO</title>
+          <title>PLUSLIST</title>
           <meta name="description" content="description" />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/favicon.png" />
         </Head>
 
         <ConfirmationDialogProvider>

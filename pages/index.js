@@ -79,7 +79,6 @@ export default function Home() {
     }
   }, [loading]);
   useEffect(() => {
-    console.log(currentProject);
     if (Object.keys(currentProject).length == 0) {
       setCurrentProject({ name: "all", id: "alltasksid" });
     }
@@ -136,6 +135,10 @@ export default function Home() {
       });
   };
 
+  const getAnonymousUsers = async () => {
+    const q = query(collection(db, "users"), where());
+    getDocs();
+  };
   return (
     <Box
       as="main"
@@ -150,7 +153,7 @@ export default function Home() {
           <Flex justify="center" mb={8}>
             <Heading size="sm">Welcome to</Heading>
             <Heading variant="logo" size="sm" mx="2" mt={0.5}>
-              DO_TODO
+              PLUSLIST
             </Heading>
             <Heading size="sm">!</Heading>
           </Flex>
@@ -170,17 +173,18 @@ export default function Home() {
           </Flex>
           <Flex w="100%" justify="center">
             <Button
-              opacity="0.7"
-              bg="inherit"
-              mt="4"
+              opacity="0.6"
+              bg="transparent"
+              mt="6"
               fontSize="12px"
               fontWeight="600"
               letterSpacing="1px"
               color="primary"
               as="button"
-              w="37%"
+              w="auto"
+              p="0"
               borderBottom="solid"
-              borderWidth="1px"
+              borderBottomWidth="0.5px"
               height="24px"
               borderRadius="0"
               onClick={startTrialSession}
@@ -188,7 +192,7 @@ export default function Home() {
                 opacity: "1",
               }}
             >
-              try it anonymously
+              try it &#8212; no account required!
             </Button>
           </Flex>
         </Flex>

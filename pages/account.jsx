@@ -1,5 +1,7 @@
 import React from "react";
+import { useConfirmationDialog } from "../components/ConfirmationDialog";
 import { useAuth } from "../context/AuthUserContext";
+import useFirestore from "../firebase/useFirestore";
 import { useRouter } from "next/router";
 import {
   Flex,
@@ -8,15 +10,12 @@ import {
   Button,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useConfirmationDialog } from "../components/ConfirmationDialog";
-
 import { DeleteIcon } from "@chakra-ui/icons";
 export default function account() {
+  const { getConfirmation } = useConfirmationDialog();
+  const { db, deleteDoc, doc } = useFirestore();
   const router = useRouter();
   const { auth, authUser, loading, signOut, clear, deleteUser } = useAuth();
-  const currentPath = router.pathname;
-  const deleteIcon = <DeleteIcon pos="absolute" left="6" fontSize="12px" />;
-  const { getConfirmation } = useConfirmationDialog();
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -24,21 +23,34 @@ export default function account() {
       router.push("/");
     });
   };
+  const deleteAuthUser = async () => {
+    deleteUser(auth.currentUser)
+      .then(() => {
+        console.log("Successfully deleted user");
+        clear();
+        router.push("/");
+      })
+      .catch((error) => {
+        console.log("Error deleting user:", error);
+      });
+  };
+  const removeUserDocument = async () => {
+    await deleteDoc(doc(db, "users", "USER_" + authUser.uid))
+      .then(() => {
+        console.log("Successfully deleted document");
+      })
+      .catch((error) => {
+        console.log("Error deleting document:", error);
+      });
+  };
   const handleDeleteUser = async () => {
     const confirmed = await getConfirmation({
       title: "Are you sure?",
       message: "This will permanently delete your account.",
     });
     if (confirmed) {
-      deleteUser(auth.currentUser)
-        .then(() => {
-          console.log("Successfully deleted user");
-          clear();
-          router.push("/");
-        })
-        .catch((error) => {
-          console.log("Error deleting user:", error);
-        });
+      removeUserDocument();
+      deleteAuthUser();
     }
   };
   return (
@@ -99,7 +111,7 @@ export default function account() {
               opacity: "1",
             }}
           >
-            {deleteIcon}
+            <DeleteIcon pos="absolute" left="6" fontSize="12px" />
             delete account
           </Button>
         </Flex>

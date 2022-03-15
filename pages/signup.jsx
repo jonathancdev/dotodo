@@ -44,7 +44,6 @@ export default function SignUp() {
         createdAt: metadata.createdAt,
         email: email,
       },
-      tasks: [{}],
     }).then(() => {
       console.log("USER CREATED");
     });

@@ -9,8 +9,7 @@ export default function MobileProjectSelect({
   useEffect(() => {
     setName(currentProject.name);
   }, [currentProject]);
-  console.log(currentProject);
-  console.log(name);
+
   return (
     <Select
       w="82%"

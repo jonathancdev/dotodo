@@ -131,6 +131,9 @@ export default function NoteCardEditing({
                   e.stopPropagation();
                 }}
               >
+                <option key="defaultproject" value="all">
+                  all
+                </option>
                 {projectsList.map((project) => {
                   return <option key={project.id}>{project.name}</option>;
                 })}

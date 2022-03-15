@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useRef } from "react";
-import { Flex, Box, Text, Button, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Box, Button, useColorModeValue } from "@chakra-ui/react";
 import useOutsideClickHandler from "../hooks/useOutsideClickHandler";
 
 const ConfirmationDialog = ({ open, title, message, onConfirm, onDismiss }) => {

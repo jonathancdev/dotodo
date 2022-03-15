@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/AuthUserContext";
+
 import {
   Flex,
   Box,
@@ -71,7 +72,7 @@ const Header = () => {
                 }}
                 variant="logo"
               >
-                DO_TODO
+                PLUSLIST
               </Heading>
             </Link>
           ) : (
@@ -82,11 +83,12 @@ const Header = () => {
               }}
               variant="logo"
             >
-              DO_TODO
+              PLUSLIST
             </Heading>
           )}
         </Box>
         <Flex
+          //mobile hamburger menu
           display={{
             base: "block",
             md: "none",
@@ -118,6 +120,7 @@ const Header = () => {
           />
         </Flex>
         <Box
+          //non-mobile buttons for my account/signout
           mt="8"
           display={{
             base: "none",
@@ -127,18 +130,35 @@ const Header = () => {
           {currentPath === "/" && authUser && (
             <>
               <ChakraNextLinkButton
-                href="/account"
-                text="my account"
-                variant="primary"
+                href={auth.currentUser.isAnonymous ? "/signin" : "/account"}
+                text={auth.currentUser.isAnonymous ? "sign in" : "my account"}
+                variant={
+                  auth.currentUser.isAnonymous ? "primaryOutline" : "primary"
+                }
                 size="sm"
               />
             </>
           )}
-          {authUser && currentPath !== "/account" && (
-            <Button onClick={handleSignOut} variant="primaryOutline" size="sm">
-              sign out
-            </Button>
+          {authUser &&
+            currentPath !== "/account" &&
+            !auth.currentUser.isAnonymous && (
+              <Button
+                onClick={handleSignOut}
+                variant="primaryOutline"
+                size="sm"
+              >
+                sign out
+              </Button>
+            )}
+          {authUser && currentPath === "/" && auth.currentUser.isAnonymous && (
+            <ChakraNextLinkButton
+              href={"/signup"}
+              text="sign up"
+              variant="primary"
+              size="sm"
+            />
           )}
+
           <IconButton
             onClick={toggleColorMode}
             aria-label="color mode toggle"
@@ -155,8 +175,7 @@ const Header = () => {
               justify="center"
               align="end"
               right="0"
-              top="-1"
-              h="55px"
+              top="7"
               w="auto"
               px="3"
               py="4px"

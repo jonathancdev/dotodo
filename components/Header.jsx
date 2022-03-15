@@ -25,7 +25,6 @@ const Header = () => {
   const currentPath = router.pathname;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
@@ -36,7 +35,6 @@ const Header = () => {
 
   return (
     <Flex
-      bg={useColorModeValue("gray.200", "gray.900")}
       pos="relative"
       mb="1"
       as="header"
@@ -87,38 +85,40 @@ const Header = () => {
             </Heading>
           )}
         </Box>
-        <Flex
-          //mobile hamburger menu
-          display={{
-            base: "block",
-            md: "none",
-          }}
-          align="center"
-          mt={{
-            base: "4",
-            md: "8",
-          }}
-        >
-          {authUser && currentPath !== "/account" && (
+        {!isOpen && (
+          <Flex
+            //mobile hamburger menu
+            display={{
+              base: "block",
+              md: "none",
+            }}
+            align="center"
+            mt={{
+              base: "4",
+              md: "8",
+            }}
+          >
+            {authUser && currentPath !== "/account" && (
+              <IconButton
+                variant="primaryOutline"
+                size="sm"
+                w="25px"
+                mr="0"
+                my="0"
+                onClick={onOpen}
+                icon={<HamburgerIcon />}
+              ></IconButton>
+            )}
             <IconButton
-              variant="primaryOutline"
+              onClick={toggleColorMode}
+              aria-label="color mode toggle"
+              icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+              variant="primary"
               size="sm"
               w="25px"
-              mr="0"
-              my="0"
-              onClick={onOpen}
-              icon={<HamburgerIcon />}
-            ></IconButton>
-          )}
-          <IconButton
-            onClick={toggleColorMode}
-            aria-label="color mode toggle"
-            icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
-            variant="primary"
-            size="sm"
-            w="25px"
-          />
-        </Flex>
+            />
+          </Flex>
+        )}
         <Box
           //non-mobile buttons for my account/signout
           mt="8"
@@ -171,15 +171,15 @@ const Header = () => {
         <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
           <DrawerContent>
             <Flex
+              bg="transparent"
               pos="absolute"
               justify="center"
               align="end"
               right="0"
-              top="7"
+              top="4"
               w="auto"
               px="3"
               py="4px"
-              bg={useColorModeValue("gray.200", "gray.900")}
               display={{
                 base: "flex",
                 md: "none",

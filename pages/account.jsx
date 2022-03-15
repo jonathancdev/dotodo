@@ -3,13 +3,7 @@ import { useConfirmationDialog } from "../components/ConfirmationDialog";
 import { useAuth } from "../context/AuthUserContext";
 import useFirestore from "../firebase/useFirestore";
 import { useRouter } from "next/router";
-import {
-  Flex,
-  Heading,
-  Box,
-  Button,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex, Heading, Text, Button } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 export default function account() {
   const { getConfirmation } = useConfirmationDialog();
@@ -54,7 +48,6 @@ export default function account() {
     }
   };
 
-  const textColor = useColorModeValue("gray.600", "gray.200");
   return (
     <Flex
       as="section"
@@ -65,7 +58,7 @@ export default function account() {
       align="center"
       maxW="600px"
     >
-      <Heading color={textColor} fontWeight="700" letterSpacing="1px">
+      <Heading fontWeight="700" letterSpacing="1px">
         MY ACCOUNT
       </Heading>
       {!loading && authUser && (
@@ -76,14 +69,9 @@ export default function account() {
           align="center"
           direction="column"
         >
-          <Box
-            color={textColor}
-            fontWeight="400"
-            fontSize="15px"
-            textAlign="center"
-          >
+          <Text fontWeight="400" fontSize="15px" textAlign="center">
             {authUser.email}
-          </Box>
+          </Text>
           <Button
             mt="5"
             mb="2"

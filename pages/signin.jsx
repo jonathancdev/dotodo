@@ -54,17 +54,10 @@ export default function SignIn() {
             variant="primary"
           />
           {error && (
-            <Flex
-              borderRadius="2px"
-              w="250px"
-              align="center"
-              color="red"
-              fontWeight="500"
-              letterSpacing="1px"
-              mb="3"
-              p="1"
-            >
-              {errorMessage}
+            <Flex borderRadius="2px" w="250px" align="center" mb="3" p="1">
+              <Text color="red" fontWeight="500" letterSpacing="1px">
+                {errorMessage}
+              </Text>
             </Flex>
           )}
           <Button variant="primaryOutline" type="submit" mb={4} w={250}>

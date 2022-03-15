@@ -4,6 +4,7 @@ import { useConfirmationDialog } from "./ConfirmationDialog";
 import useOutsideClickHandler from "../hooks/useOutsideClickHandler";
 import {
   Flex,
+  Text,
   Heading,
   IconButton,
   Input,
@@ -81,6 +82,9 @@ export default function Menu({
   const btnActiveBgColor = useColorModeValue("gray.300", "gray.900");
   const hoverColor = useColorModeValue("gray.100", "gray.900");
   const textColor = useColorModeValue("gray.600", "gray.300");
+  const iconBgColor = useColorModeValue("gray.200", "gray.700");
+  const iconBgHover = useColorModeValue("gray.300", "gray.600");
+  const deleteHover = useColorModeValue("red.800", "red.600");
 
   const deleteTasksInList = () => {
     const filtered = notesList.filter(
@@ -183,12 +187,11 @@ export default function Menu({
             md: "0",
           }}
           shadow="sm"
-          bg={useColorModeValue("gray.200", "gray.700")}
+          bg={iconBgColor}
           _hover={{
-            bg: useColorModeValue("gray.300", "gray.600"),
-            color: useColorModeValue("gray.700", "gray.200"),
+            bg: iconBgHover,
           }}
-          color={useColorModeValue("gray.600", "gray.300")}
+          color={textColor}
           icon={!shouldShowAdd ? <AddIcon /> : <CheckIcon />}
           onClick={
             shouldShowAdd
@@ -230,8 +233,8 @@ export default function Menu({
               opacity="0.7"
               bg="transparent"
               _hover={{
-                bg: useColorModeValue("gray.300", "gray.600"),
-                color: useColorModeValue("red.800", "gray.200"),
+                bg: iconBgHover,
+                color: deleteHover,
                 opacity: 1,
               }}
               color="red"
@@ -256,20 +259,18 @@ export default function Menu({
         >
           <Flex align="center">
             <Box
-              fontSize="16px"
-              fontWeight="600"
-              letterSpacing=".5px"
               mx="4"
               my="1"
               borderRadius="0"
               bg="inherit"
-              color={textColor}
               key="defaultproject"
               justifyContent="flex-start"
               w="100%"
               _hover={{ bg: "transparent" }}
             >
-              all tasks
+              <Text fontSize="18px" fontWeight="600" letterSpacing=".5px">
+                all tasks
+              </Text>
             </Box>
             {notesList.length > 0 && (
               <Flex

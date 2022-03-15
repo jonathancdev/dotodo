@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NoteCard from "./NoteCard";
 import { useAuth } from "../context/AuthUserContext";
 import useFirestore from "../firebase/useFirestore";
-import { Flex, useColorModeValue, IconButton } from "@chakra-ui/react";
+import { Flex, Text, useColorModeValue, IconButton } from "@chakra-ui/react";
 
 import { AddIcon } from "@chakra-ui/icons";
 export default function TodoList({
@@ -14,20 +14,11 @@ export default function TodoList({
   //chakra color mode
   const borderColor = useColorModeValue("gray.400", "gray.500");
   const bgColor = useColorModeValue("white", "gray.800");
-  const textColor = useColorModeValue("gray.600", "gray.300");
-  const addTaskBtnBg = useColorModeValue("gray.500", "gray.600");
-  const addTaskBtnColor = useColorModeValue("gray.100", "gray.900");
+  const addTaskBtnBg = useColorModeValue("gray.400", "gray.600");
+  const addTaskBtnColor = useColorModeValue("gray.100", "gray.400");
+  const addTaskBtnBgHover = useColorModeValue("gray.200", "gray.300");
 
-  const {
-    db,
-    collection,
-    getDocs,
-    onSnapshot,
-    addDoc,
-    deleteDoc,
-    doc,
-    updateDoc,
-  } = useFirestore();
+  const { db, deleteDoc, doc, updateDoc } = useFirestore();
   const { authUser, loading } = useAuth();
 
   //filter noteslist based on currentProject
@@ -66,7 +57,6 @@ export default function TodoList({
       }}
       //base must be 100% to scroll
       h={{ base: "100%", md: "100%" }}
-      // h="100%"
       borderRadius="3px"
       as="main"
       direction="column"
@@ -94,12 +84,12 @@ export default function TodoList({
         w="45px"
         h="45px"
         shadow="md"
-        bg={useColorModeValue("gray.400", "gray.600")}
+        bg={addTaskBtnBg}
         _hover={{
-          bg: useColorModeValue("gray.500", "gray.500"),
-          color: useColorModeValue("gray.200", "gray.300"),
+          bg: "gray.500",
+          color: addTaskBtnBgHover,
         }}
-        color={useColorModeValue("gray.100", "gray.400")}
+        color={addTaskBtnColor}
         icon={<AddIcon />}
         onClick={() => {
           toggleModal();
@@ -152,13 +142,11 @@ export default function TodoList({
                 mb="1.5"
                 boxShadow="md"
                 opacity=".5"
-                fontFamily="Work Sans"
-                fontSize="14px"
-                fontWeight="600"
                 pos="relative"
-                color={textColor}
               >
-                no tasks in this list
+                <Text fontFamily="Work Sans" fontSize="14px" fontWeight="600">
+                  no tasks in this list
+                </Text>
               </Flex>
             )}
           </>

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { Flex, Box, Button, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Text, Button, useColorModeValue } from "@chakra-ui/react";
 
 const ConfirmationDialog = ({ open, title, message, onConfirm, onDismiss }) => {
   return (
@@ -28,17 +28,13 @@ const ConfirmationDialog = ({ open, title, message, onConfirm, onDismiss }) => {
             align="center"
             justify="center"
           >
-            <Box fontWeight="600" fontSize="14px">
+            <Text fontWeight="600" fontSize="14px">
               {title}
-            </Box>
-            <Flex
-              w="200px"
-              textAlign="center"
-              my="5"
-              fontWeight="600"
-              fontSize="12px"
-            >
-              {message}
+            </Text>
+            <Flex w="200px" textAlign="center" my="5">
+              <Text fontWeight="600" fontSize="12px">
+                {message}
+              </Text>
             </Flex>
             <Flex>
               <Button

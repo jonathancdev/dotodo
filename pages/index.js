@@ -16,27 +16,17 @@ import Menu from "../components/Menu";
 import NewTaskModal from "../components/NewTaskModal";
 
 export default function Home() {
-  const {
-    db,
-    collection,
-    getDocs,
-    onSnapshot,
-    addDoc,
-    deleteDoc,
-    doc,
-    updateDoc,
-  } = useFirestore();
+  const { db, collection, getDocs, onSnapshot, addDoc, deleteDoc, doc } =
+    useFirestore();
 
   //chakra color mode
+  //keep this
   const bgColor = useColorModeValue("gray.200", "gray.900");
 
   const { auth, authUser, loading, signInAnonymously } = useAuth();
   const [spinnerShouldShow, setSpinnerShouldShow] = useState(true);
   const [projectsList, setProjectsList] = useState(null);
-  // const [currentProject, setCurrentProject] = useState({
-  //   name: "all",
-  //   id: "alltasksid",
-  // });
+
   const [currentProject, setCurrentProject] = useState({});
   const [notesList, setNotesList] = useState([]);
   const [shouldModalShow, setShouldModalShow] = useState(false);

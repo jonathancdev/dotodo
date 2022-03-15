@@ -132,6 +132,7 @@ export default function NewTaskModal({
             border={error ? "1px solid" : "none"}
             placeholder={error ? "title required" : ""}
             borderColor="red"
+            autoFocus
             onChange={() => {
               if (error) {
                 setError(false);

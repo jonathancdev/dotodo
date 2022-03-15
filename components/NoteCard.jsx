@@ -94,7 +94,10 @@ export default function NoteCard({
       fontFamily="Work Sans"
       pos="relative"
       color={textColor}
-      onClick={toggleDetails}
+      onClick={() => {
+        toggleDetails();
+        setEditing(false);
+      }}
     >
       <Flex
         direction="column"

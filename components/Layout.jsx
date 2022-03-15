@@ -4,7 +4,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 export default function Layout({ children }) {
-  const bgColor = useColorModeValue("white", "gray.800");
+  const bgColor = useColorModeValue("gray.200", "gray.900");
+
   return (
     <Flex
       height="100vh"
@@ -15,7 +16,7 @@ export default function Layout({ children }) {
         md: "start",
       }}
       justifyContent="center"
-      bg={useColorModeValue("gray.200", "gray.900")}
+      bg={bgColor}
       pos="relative"
     >
       <Header />

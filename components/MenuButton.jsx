@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 //import { useConfirmationDialog } from "./ConfirmationDialog";
-import { Flex, IconButton, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Text, IconButton, useColorModeValue } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 export default function MenuButton({
   project,
@@ -12,11 +12,13 @@ export default function MenuButton({
   notesList,
   handleDeleteList,
 }) {
-  //  const { getConfirmation } = useConfirmationDialog();
-
   const bgColor = useColorModeValue("white", "gray.800");
+  const btnBgColor = useColorModeValue("white", "gray.800");
   const activeBgColor = useColorModeValue("gray.300", "gray.900");
   const hoverColor = useColorModeValue("gray.100", "gray.900");
+  const iconBgColor = useColorModeValue("gray.200", "gray.700");
+  const iconBgHover = useColorModeValue("gray.300", "gray.600");
+  const deleteHover = useColorModeValue("red.800", "red.600");
   const textColor = useColorModeValue("gray.600", "gray.300");
 
   const [shouldShowAdd, setShouldShowAdd] = useState(false);
@@ -33,18 +35,6 @@ export default function MenuButton({
       deleteTask(task.id);
     });
   };
-  // const handleDeleteList = async (e) => {
-  //   const confirmed = await getConfirmation({
-  //     title: "Are you sure?",
-  //     message: "This will delete the list " + project.name + " and its tasks.",
-  //   });
-  //   if (confirmed) {
-  //     e.stopPropagation();
-  //     updateCurrentProject({ name: "all", id: "alltasksid" });
-  //     deleteProject(project.id);
-  //     deleteTasksInList();
-  //   }
-  // };
 
   return (
     <>
@@ -57,16 +47,12 @@ export default function MenuButton({
         _hover={{ bg: hoverColor }}
         bg={currentProject.name === project.name ? activeBgColor : bgColor}
       >
-        <Flex align="center">
+        <Flex align="center" cursor="pointer">
           <Flex
-            fontSize="16px"
-            fontWeight="500"
-            letterSpacing="1px"
             mx="0"
-            my="1"
+            my="2"
             borderRadius="0"
             bg="inherit"
-            color={textColor}
             align="center"
             w="100%"
             h="100%"
@@ -74,7 +60,9 @@ export default function MenuButton({
             _hover={{ bg: "transparent" }}
             px="6"
           >
-            {project.name}
+            <Text fontSize="18px" fontWeight="600" letterSpacing="1px">
+              {project.name}
+            </Text>
           </Flex>
           {quantity > 0 && shouldShowAdd && (
             <Flex
@@ -103,12 +91,11 @@ export default function MenuButton({
               w="25px"
               h="25px"
               m="0"
-              bg={useColorModeValue("gray.200", "gray.700")}
+              color={textColor}
+              bg={iconBgColor}
               _hover={{
-                bg: useColorModeValue("gray.300", "gray.600"),
-                color: useColorModeValue("gray.700", "gray.200"),
+                bg: iconBgHover,
               }}
-              color={useColorModeValue("gray.600", "gray.300")}
               icon={<AddIcon />}
               onClick={() => {
                 toggleModal();
@@ -122,10 +109,9 @@ export default function MenuButton({
               ml="1"
               mr="1"
               opacity="0.7"
-              bg={useColorModeValue("gray.200", "gray.700")}
+              bg={iconBgColor}
               _hover={{
-                bg: useColorModeValue("gray.300", "gray.600"),
-                color: useColorModeValue("red.800", "gray.200"),
+                color: deleteHover,
                 opacity: 1,
               }}
               color="red"

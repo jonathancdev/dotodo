@@ -3,7 +3,7 @@ import { darken, mode, whiten } from "@chakra-ui/theme-tools";
 const textStyles = {
   //style obj for base/default style
   baseStyle: (props) => ({
-    color: mode("gray.800", "white")(props),
+    color: mode("gray.600", "gray.300")(props),
     fontSize: "12px",
     fontWeight: "500",
     lineHeight: "1.2",
@@ -16,14 +16,6 @@ const textStyles = {
       fontSize: "12px",
       fontWeight: "300",
     },
-    // primary: (props) => ({
-    //   bg: "primary",
-    //   color: mode("white", "gray.800")(props),
-    //   _hover: {
-    //     bg: mode(darken("primary", 10), whiten("primary", 10))(props),
-    //     boxShadow: "md",
-    //   },
-    // }),
   },
   //default values for 'size' and 'variant'
   defaultProps: {},
@@ -48,9 +40,6 @@ const headingStyles = {
     logo: {
       color: "primary",
       fontWeight: "800",
-      // border: "solid",
-      // borderWidth: "1px",
-      // borderRadius: "25px",
 
       letterSpacing: "-1px",
     },

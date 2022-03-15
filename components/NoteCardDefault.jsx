@@ -53,7 +53,7 @@ export default function NoteCardDefault({
             {/* /* THIRD ROW */}
 
             <Flex align="center" justify="space-between">
-              <Flex
+              <Text
                 color="inherit"
                 fontSize="10.5px"
                 fontWeight="600"
@@ -62,16 +62,16 @@ export default function NoteCardDefault({
                 pl="1px"
               >
                 {list}
-              </Flex>
+              </Text>
 
               <Flex align="center" justify="center" w="60px">
                 <CalendarIcon fontSize="10px" color="gray.500" mr="1" />
-                <Box fontSize="10px" color="gray.600" fontWeight="500" mr="1">
+                <Text fontSize="10px" color="gray.600" fontWeight="500" mr="1">
                   {day}
-                </Box>
-                <Box fontSize="10px" color="gray.600" fontWeight="500">
+                </Text>
+                <Text fontSize="10px" color="gray.600" fontWeight="500">
                   {numToMonth(month)}
-                </Box>
+                </Text>
               </Flex>
             </Flex>
           </>

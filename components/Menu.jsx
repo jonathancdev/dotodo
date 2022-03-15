@@ -53,7 +53,7 @@ export default function Menu({
 
   const addProjectToFirestore = (project) => {
     addDoc(collection(db, "users", "USER_" + authUser.uid, "projects"), {
-      name: project,
+      name: project.toLowerCase(),
     }).then(() => {
       console.log("PROJECT ADDED");
     });

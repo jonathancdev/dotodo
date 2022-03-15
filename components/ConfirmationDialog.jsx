@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState } from "react";
 import { Flex, Text, Button, useColorModeValue } from "@chakra-ui/react";
 
 const ConfirmationDialog = ({ open, title, message, onConfirm, onDismiss }) => {
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const bgColor = useColorModeValue("gray.300", "gray.700");
   return (
     <>
       {open && (
@@ -14,7 +16,7 @@ const ConfirmationDialog = ({ open, title, message, onConfirm, onDismiss }) => {
           align="center"
           bg="black70"
           zIndex="4"
-          color={useColorModeValue("gray.600", "gray.300")}
+          color={textColor}
           onClick={onDismiss}
         >
           <Flex
@@ -23,7 +25,7 @@ const ConfirmationDialog = ({ open, title, message, onConfirm, onDismiss }) => {
             h="150px"
             w="300px"
             borderRadius="8px"
-            bg={useColorModeValue("gray.300", "gray.700")}
+            bg={bgColor}
             shadow="md"
             align="center"
             justify="center"

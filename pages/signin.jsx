@@ -64,7 +64,7 @@ export default function SignIn() {
             submit
           </Button>
           <Flex align="center">
-            <Text textAlign="center">Don't have an account?</Text>
+            <Text textAlign="center">{"Don't have an account?"}</Text>
             <ChakraNextLinkButton
               size="sm"
               href="/signup"

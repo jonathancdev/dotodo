@@ -5,7 +5,7 @@ import useFirestore from "../firebase/useFirestore";
 import { useRouter } from "next/router";
 import { Flex, Heading, Text, Button } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
-export default function account() {
+export default function Account() {
   const { getConfirmation } = useConfirmationDialog();
   const { db, deleteDoc, doc } = useFirestore();
   const router = useRouter();

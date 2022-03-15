@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useConfirmationDialog } from "./ConfirmationDialog";
+//import { useConfirmationDialog } from "./ConfirmationDialog";
 import { Flex, IconButton, useColorModeValue } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 export default function MenuButton({
@@ -10,8 +10,15 @@ export default function MenuButton({
   currentProject,
   updateCurrentProject,
   notesList,
+  handleDeleteList,
 }) {
-  const { getConfirmation } = useConfirmationDialog();
+  //  const { getConfirmation } = useConfirmationDialog();
+
+  const bgColor = useColorModeValue("white", "gray.800");
+  const activeBgColor = useColorModeValue("gray.300", "gray.900");
+  const hoverColor = useColorModeValue("gray.100", "gray.900");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+
   const [shouldShowAdd, setShouldShowAdd] = useState(false);
   const [quantity, setQuantity] = useState(null);
   useEffect(() => {
@@ -26,28 +33,22 @@ export default function MenuButton({
       deleteTask(task.id);
     });
   };
-  const handleDeleteList = async (e) => {
-    const confirmed = await getConfirmation({
-      title: "Are you sure?",
-      message: "This will delete the list " + project.name + " and its tasks.",
-    });
-    if (confirmed) {
-      e.stopPropagation();
-      updateCurrentProject({ name: "all", id: "alltasksid" });
-      deleteProject(project.id);
-      deleteTasksInList();
-    }
-  };
-
-  const bgColor = useColorModeValue("white", "gray.800");
-  const activeBgColor = useColorModeValue("gray.300", "gray.900");
-  const hoverColor = useColorModeValue("gray.100", "gray.900");
-  const textColor = useColorModeValue("gray.600", "gray.300");
+  // const handleDeleteList = async (e) => {
+  //   const confirmed = await getConfirmation({
+  //     title: "Are you sure?",
+  //     message: "This will delete the list " + project.name + " and its tasks.",
+  //   });
+  //   if (confirmed) {
+  //     e.stopPropagation();
+  //     updateCurrentProject({ name: "all", id: "alltasksid" });
+  //     deleteProject(project.id);
+  //     deleteTasksInList();
+  //   }
+  // };
 
   return (
     <>
       <Flex
-        as="button"
         align="center"
         pos="relative"
         onMouseEnter={() => setShouldShowAdd(true)}
@@ -66,7 +67,6 @@ export default function MenuButton({
             borderRadius="0"
             bg="inherit"
             color={textColor}
-            key={project.id}
             align="center"
             w="100%"
             h="100%"
@@ -131,7 +131,7 @@ export default function MenuButton({
               color="red"
               icon={<DeleteIcon />}
               onClick={(e) => {
-                handleDeleteList(e);
+                handleDeleteList(e, project);
               }}
             />
           </Flex>

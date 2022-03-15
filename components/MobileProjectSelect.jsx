@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Select, useColorModeValue } from "@chakra-ui/react";
 export default function MobileProjectSelect({
   currentProject,
   updateCurrentProject,
   projectsList,
 }) {
-  const [name, setName] = useState("");
-  useEffect(() => {
-    setName(currentProject.name);
-  }, [currentProject]);
-
   return (
     <Select
       w="82%"
@@ -23,26 +18,18 @@ export default function MobileProjectSelect({
       borderRadius="8px"
       border="none"
       iconSize="30px"
-      defaultValue={name}
+      value={currentProject.name === "all" ? "all" : currentProject.name}
       onChange={(e) => {
         updateCurrentProject(e.target.value);
       }}
     >
-      <option
-        selected={currentProject.name === "all"}
-        key="defaultprojectmobile"
-        value="all"
-      >
+      <option key="defaultprojectmobile" value="all">
         all tasks
       </option>
       {projectsList &&
         projectsList.map((project) => {
           return (
-            <option
-              selected={currentProject.name === project.name}
-              key={project.id}
-              value={project.name}
-            >
+            <option key={project.id} value={project.name}>
               {project.name}
             </option>
           );

@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import MenuButton from "./MenuButton";
 import { useConfirmationDialog } from "./ConfirmationDialog";
-
 import useOutsideClickHandler from "../hooks/useOutsideClickHandler";
 import {
   Flex,
@@ -9,7 +8,6 @@ import {
   IconButton,
   Input,
   Box,
-  Select,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
@@ -26,16 +24,8 @@ export default function Menu({
   currentProject,
   updateCurrentProject,
 }) {
-  const {
-    db,
-    collection,
-    getDocs,
-    onSnapshot,
-    addDoc,
-    deleteDoc,
-    doc,
-    updateDoc,
-  } = useFirestore();
+  const { getConfirmation } = useConfirmationDialog();
+  const { db, collection, addDoc, deleteDoc, doc } = useFirestore();
   const { authUser, loading } = useAuth();
   const [shouldShowAdd, setShouldShowAdd] = useState(false);
   const [project, setProject] = useState();
@@ -92,8 +82,6 @@ export default function Menu({
   const hoverColor = useColorModeValue("gray.100", "gray.900");
   const textColor = useColorModeValue("gray.600", "gray.300");
 
-  const { getConfirmation } = useConfirmationDialog();
-
   const deleteTasksInList = () => {
     const filtered = notesList.filter(
       (note) => note.list === currentProject.name
@@ -102,16 +90,15 @@ export default function Menu({
       deleteTask(task.id);
     });
   };
-  const handleDeleteList = async (e) => {
+  const handleDeleteList = async (e, project) => {
     const confirmed = await getConfirmation({
       title: "Are you sure?",
-      message:
-        "This will delete the list " + currentProject.name + " and its tasks.",
+      message: "This will delete the list " + project.name + " and its tasks.",
     });
     if (confirmed) {
       e.stopPropagation();
-      updateCurrentProject("all");
-      deleteProject(currentProject.id);
+      updateCurrentProject({ name: "all", id: "alltasksid" });
+      deleteProject(project.id);
       deleteTasksInList();
     }
   };
@@ -250,7 +237,7 @@ export default function Menu({
               color="red"
               icon={<DeleteIcon />}
               onClick={(e) => {
-                handleDeleteList(e);
+                handleDeleteList(e, currentProject);
               }}
             />
           )}
@@ -319,6 +306,7 @@ export default function Menu({
                     updateCurrentProject={updateCurrentProject}
                     notesList={notesList}
                     deleteTask={deleteTask}
+                    handleDeleteList={handleDeleteList}
                   />
                 );
               })}

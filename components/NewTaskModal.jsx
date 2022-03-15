@@ -176,7 +176,7 @@ export default function NewTaskModal({
             </Select>
             <Select
               border="none"
-              w="60px"
+              w="100px"
               bg={selectColor}
               m="1"
               ref={monthRef}
@@ -190,7 +190,7 @@ export default function NewTaskModal({
                     key={item[0]}
                     value={item[0]}
                   >
-                    {item[1].substring(0, 3)}
+                    {item[1]}
                   </option>
                 );
               })}

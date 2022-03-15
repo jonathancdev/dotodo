@@ -53,6 +53,8 @@ export default function account() {
       deleteAuthUser();
     }
   };
+
+  const textColor = useColorModeValue("gray.600", "gray.200");
   return (
     <Flex
       as="section"
@@ -63,11 +65,7 @@ export default function account() {
       align="center"
       maxW="600px"
     >
-      <Heading
-        color={useColorModeValue("gray.600", "gray.200")}
-        fontWeight="700"
-        letterSpacing="1px"
-      >
+      <Heading color={textColor} fontWeight="700" letterSpacing="1px">
         MY ACCOUNT
       </Heading>
       {!loading && authUser && (
@@ -79,7 +77,7 @@ export default function account() {
           direction="column"
         >
           <Box
-            color={useColorModeValue("gray.600", "gray.200")}
+            color={textColor}
             fontWeight="400"
             fontSize="15px"
             textAlign="center"

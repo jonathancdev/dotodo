@@ -1,16 +1,7 @@
-import React, { createContext, useContext, useState, useRef } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { Flex, Box, Button, useColorModeValue } from "@chakra-ui/react";
-import useOutsideClickHandler from "../hooks/useOutsideClickHandler";
 
 const ConfirmationDialog = ({ open, title, message, onConfirm, onDismiss }) => {
-  const dialogRef = useRef();
-  const handleOutsideClick = () => {
-    onDismiss();
-  };
-  useOutsideClickHandler(dialogRef, () => {
-    handleOutsideClick();
-  });
-
   return (
     <>
       {open && (
@@ -24,9 +15,9 @@ const ConfirmationDialog = ({ open, title, message, onConfirm, onDismiss }) => {
           bg="black70"
           zIndex="4"
           color={useColorModeValue("gray.600", "gray.300")}
+          onClick={onDismiss}
         >
           <Flex
-            ref={dialogRef}
             opacity="1"
             direction="column"
             h="150px"
@@ -103,8 +94,8 @@ const ConfirmationDialogProvider = ({ children }) => {
     <ConfirmationDialogContext.Provider value={{ openDialog }}>
       <ConfirmationDialog
         open={dialogOpen}
-        title={dialogConfig?.title}
-        message={dialogConfig?.message}
+        title={dialogConfig.title}
+        message={dialogConfig.message}
         onConfirm={onConfirm}
         onDismiss={onDismiss}
       />

@@ -205,20 +205,22 @@ const Header = () => {
                   />
                 </>
               )}
-              {authUser && currentPath !== "/account" && (
-                <Button
-                  onClick={() => {
-                    handleSignOut();
-                    onClose();
-                  }}
-                  variant="primaryOutline"
-                  size="sm"
-                  fontSize="10px"
-                  w="60px"
-                >
-                  sign out
-                </Button>
-              )}
+              {authUser &&
+                currentPath !== "/account" &&
+                !auth.currentUser.isAnonymous && (
+                  <Button
+                    onClick={() => {
+                      handleSignOut();
+                      onClose();
+                    }}
+                    variant="primaryOutline"
+                    size="sm"
+                    fontSize="10px"
+                    w="60px"
+                  >
+                    sign out
+                  </Button>
+                )}
             </Flex>
           </DrawerContent>
         </Drawer>

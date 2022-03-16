@@ -23,6 +23,7 @@ export default function NoteCardEditing({
   setMonth,
   setDay,
 }) {
+  console.log(notes);
   return (
     <>
       <Flex
@@ -31,8 +32,8 @@ export default function NoteCardEditing({
         pos="absolute"
         left="14"
         w={{
-          base: "78%",
-          md: "75%",
+          base: "75%",
+          md: "70%",
         }}
         h="100%"
         py="3"
@@ -77,6 +78,7 @@ export default function NoteCardEditing({
               color="inherit"
               letterSpacing="0.5px"
               defaultValue={notes}
+              placeholder={notes !== "" ? notes : "add notes here"}
               onChange={(e) => setNotes(e.toLowerCase())}
               onClick={(e) => {
                 e.stopPropagation();

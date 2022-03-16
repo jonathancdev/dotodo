@@ -8,9 +8,15 @@ import ChakraNextLinkButton from "../components/ChakraNextLinkButton";
 export default function SignUp() {
   const router = useRouter();
   const { auth, createUserWithEmailAndPassword } = useAuth();
-  const { db, collection, doc, setDoc } = useFirestore();
+  const { db, collection, doc, setDoc, addDoc } = useFirestore();
   const emailRef = useRef();
   const passwordRef = useRef();
+
+  //date
+  const date = new Date();
+  const currentMonth = date.getMonth() + 1;
+  const currentDay = date.getDate();
+  const timestamp = date.getTime();
 
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -23,6 +29,26 @@ export default function SignUp() {
       .then((userCredential) => {
         const user = userCredential.user;
         createUserCollection(user);
+        createListDoc(user, "get started");
+        createListDoc(user, "delete me");
+        createTaskDoc(user, {
+          list: "get started",
+          title: "add a new task",
+          notes:
+            "click + at the bottom or next to the list you want to make a new task in",
+          month: currentMonth,
+          day: currentDay,
+          timestamp: timestamp,
+        });
+        createTaskDoc(user, {
+          list: "delete me",
+          title: "delete this task",
+          notes: "hit the delete icon to permanently delete this task",
+          month: currentMonth,
+          day: currentDay,
+          timestamp: timestamp,
+        });
+
         router.push("/");
       })
       .catch((err) => {
@@ -46,6 +72,28 @@ export default function SignUp() {
       },
     }).then(() => {
       console.log("USER CREATED");
+    });
+  };
+  const createDefaultDocuments = (user) => {};
+  const createTaskDoc = (user, obj) => {
+    const { list, title, notes, month, day, timestamp } = obj;
+    addDoc(collection(db, "users", "USER_" + user.uid, "tasks"), {
+      list: list,
+      title: title,
+      notes: notes,
+      month: parseInt(month, 10),
+      day: parseInt(day, 10),
+      completed: false,
+      timestamp: timestamp,
+    }).then(() => {
+      console.log("DEFAULT TASK ADDED");
+    });
+  };
+  const createListDoc = (user, project) => {
+    addDoc(collection(db, "users", "USER_" + user.uid, "projects"), {
+      name: project.toLowerCase(),
+    }).then(() => {
+      console.log("DEFAULT PROJECT ADDED");
     });
   };
   return (

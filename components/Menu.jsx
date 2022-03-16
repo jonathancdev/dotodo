@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import MenuButton from "./MenuButton";
 import { useConfirmationDialog } from "./ConfirmationDialog";
 import useOutsideClickHandler from "../hooks/useOutsideClickHandler";
@@ -30,6 +30,7 @@ export default function Menu({
   const { authUser, loading } = useAuth();
   const [shouldShowAdd, setShouldShowAdd] = useState(false);
   const [project, setProject] = useState();
+  const [quantity, setQuantity] = useState(null);
   //error
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -37,6 +38,15 @@ export default function Menu({
   //outside click
   const inputRef = useRef();
   const inputContainerRef = useRef();
+
+  useEffect(() => {
+    if (notesList) {
+      const filtered = notesList.filter(
+        (note) => note.list === currentProject.name
+      );
+      setQuantity(filtered.length);
+    }
+  }, [notesList, currentProject]);
 
   const handleOutsideClick = () => {
     setShouldShowAdd(false);
@@ -85,6 +95,7 @@ export default function Menu({
   const iconBgColor = useColorModeValue("gray.200", "gray.700");
   const iconBgHover = useColorModeValue("gray.300", "gray.600");
   const deleteHover = useColorModeValue("red.800", "red.600");
+  const allTaskListColor = useColorModeValue("gray.700", "gray.100");
 
   const deleteTasksInList = () => {
     const filtered = notesList.filter(
@@ -101,11 +112,13 @@ export default function Menu({
     });
     if (confirmed) {
       e.stopPropagation();
-      updateCurrentProject({ name: "all", id: "alltasksid" });
+      updateCurrentProject("all");
       deleteProject(project.id);
       deleteTasksInList();
     }
   };
+  console.log(currentProject);
+  console.log(notesList.length);
   return (
     <Flex
       minW={{
@@ -182,15 +195,13 @@ export default function Menu({
             base: "25px",
             md: "25px",
           }}
-          mt={{
-            base: "-1",
-            md: "0",
-          }}
           shadow="sm"
           bg={iconBgColor}
           _hover={{
             bg: iconBgHover,
           }}
+          m="2"
+          mr="5"
           color={textColor}
           icon={!shouldShowAdd ? <AddIcon /> : <CheckIcon />}
           onClick={
@@ -217,21 +228,46 @@ export default function Menu({
           align="center"
           display={{ base: "flex", md: "none" }}
         >
-          <MobileProjectSelect
-            currentProject={currentProject}
-            updateCurrentProject={updateCurrentProject}
-            projectsList={projectsList}
-          />
+          <Flex pos="relative" w="82%" maxW="300px" align="center">
+            <Flex
+              pos="absolute"
+              top="2"
+              right="6"
+              h="20px"
+              w="20px"
+              align="center"
+              justify="center"
+              borderRadius="100%"
+              bg={hoverColor}
+              mx="3"
+              p="3"
+              zIndex="1"
+            >
+              {(currentProject.name === "all" || quantity > 0) && (
+                <Text color="primary" fontWeight="800" fontSize="12px">
+                  {currentProject.name === "all" ? notesList.length : quantity}
+                </Text>
+              )}
+            </Flex>
+            <MobileProjectSelect
+              currentProject={currentProject}
+              updateCurrentProject={updateCurrentProject}
+              projectsList={projectsList}
+            />
+          </Flex>
 
           {currentProject.name !== "all" && (
             <IconButton
-              fontSize="15px"
-              borderRadius="100%"
-              w="30px"
+              fontSize="12px"
               h="30px"
+              w="30px"
+              align="center"
+              justify="center"
+              borderRadius="100%"
+              bg={hoverColor}
               mx="3"
+              p="3"
               opacity="0.7"
-              bg="transparent"
               _hover={{
                 bg: iconBgHover,
                 color: deleteHover,
@@ -253,6 +289,8 @@ export default function Menu({
           _hover={{ bg: hoverColor }}
           cursor="pointer"
           bg={currentProject === "all" ? btnActiveBgColor : btnBgColor}
+          bg={hoverColor}
+          opacity={0.8}
           px="2"
           height="100%"
           display={{ base: "none", md: "flex" }}
@@ -268,13 +306,18 @@ export default function Menu({
               w="100%"
               _hover={{ bg: "transparent" }}
             >
-              <Text fontSize="18px" fontWeight="600" letterSpacing=".5px">
+              <Text
+                fontSize="18px"
+                fontWeight="800"
+                letterSpacing=".5px"
+                color={allTaskListColor}
+              >
                 all tasks
               </Text>
             </Box>
             {notesList.length > 0 && (
               <Flex
-                fontSize="12px"
+                fontSize="10px"
                 color="primary"
                 fontWeight="800"
                 w="20px"
@@ -286,6 +329,7 @@ export default function Menu({
                 m="0"
                 mt="2.5px"
                 px="4"
+                opacity="-moz-initial.75"
               >
                 {notesList.length}
               </Flex>

@@ -5,6 +5,7 @@ import {
   Flex,
   Input,
   Button,
+  Heading,
   FormControl,
   FormLabel,
   Textarea,
@@ -91,6 +92,12 @@ export default function NewTaskModal({
         p="5"
       >
         <Flex direction="column">
+          <Flex justify="center">
+            <Heading fontWeight="500" fontSize="12px" mb="2">
+              New Task
+            </Heading>
+          </Flex>
+
           <FormLabel
             htmlFor="project list"
             m="1"

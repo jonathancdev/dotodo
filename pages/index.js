@@ -16,8 +16,22 @@ import Menu from "../components/Menu";
 import NewTaskModal from "../components/NewTaskModal";
 
 export default function Home() {
-  const { db, collection, getDocs, onSnapshot, addDoc, deleteDoc, doc } =
-    useFirestore();
+  const {
+    db,
+    collection,
+    getDocs,
+    setDoc,
+    onSnapshot,
+    addDoc,
+    deleteDoc,
+    doc,
+  } = useFirestore();
+
+  //date
+  const date = new Date();
+  const currentMonth = date.getMonth() + 1;
+  const currentDay = date.getDate();
+  const timestamp = date.getTime();
 
   //chakra color mode
   //keep this
@@ -115,20 +129,77 @@ export default function Home() {
 
   const startTrialSession = () => {
     signInAnonymously(auth)
-      .then(() => {
-        // Signed in..
+      .then((userCredential) => {
+        const user = userCredential.user;
+        createUserCollection(user);
+        createListDoc(user, "get started");
+        createListDoc(user, "delete me");
+        createTaskDoc(user, {
+          list: "get started",
+          title: "add a new task",
+          notes:
+            "click + at the bottom or next to the list you want to make a new task in",
+          month: currentMonth,
+          day: currentDay,
+          timestamp: timestamp,
+        });
+        createTaskDoc(user, {
+          list: "delete me",
+          title: "delete this task",
+          notes: "hit the delete icon to permanently delete this task",
+          month: currentMonth,
+          day: currentDay,
+          timestamp: timestamp,
+        });
       })
       .catch((error) => {
+        console.log(error);
         // const errorCode = error.code;
         // const errorMessage = error.message;
         // ...
       });
   };
-
-  const getAnonymousUsers = async () => {
-    const q = query(collection(db, "users"), where());
-    getDocs();
+  const createUserCollection = (user) => {
+    // setLoading(true);
+    const { metadata, uid, email } = user;
+    // setDoc(collection(db, "users"), {
+    setDoc(doc(db, "users", "USER_" + uid), {
+      history: {
+        id: uid,
+        creationTime: metadata.creationTime,
+        createdAt: metadata.createdAt,
+        email: email,
+      },
+    }).then(() => {
+      console.log("USER CREATED");
+    });
   };
+  const createTaskDoc = (user, obj) => {
+    const { list, title, notes, month, day, timestamp } = obj;
+    addDoc(collection(db, "users", "USER_" + user.uid, "tasks"), {
+      list: list,
+      title: title,
+      notes: notes,
+      month: parseInt(month, 10),
+      day: parseInt(day, 10),
+      completed: false,
+      timestamp: timestamp,
+    }).then(() => {
+      console.log("DEFAULT TASK ADDED");
+    });
+  };
+  const createListDoc = (user, project) => {
+    addDoc(collection(db, "users", "USER_" + user.uid, "projects"), {
+      name: project.toLowerCase(),
+    }).then(() => {
+      console.log("DEFAULT PROJECT ADDED");
+    });
+  };
+  // const getAnonymousUsers = async () => {
+  //   const q = query(collection(db, "users"), where());
+  //   getDocs();
+  // };
+  console.log(authUser);
   return (
     <Box
       as="main"
@@ -163,7 +234,7 @@ export default function Home() {
           </Flex>
           <Flex w="100%" justify="center">
             <Button
-              opacity="0.6"
+              opacity="0.7"
               bg="transparent"
               mt="6"
               fontSize="12px"
@@ -173,13 +244,13 @@ export default function Home() {
               as="button"
               w="auto"
               p="0"
-              borderBottom="solid"
-              borderBottomWidth="0.5px"
-              height="24px"
+              height="20px"
               borderRadius="0"
               onClick={startTrialSession}
               _hover={{
                 opacity: "1",
+                borderBottom: "solid",
+                borderBottomWidth: "0.5px",
               }}
             >
               try it &#8212; no account required!

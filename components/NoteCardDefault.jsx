@@ -46,8 +46,9 @@ export default function NoteCardDefault({
                 fontWeight="300"
                 color="inherit"
                 letterSpacing=".5px"
+                opacity={notes !== "" ? 1 : 0.3}
               >
-                {notes.toLowerCase()}
+                {notes !== "" ? notes.toLowerCase() : "add notes here..."}
               </Text>
             </Flex>
             {/* /* THIRD ROW */}

@@ -50,7 +50,7 @@ export default function MenuButton({
         <Flex align="center" cursor="pointer">
           <Flex
             mx="0"
-            my="2"
+            my="3"
             borderRadius="0"
             bg="inherit"
             align="center"
@@ -60,13 +60,13 @@ export default function MenuButton({
             _hover={{ bg: "transparent" }}
             px="6"
           >
-            <Text fontSize="18px" fontWeight="600" letterSpacing="1px">
+            <Text fontSize="18px" fontWeight="500" letterSpacing="1px">
               {project.name}
             </Text>
           </Flex>
-          {quantity > 0 && shouldShowAdd && (
+          {quantity > 0 && (
             <Flex
-              fontSize="12px"
+              fontSize="10px"
               color="primary"
               fontWeight="800"
               w="20px"
@@ -78,50 +78,54 @@ export default function MenuButton({
               m="0"
               mt="2.5px"
               px="4"
+              opacity=".5"
             >
               {quantity}
             </Flex>
           )}
         </Flex>
-        {shouldShowAdd && (
-          <Flex bg="transparent" pos="absolute" right="0">
-            <IconButton
-              fontSize="10px"
-              borderRadius="100%"
-              w="25px"
-              h="25px"
-              m="0"
-              color={textColor}
-              bg={iconBgColor}
-              _hover={{
-                bg: iconBgHover,
-              }}
-              icon={<AddIcon />}
-              onClick={() => {
-                toggleModal();
-              }}
-            />
-            <IconButton
-              fontSize="12px"
-              borderRadius="100%"
-              w="25px"
-              h="25px"
-              ml="1"
-              mr="1"
-              opacity="0.7"
-              bg={iconBgColor}
-              _hover={{
-                color: deleteHover,
-                opacity: 1,
-              }}
-              color="red"
-              icon={<DeleteIcon />}
-              onClick={(e) => {
-                handleDeleteList(e, project);
-              }}
-            />
-          </Flex>
-        )}
+        <Flex
+          bg="transparent"
+          pos="absolute"
+          right="0"
+          opacity={shouldShowAdd ? "1" : ".1"}
+        >
+          <IconButton
+            fontSize="10px"
+            borderRadius="100%"
+            w="25px"
+            h="25px"
+            m="0"
+            color={textColor}
+            bg={shouldShowAdd ? iconBgColor : "transparent"}
+            _hover={{
+              bg: iconBgHover,
+            }}
+            icon={<AddIcon />}
+            onClick={() => {
+              toggleModal();
+            }}
+          />
+          <IconButton
+            fontSize="12px"
+            borderRadius="100%"
+            w="25px"
+            h="25px"
+            ml="1"
+            mr="1"
+            opacity="0.7"
+            bg={shouldShowAdd ? iconBgColor : "transparent"}
+            _hover={{
+              color: deleteHover,
+              opacity: 1,
+            }}
+            color="red"
+            icon={<DeleteIcon />}
+            onClick={(e) => {
+              handleDeleteList(e, project);
+            }}
+          />
+        </Flex>
       </Flex>
     </>
   );

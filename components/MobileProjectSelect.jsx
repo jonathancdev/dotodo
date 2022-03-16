@@ -7,8 +7,6 @@ export default function MobileProjectSelect({
 }) {
   return (
     <Select
-      w="82%"
-      maxW="300px"
       bg={useColorModeValue("gray.100", "gray.900")}
       fontSize="15px"
       fontWeight="600"

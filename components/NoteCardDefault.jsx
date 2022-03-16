@@ -42,6 +42,7 @@ export default function NoteCardDefault({
             {/* /* SECOND ROW */}
             <Flex minH="30px" align="center">
               <Text
+                w="95%"
                 fontSize="12px"
                 fontWeight="300"
                 color="inherit"

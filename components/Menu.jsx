@@ -288,8 +288,7 @@ export default function Menu({
           onClick={() => updateCurrentProject("all")}
           _hover={{ bg: hoverColor }}
           cursor="pointer"
-          bg={currentProject === "all" ? btnActiveBgColor : btnBgColor}
-          bg={hoverColor}
+          bg={currentProject.name === "all" ? hoverColor : btnBgColor}
           opacity={0.8}
           px="2"
           height="100%"

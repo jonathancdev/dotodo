@@ -186,7 +186,7 @@ export default function NoteCardEditing({
                   {months.map((item) => {
                     return (
                       <option
-                        selected={item[0] === month ? true : false}
+                        // selected={item[0] === month ? true : false}
                         key={item[0]}
                         value={item[0]}
                       >

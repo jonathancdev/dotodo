@@ -129,12 +129,18 @@ const Header = () => {
         >
           {currentPath === "/" && authUser && (
             <>
-              <ChakraNextLinkButton
+              {/* <ChakraNextLinkButton
                 href={auth.currentUser.isAnonymous ? "/signin" : "/account"}
                 text={auth.currentUser.isAnonymous ? "sign in" : "my account"}
                 variant={
                   auth.currentUser.isAnonymous ? "primaryOutline" : "primary"
                 }
+                size="sm"
+              /> */}
+              <ChakraNextLinkButton
+                href="/account"
+                text="my account"
+                variant="primary"
                 size="sm"
               />
             </>
@@ -150,14 +156,14 @@ const Header = () => {
                 sign out
               </Button>
             )}
-          {authUser && currentPath === "/" && auth.currentUser.isAnonymous && (
+          {/* {authUser && currentPath === "/" && auth.currentUser.isAnonymous && (
             <ChakraNextLinkButton
               href={"/signup"}
               text="sign up"
               variant="primary"
               size="sm"
             />
-          )}
+          )} */}
 
           <IconButton
             onClick={toggleColorMode}

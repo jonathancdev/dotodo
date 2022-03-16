@@ -47,7 +47,11 @@ export default function Account() {
       deleteAuthUser();
     }
   };
-
+  const handleDeleteAnonymousUser = () => {
+    removeUserDocument();
+    deleteAuthUser();
+  };
+  console.log(authUser);
   return (
     <Flex
       as="section"
@@ -69,37 +73,59 @@ export default function Account() {
           align="center"
           direction="column"
         >
-          <Text fontWeight="400" fontSize="15px" textAlign="center">
-            {authUser.email}
+          <Text fontWeight="400" fontSize="15px" textAlign="center" mb="5">
+            {authUser.email || "test account"}
           </Text>
-          <Button
-            mt="5"
-            mb="2"
-            onClick={handleSignOut}
-            variant="primaryOutline"
-            size="sm"
-            w="180px"
-          >
-            sign out
-          </Button>
-          <Button
-            w="180px"
-            mt="2"
-            mb="2"
-            onClick={handleDeleteUser}
-            variant="primaryOutline"
-            size="sm"
-            borderColor="red"
-            color="red"
-            opacity="0.9"
-            _hover={{
-              color: "red",
-              opacity: "1",
-            }}
-          >
-            <DeleteIcon pos="absolute" left="6" fontSize="12px" />
-            delete account
-          </Button>
+          {authUser.email && (
+            <>
+              <Button
+                mt="2"
+                mb="2"
+                onClick={handleSignOut}
+                variant="primaryOutline"
+                size="sm"
+                w="180px"
+              >
+                sign out
+              </Button>
+
+              <Button
+                w="180px"
+                mt="2"
+                mb="2"
+                onClick={handleDeleteUser}
+                variant="primaryOutline"
+                size="sm"
+                borderColor="red"
+                color="red"
+                opacity="0.9"
+                _hover={{
+                  color: "red",
+                  opacity: "1",
+                }}
+              >
+                <DeleteIcon pos="absolute" left="6" fontSize="12px" />
+                delete account
+              </Button>
+            </>
+          )}
+          {!authUser.email && (
+            <Button
+              w="180px"
+              mt="2"
+              mb="2"
+              onClick={handleDeleteAnonymousUser}
+              variant="primaryOutline"
+              size="sm"
+              opacity="0.9"
+              _hover={{
+                color: "red",
+                opacity: "1",
+              }}
+            >
+              sign out
+            </Button>
+          )}
         </Flex>
       )}
     </Flex>

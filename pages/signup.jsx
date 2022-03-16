@@ -30,7 +30,8 @@ export default function SignUp() {
         const user = userCredential.user;
         createUserCollection(user);
         createListDoc(user, "get started");
-        createListDoc(user, "delete me");
+        createListDoc(user, "shopping");
+        createListDoc(user, "holiday plans");
         createTaskDoc(user, {
           list: "get started",
           title: "add a new task",
@@ -41,14 +42,37 @@ export default function SignUp() {
           timestamp: timestamp,
         });
         createTaskDoc(user, {
-          list: "delete me",
-          title: "delete this task",
-          notes: "hit the delete icon to permanently delete this task",
+          list: "shopping",
+          title: "bananas",
+          notes: "",
           month: currentMonth,
           day: currentDay,
           timestamp: timestamp,
         });
-
+        createTaskDoc(user, {
+          list: "shopping",
+          title: "oat milk",
+          notes: "",
+          month: currentMonth,
+          day: currentDay,
+          timestamp: timestamp,
+        });
+        createTaskDoc(user, {
+          list: "shopping",
+          title: "oreos",
+          notes: "get the real ones!",
+          month: currentMonth,
+          day: currentDay,
+          timestamp: timestamp,
+        });
+        createTaskDoc(user, {
+          list: "holiday plans",
+          title: "renew passport",
+          notes: "send application before the end of the month",
+          month: currentMonth,
+          day: 28,
+          timestamp: timestamp,
+        });
         router.push("/");
       })
       .catch((err) => {

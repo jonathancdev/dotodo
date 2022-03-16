@@ -78,7 +78,8 @@ export default function MenuButton({
               m="0"
               mt="2.5px"
               px="4"
-              opacity=".5"
+              ml="-4"
+              opacity=".7"
             >
               {quantity}
             </Flex>
@@ -88,7 +89,7 @@ export default function MenuButton({
           bg="transparent"
           pos="absolute"
           right="0"
-          opacity={shouldShowAdd ? "1" : ".1"}
+          opacity={shouldShowAdd ? "1" : ".2"}
         >
           <IconButton
             fontSize="10px"

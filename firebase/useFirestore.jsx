@@ -10,6 +10,8 @@ const {
   doc,
   updateDoc,
   setDoc,
+  getDoc,
+  query,
 } = firebase();
 
 const useFirestore = () => {
@@ -25,6 +27,8 @@ const useFirestore = () => {
     doc,
     updateDoc,
     setDoc,
+    getDoc,
+    query,
   };
 };
 export default useFirestore;

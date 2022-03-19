@@ -5,9 +5,11 @@ import useFirestore from "../firebase/useFirestore";
 import { useRouter } from "next/router";
 import { Flex, Heading, Text, Button } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { getDocs } from "firebase/firestore";
 export default function Account() {
   const { getConfirmation } = useConfirmationDialog();
-  const { db, deleteDoc, doc } = useFirestore();
+  const { db, collection, deleteDoc, doc, getDoc, getDocs, query } =
+    useFirestore();
   const router = useRouter();
   const { auth, authUser, loading, signOut, clear, deleteUser } = useAuth();
 
@@ -37,18 +39,52 @@ export default function Account() {
         console.log("Error deleting document:", error);
       });
   };
+  const removeTaskDocuments = async () => {
+    console.log("***Task document removal start***");
+    const q = query(collection(db, "users", "USER_" + authUser.uid, "tasks"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((document) => {
+      deleteDoc(
+        doc(db, "users", "USER_" + authUser.uid, "tasks", document.id)
+      ).then(() => {
+        console.log("deleted " + document.id + " successfully");
+      });
+      // console.log(document.id);
+      // console.log(document.data());
+    });
+  };
+  const removeProjectDocuments = async () => {
+    console.log("***Project document removal start***");
+    const q = query(
+      collection(db, "users", "USER_" + authUser.uid, "projects")
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((document) => {
+      deleteDoc(
+        doc(db, "users", "USER_" + authUser.uid, "projects", document.id)
+      ).then(() => {
+        console.log("deleted " + document.id + " successfully");
+      });
+      // console.log(document.id);
+      // console.log(document.data());
+    });
+  };
   const handleDeleteUser = async () => {
     const confirmed = await getConfirmation({
       title: "Are you sure?",
       message: "This will permanently delete your account.",
     });
     if (confirmed) {
-      removeUserDocument();
+      await removeTaskDocuments();
+      await removeProjectDocuments();
+      await removeUserDocument();
       deleteAuthUser();
     }
   };
-  const handleDeleteAnonymousUser = () => {
-    removeUserDocument();
+  const handleDeleteAnonymousUser = async () => {
+    await removeTaskDocuments();
+    await removeProjectDocuments();
+    await removeUserDocument();
     deleteAuthUser();
   };
   console.log(authUser);

@@ -177,7 +177,7 @@ export default function Home() {
           timestamp: timestamp,
         });
         createTaskDoc(user, {
-          list: "holiday plans",
+          list: "holiday planning",
           title: "renew passport",
           notes: "send application before the end of the month",
           month: currentMonth,

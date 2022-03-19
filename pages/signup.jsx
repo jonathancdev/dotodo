@@ -30,37 +30,45 @@ export default function SignUp() {
         const user = userCredential.user;
         createUserCollection(user);
         createListDoc(user, "get started");
-        createListDoc(user, "shopping");
-        createListDoc(user, "holiday plans");
+        createListDoc(user, "prepare taxes :(");
+        createListDoc(user, "holiday planning");
         createTaskDoc(user, {
           list: "get started",
           title: "add a new task",
           notes:
-            "click + at the bottom or next to the list you want to make a new task in",
+            "click + next to the correct list or at the bottom of the page ",
           month: currentMonth,
           day: currentDay,
           timestamp: timestamp,
         });
         createTaskDoc(user, {
-          list: "shopping",
-          title: "bananas",
+          list: "get started",
+          title: "add a new list",
+          notes: "click + next to 'my lists' to start a new list",
+          month: currentMonth,
+          day: currentDay,
+          timestamp: timestamp,
+        });
+        createTaskDoc(user, {
+          list: "prepare taxes :(",
+          title: "download work documents and receipts",
           notes: "",
           month: currentMonth,
           day: currentDay,
           timestamp: timestamp,
         });
         createTaskDoc(user, {
-          list: "shopping",
-          title: "oat milk",
+          list: "prepare taxes :(",
+          title: "download documents from bank",
           notes: "",
           month: currentMonth,
           day: currentDay,
           timestamp: timestamp,
         });
         createTaskDoc(user, {
-          list: "shopping",
-          title: "oreos",
-          notes: "get the real ones!",
+          list: "prepare taxes :(",
+          title: "compare free vs. paid tax tools",
+          notes: "IRS free file vs. Turbotax vs. taxact vs. freetaxusa???",
           month: currentMonth,
           day: currentDay,
           timestamp: timestamp,

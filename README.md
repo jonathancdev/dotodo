@@ -1,34 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# PLUSLIST
 
-## Getting Started
+is a productivity application on the web. Users can sign-in, create, update and save their projects and tasks from any device, anytime.
+## Tech Stack
 
-First, run the development server:
+**Client:** Next.js, Chakra UI, Firebase Authentication, Firestore Cloud Database
+## Features
+- Authentication allows access across devices
+- One-click to toggle dark mode/light mode across entire application
+- Project and task data saved to cloud database
+- Responsive
+## Screenshots
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+![App Screenshot](https://res.cloudinary.com/dklynundl/image/upload/v1647729275/portfolio/pluslist3.png)
+## Lessons Learned
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+I built this application for two reasons. The first was to practice using a styled component library and I chose to work with Chakra UI. The second reason I built this was to learn how to implement a BaaS to handle authentication and the database. In previous applications I had built my own simple authentication and saved data to localstorage, so I learned a lot using Firebase to handle authentication and storage.
